@@ -18,7 +18,7 @@ minimal_mistakes_skin    : "default" # default", "air", "aqua", "contrast", "dar
 locale                   : "en-US"
 title                    : "Home"
 title_separator          : "-"
-name                     : "Simen Håpnes"
+name                     : "Steinn Hauser"
 description              : "Computer science portfolio"
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
@@ -106,7 +106,7 @@ analytics:
 
 # Site Author
 author:
-  name             : "Simen Håpnes"
+  name             : "Steinn Hauser"
   avatar           : "images/bio.jpg"
   bio              : "Computational science student"
   #location         : "University of Oslo"
@@ -115,9 +115,9 @@ author:
     - label: "University of Oslo"
       icon: "fas fa-map-marker-alt"
       url: "https://www.uio.no/english/studies/programmes/computational-science-master/"
-    - label: "simen.haapnes@gmail.com"
+    - label: "steinnhm@student.matnat.uio.no"
       icon: "fas fa-fw fa-envelope-square"
-      url: mailto:simen.haapnes@gmail.com
+      url: mailto:steinnhm@student.matnat.uio.no
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
