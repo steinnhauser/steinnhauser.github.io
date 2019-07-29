@@ -3,7 +3,7 @@ title: "Heat Diffusion in Lithosphere Simulation"
 date: 2019-02-02
 tags: [simulation, heat diffusion, heat equation]
 header:
-  image: "/images/lithosphere.jpg"
+  image: "/images/lithosphere_cover.jpg"
 excerpt: "Heat Diffusion in Lithosphere Simulation"
 mathjax: "true"
 ---
@@ -37,7 +37,7 @@ $$v_{i+1} = v_i + \frac{h}{2}\left( a_{i+1} + a_i \right) + \mathcal{O}(h^3).$$ 
 
 ## Results
 The following plot illustrates the various simulation variants conducted.
-<img src="{{ site.url }}{{ site.baseurl }}/images/lithosphere.png" alt="">
+<img src="{{ site.url }}{{ site.baseurl }}/images/lithosphere_data.png" alt="">
 
 ## Discussion
 The velocity Verlet method provides a fairly accurate numerical result. The error is of order $$h^3$$, and the code is efficient (a small time step h can be chosen).
