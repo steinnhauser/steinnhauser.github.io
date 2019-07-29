@@ -8,16 +8,15 @@ excerpt: "Heat Diffusion in Lithosphere Simulation"
 mathjax: "true"
 ---
 ## Introduction
-The heat equation was implemented numerically to simulate heat diffusion. This was used to simulate a two-dimensional lithosphere with radioactive enrichment and decay. 
-
+The heat equation was implemented numerically to simulate heat diffusion. This was used to simulate a two-dimensional lithosphere with radioactive enrichment and decay.
 ## Theory
 The general dimensionless relation for heat diffusion is
 
-$$\nabla ^2 u = \frac{\partial u}{\partial t}$$,
+$$\nabla ^2 u = \frac{\partial u}{\partial t},$$
 
 which can be implemented numerically through Taylor expansion. The specific case of the lithosphere is presented by the following scaled equation:
 
-$$\nabla (k \nabla T) + Q_i = \rho c_P \frac{\partial T}{\partial t}$$.
+$$\nabla (k \nabla T) + Q_i = \rho c_P \frac{\partial T}{\partial t}.$$
 
 The additional heat production \textit{Q_i} regards the decay of radioactive materials in the various slices of the lithosphere. In addition to providing a heat source, these radioactive materials are also modeled to decay depending on their respectful half-lives.
 ## Algorithm
