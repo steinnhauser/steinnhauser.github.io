@@ -17,8 +17,9 @@ $$\nabla ^2 u = \frac{\partial u}{\partial t}$$,
 
 which can be implemented numerically through Taylor expansion. The specific case of the lithosphere is presented by the following scaled equation:
 
-$$\nabla (k \nabla T) + Q = \rho c_P \frac{\partial T}{\partial t}$$
+$$\nabla (k \nabla T) + Q_i = \rho c_P \frac{\partial T}{\partial t}$$.
 
+The additional heat production $Q_i$ regards the decay of radioactive materials in the various slices of the lithosphere. In addition to providing a heat source, these radioactive materials are also modeled to decay depending on their respectful halflives.
 ## Algorithm
 An object oriented code in C++ was written. The velocity Verlet method was used to update positions and velocities for all ten celestial objects. This method is a symplectic integrator, which means that it conserves the energy (unlike other methods such as Euler's method, Euler-Cromers method and Runge-Kutta).
 ### Velocity verlet
@@ -35,8 +36,8 @@ Then velocites are updated,
 $$v_{i+1} = v_i + \frac{h}{2}\left( a_{i+1} + a_i \right) + \mathcal{O}(h^3).$$ [https://ssd.jpl.nasa.gov/horizons.cgi#top](https://ssd.jpl.nasa.gov/horizons.cgi#top).
 
 ## Results
-The following plot shows the orbits of all objects (up to scale) after 248 years (which is roughly one Plutonian year). The unit of the axes is in AU (astronomical units).
-<img src="{{ site.url }}{{ site.baseurl }}/images/solarsystemplot.png" alt="">
+The following plot illustrates the various simulation variants conducted.
+<img src="{{ site.url }}{{ site.baseurl }}/images/lithosphere.png" alt="">
 
 ## Discussion
 The velocity Verlet method provides a fairly accurate numerical result. The error is of order $$h^3$$, and the code is efficient (a small time step h can be chosen).
