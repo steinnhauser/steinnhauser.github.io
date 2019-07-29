@@ -11,9 +11,13 @@ mathjax: "true"
 The heat equation was implemented numerically to simulate heat diffusion in the lithosphere.
 
 ## Theory
-The general relation for 3D heat diffusion is
+The general dimensionless relation for 3D heat diffusion is
 
-$$\Nabla ^2 u = \frac{\del u}{\del t}$$,
+$$\nabla ^2 u = \frac{\partial u}{\partial t}$$,
+
+which can be implemented numerically through Taylor expansion. The specific case of the lithosphere is presented by the following scaled equation:
+
+$$\nabla (k \nabla T) + Q = \rho c_P \frac{\partial T}{\partial t}$$
 
 ## Algorithm
 An object oriented code in C++ was written. The velocity Verlet method was used to update positions and velocities for all ten celestial objects. This method is a symplectic integrator, which means that it conserves the energy (unlike other methods such as Euler's method, Euler-Cromers method and Runge-Kutta).
