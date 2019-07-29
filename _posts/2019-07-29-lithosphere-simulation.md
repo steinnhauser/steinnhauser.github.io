@@ -8,10 +8,10 @@ excerpt: "Heat Diffusion in Lithosphere Simulation"
 mathjax: "true"
 ---
 ## Introduction
-The heat equation was implemented numerically to simulate heat diffusion in the lithosphere.
+The heat equation was implemented numerically to simulate heat diffusion. This was used to simulate a two-dimensional lithosphere with radioactive enrichment and decay. 
 
 ## Theory
-The general dimensionless relation for 3D heat diffusion is
+The general dimensionless relation for heat diffusion is
 
 $$\nabla ^2 u = \frac{\partial u}{\partial t}$$,
 
@@ -19,21 +19,11 @@ which can be implemented numerically through Taylor expansion. The specific case
 
 $$\nabla (k \nabla T) + Q_i = \rho c_P \frac{\partial T}{\partial t}$$.
 
-The additional heat production $Q_i$ regards the decay of radioactive materials in the various slices of the lithosphere. In addition to providing a heat source, these radioactive materials are also modeled to decay depending on their respectful halflives.
+The additional heat production \textit{Q_i} regards the decay of radioactive materials in the various slices of the lithosphere. In addition to providing a heat source, these radioactive materials are also modeled to decay depending on their respectful half-lives.
 ## Algorithm
-An object oriented code in C++ was written. The velocity Verlet method was used to update positions and velocities for all ten celestial objects. This method is a symplectic integrator, which means that it conserves the energy (unlike other methods such as Euler's method, Euler-Cromers method and Runge-Kutta).
+Several simulation variants were conducted in C++. The \textit{Explicit}, \textit{Implicit} and \textit{Crank-Nicolson} schemes were compared with regards to efficiency and accuracy.
 ### Velocity verlet
-The positions are calculated twice, first with a second order Taylor approximation
-
-$$x_{i+1} = x_i + h\cdot v_i + \frac{h^2}{2}a_i + \mathcal{O}(h^3),$$
-
-which is used to update the accelerations,
-
-$$a_{i+1} = a(x_{i+1}, t_{i+1}).$$
-
-Then velocites are updated,
-
-$$v_{i+1} = v_i + \frac{h}{2}\left( a_{i+1} + a_i \right) + \mathcal{O}(h^3).$$ [https://ssd.jpl.nasa.gov/horizons.cgi#top](https://ssd.jpl.nasa.gov/horizons.cgi#top).
+[https://ssd.jpl.nasa.gov/horizons.cgi#top](https://ssd.jpl.nasa.gov/horizons.cgi#top).
 
 ## Results
 The following plot illustrates the various simulation variants conducted.
