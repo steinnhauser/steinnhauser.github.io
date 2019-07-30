@@ -6,17 +6,7 @@ header:
 ---
 
 ### About me
+I completed my Bachelors degree of Physics in the summer of 2019 at the University of Oslo and will be pursuing a completed Masters degree in *MN Computational Science: Physics* by the summer of 2021. My interests include parallel and high performance computing, as well as numerical solutions to the Einstein equations. I am most experienced in Python and C++.
 
-
-
-I have just finished my bachelor degree in physics. This fall I will begin as master student in *computational Science: physics* at the University of Oslo. My main computational interests are data analysis, high performance computing and physics simulations.
-
-I have coded mostly in C, C++ and Python.
-
-### My interests
-
-
-### This website
-The main purpose of this website is to extend my CV. It will be much easier to show what I have done as posts on this website, rather than you scrolling through my Github (but please feel free to do so).
-
-The posts are meant to be short, summarizing and readable, but do keep in mind that most of these projects reflect several weeks of work and does of course have a thoroughly written report.
+### Posts
+This website is meant to be a quick summary of the work I have done in Physics and Computer Science. The posts summarize experiences and extensive projects within those fields which have had the biggest impacts on me as a scientist. I try to keep the website as updated as I can in tandem with my other work. Any posts on large projects are likely to have a corresponding repository on my [github](https://github.com/steinnhauser) which includes more extensive reports and the codes used.
