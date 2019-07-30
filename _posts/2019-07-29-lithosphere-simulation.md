@@ -1,6 +1,6 @@
 ---
 title: "Heat Diffusion in Lithosphere Simulation"
-date: 2019-02-02
+date: 2019-07-29
 tags: [simulation, heat diffusion, heat equation]
 header:
   image: "/images/lithosphere_cover.jpg"
