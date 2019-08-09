@@ -21,6 +21,7 @@ This patching was done to have a successful Fourier-transformation for correlati
 ## Team Results
 Follwing is the comparison between the magnetic fields which the two satellites were exposed to:
 <img src="{{ site.url }}{{ site.baseurl }}/images/SWSS_Comparison-Bfields.png" alt="">
+The power point presentation can be found on my [github](https://github.com/steinnhauser/SWSS-Boston-2018).
 
 ## My experience
 Working together with students who share similar interests and skills was a great learning experience. Communication and teamwork were key elements in getting somewhere in researching the data and I felt my team was successfully able to do that. When presenting the project in front of the 15 other students and the 3 instructors we all had something to discuss and we went back and forth with the instructors about further improvements of the research.
