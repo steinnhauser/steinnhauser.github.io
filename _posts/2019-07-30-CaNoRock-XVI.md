@@ -38,3 +38,9 @@ $$
 \vec{F}_i = \vec{F}_D + \vec{F}_G + \vec{F}_T
 $$
 If the output of the thruster on the rocket is known at any given time step \textit{i}, then all parameters will be known except for the drag coefficient. This can then be calculated for every time step and averaged.
+
+## Post-Launch words
+Many hours were spent trying to figure out how to calculate the drag coefficient as accurately as possible and a MATLAB script was designed to do so, though both GPS modules were faulty and did not record the data properly in post-launch analyses. The launch was a thrilling experience. On Thursday we had a misfire which delayed the launch too long (bad weather caused the launch to be delayed even further afterwards), but on T+7s on Friday we had a successful launch into the clouds. The
+
+## Workshop Summary
+It was very enjoyable to get to work with students from all around the world which had similar interests to mine. All the students got each others contact information for any possible work together in the future. It was enjoyable also to meet the five physics students from Tromso, Norway, as that's where I considered studying in my first year. All a very fun experience with great people.
