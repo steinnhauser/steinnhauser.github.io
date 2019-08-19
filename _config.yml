@@ -115,9 +115,9 @@ author:
     - label: "University of Oslo"
       icon: "fas fa-map-marker-alt"
       url: "https://www.uio.no/english/studies/programmes/computational-science-master/"
-    - label: "steinnhm@student.matnat.uio.no"
+    - label: "s.h.magnusson@fys.uio.no"
       icon: "fas fa-fw fa-envelope-square"
-      url: mailto:steinnhm@student.matnat.uio.no
+      url: mailto:s.h.magnusson@fys.uio.no
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
