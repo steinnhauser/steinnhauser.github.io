@@ -1,10 +1,10 @@
 ---
-title: "Space Weather Summer School"
+title: "4D Space Numerical Workshop"
 date: 2019-08-17
 tags: [excursion, trip, summer school, boston]
 header:
   image: "/images/Kobe-Cover.jpg"
-excerpt: "Space Weather Summer School"
+excerpt: "4D Space Numerical Workshop"
 mathjax: "true"
 ---
 ## Introduction
