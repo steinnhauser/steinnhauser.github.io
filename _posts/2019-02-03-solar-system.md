@@ -12,7 +12,7 @@ A numerical simulation of the solar system was done by using the *velocity Verle
 ## Theory
 The mathematical problem is to solve the motion of a 10-body system, which is analytically impossible to solve. Newtonian gravity is used to calculate the force,
 
-$$F = G \frac{m_1m_2}{r^2}$$,
+$$F = G \frac{m_1m_2}{r^2}$$
 
 pointing in the direction from mass center of object 1 to mass center of object 2.
 ## Algorithm

@@ -108,16 +108,16 @@ analytics:
 author:
   name             : "Steinn Hauser"
   avatar           : "images/bio.png"
-  bio              : "Physics CS Major"
+  bio              : "MSc in Computational Physics"
   #location         : "University of Oslo"
   email            :
   links:
     - label: "University of Oslo"
       icon: "fas fa-map-marker-alt"
       url: "https://www.uio.no/english/studies/programmes/computational-science-master/"
-    - label: "s.h.magnusson@fys.uio.no"
+    - label: "hausersteinn@gmail.com"
       icon: "fas fa-fw fa-envelope-square"
-      url: mailto:s.h.magnusson@fys.uio.no
+      url: mailto:hausersteinn@gmail.com
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"

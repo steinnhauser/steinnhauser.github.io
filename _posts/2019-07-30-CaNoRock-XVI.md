@@ -28,7 +28,7 @@ The simulation team was set to pursue two particular assignments. This could be 
 $$
 F_D = \frac{1}{2} C_D \rho A v^2,
 $$
-where $F_D$ is the drag force, $C_D$ is the drag coefficient, $\rho$ is the density of the surrounding fluid (in this case atmospheric density), $A$ is the area and $v$ is the speed. Brady and I discussed in detail how the center of drag would change in time and how they were influenced by wind speed and rocket roll. The GPS data would tell us of the acceleration of the rocket at any given point in time, and if the mass of the rocket is known (by calculating how much fuel mass has been expulsed at the time) then the sum of the forces (at a time step \textit{i}) can be found by:
+where $F_D$ is the drag force, $C_D$ is the drag coefficient, $\rho$ is the density of the surrounding fluid (in this case atmospheric density), $A$ is the area and $v$ is the speed. Brady and I discussed in detail how the center of drag would change in time and how they were influenced by wind speed and rocket roll. The GPS data would tell us of the acceleration of the rocket at any given point in time, and if the mass of the rocket is known (by calculating how much fuel mass has been expulsed at the time) then the sum of the forces (at a time step $\textit{i}$) can be found by:
 
 $$
 \vec{F}_i = m_i \vec{a}_i
@@ -38,7 +38,7 @@ The sum of forces on the rocket were then modeled to be the combination of gravi
 $$
 \vec{F}_i = \vec{F}_D + \vec{F}_G + \vec{F}_T
 $$
-If the output of the thruster on the rocket is known at any given time step \textit{i}, then all parameters will be known except for the drag coefficient. This can then be calculated for every time step and averaged.
+If the output of the thruster on the rocket is known at any given time step $\textit{i}$, then all parameters will be known except for the drag coefficient. This can then be calculated for every time step and averaged.
 
 ## Post-Launch words
 Many hours were spent trying to figure out how to calculate the drag coefficient as accurately as possible and a MATLAB script was designed to do so, though both GPS modules were faulty and did not record the data properly in post-launch analyses. The launch was a thrilling experience. On Thursday we had a misfire which delayed the launch too long (bad weather caused the launch to be delayed even further afterwards), but on T+7s on Friday we had a successful launch into the clouds. The
