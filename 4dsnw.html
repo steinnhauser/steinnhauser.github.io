@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/topnav.css">
+    <title>Home</title>
+  </head>
+  <body>
+
+    <div class="topnav">
+      <a href="/" class="logo">Steinn Magnusson</a>
+      <div class="topnav-right">
+       <a href="https://github.com/steinnhauser">Github</a>
+       <a href="https://linkedin.com/in/steinnhauser/">Linkedin</a>
+       <a href="about.html">About</a>
+      </div>
+    </div>
+
+    <div class="section">
+
+      <h1>Introduction</h1>
+      <div class="content">
+        <p>
+          In the summer of 2019, from June 17th to June 21th, 10 students were brought
+          together in Japan to partake in a summer school dedicated to an introduction
+          to supercomputer simulations of satellites in the ionosphere. Three instructors
+          from Norway and one from Japan were there to teach us and help us with our
+          projects.
+        </p>
+      </div>
+
+      <h1>Purpose</h1>
+      <div class="content">
+        <p>
+          The purpose of the trip was to encourage students to work together with
+          international scientists in the same fields. The students were also encouraged
+          to venture into more challenging projects which may be worth publishing.
+          The main focus of the projects was supercomputer simulations of the NORSAT-1
+          satellite in space. The supercomputer used was one provided to us by Kobe
+          University. The code which would be run on the supercomputer was already written
+          for us by one of the Japanese instructors which happened to be in Oslo at the
+          time. This code included a model of the NORSAT-1 probe and ions which obeyed
+          Maxwell's equations. The number of ions, ion velocity, magnetic fields, etc.
+          was something that we learned to change for the various simulation variants.
+        </p>
+      </div>
+
+      <h1>Team Project</h1>
+      <div class="content">
+        <p>
+          My team of five conducted several simulations which were designed to study
+          the floating potential of the spacecraft. These were designed to be comparable
+          to theoretical values given by the <em>PP-regime</em> as opposed to the <em>OML-regime</em>
+          (justified by the fact that the Debye sphere is a lot smaller than the components
+          of the spacecraft, see the
+          <a href="https://github.com/steinnhauser/4DSNW-2019/tree/master/Kobe">
+            Floating potential lecture notes
+          </a>
+          by W. Miloch
+          for more details). This was done for four ionic elements to investigate
+          the differences. Four runs were conducted on the supercomputer: Hydrogen,
+          Helium, Argon and Oxygen. Due to the weight of the last two, the time step
+          needed to be doubled due to the <em>Courant-Friedrichs-Lewy stability condition</em>.
+          The visualization of the data produced by the supercomputer was a central focus
+          of our study. For this our group used the ParaView 5.4.1 data visualization
+          software. This software was ideal for visualization of parameters for the
+          3-dimensional satellite model.
+        </p>
+      </div>
+
+      <h1>Team Results</h1>
+      <div class="content">
+        <div class="column-split">
+          <div class="column" style="flex: 40%;">
+            <p>
+              Following is the floating potential for the oxygen ions. On the left is the
+              floating potential as a cross sectional contour, and on the right is a line
+              plot from the bottom left corner to the top right. This was done to set a
+              value to the potential of the spacecraft.
+              The only run which did not succeed was the Argon. This was the heaviest ion
+              simulated and will be investigated further in the upcoming workshop in Oslo.
+              The final power point presentation can be found on my
+              <a href="https://github.com/steinnhauser/4DSNW-2019/tree/master/Kobe">github</a>.
+            </p>
+          </div>
+          <div class="column" style="flex:60%;">
+            <img style="max-width:100%; max-height:100%;" src="/images/4dsnw/4DSNW_run9.png">
+            <!-- width="40%" height="40%" -->
+            <!--  width="70%" height="auto" -->
+            <!-- max-width:100%; max-height:100%; -->
+          </div>
+        </div>
+      </div>
+
+      <h1>My experience</h1>
+      <div class="content">
+        <p>
+          Japan was the most incredible country to travel to with students and
+          lecturers which I had seen and worked with in my first three years of
+          University. The first complimentary week in Kobe was incredible; so much
+          good food which the students from Kobe University introduced us to by
+          inviting us out to dinner. A big grilling party was held on Friday evening
+          where the students brought the most exotic fish they could find around.
+          All around a great week. Afterwards, the five of us from Oslo traveled
+          onward to Kyoto, where three of us stayed for two nights. I continued
+          onward to Tokyo after the other students left to spend another three
+          nights in an air-bnb in Shibamata. The time I spend in Tokyo was something
+          I really enjoyed.
+        </p>
+      </div>
+
+
+    </div>
+
+  </body>
+</html>

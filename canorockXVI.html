@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/topnav.css">
+    <title>Home</title>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+
+  </head>
+  <body>
+
+    <div class="topnav">
+      <a href="/" class="logo">Steinn Magnusson</a>
+      <div class="topnav-right">
+       <a href="https://github.com/steinnhauser">Github</a>
+       <a href="https://linkedin.com/in/steinnhauser/">Linkedin</a>
+       <a href="about.html">About</a>
+      </div>
+    </div>
+
+    <div class="section">
+
+      <h1>Introduction</h1>
+      <div class="content">
+        <p>
+          In the autumn of 2018, students were brought together from Canada,
+          the US and two Norwegian Universities to work on a rocket project in
+          the North of Norway. This project was meant to introduce students to
+          rocket building and instrumentation design to effectively study the upper
+          atmosphere.
+        </p>
+      </div>
+
+      <h1>The rocket</h1>
+      <div class="content">
+        <div class="column-split">
+          <div class="column" style="flex: 40%;">
+            <p>
+              The rocket had several instruments to measure the conditions of the
+              atmosphere as well as the position of the rocket. The students got to
+              pick between three teams: Telemetry, Payload, and Sensory/Experiments.
+              Three other students and I chose to go specifically into a GPS- and
+              Simulation oriented post-study of the rocket. The first step was to
+              set up a GPS script in MATLAB such that the data from the GPS modules
+              was successfully logged. Afterwards the team soldered two GPS instruments
+              on two independent circuit boards in case one failed.
+              The circuit boards were then fastened by us to the payload of the rocket.
+              Following are images taken by Kirtan of the payload. Kirtan was not on our
+              team but was one of the payload managers from Canada.
+            </p>
+
+            <br><br>
+            <img style="max-width:100%; max-height:100%;" src="/images/canorockXVI/CANOROCK_payload.jpg">
+
+          </div>
+          <div class="column" style="flex: 20%;">
+            <img style="max-width:100%; max-height:100%;" src="/images/canorockXVI/CANOROCK_oslo-team.jpg">
+            <!-- <img src="/images/canorockXVI/CANOROCK_me-lodding.jpg" width="50%" height="50%"> -->
+            <!-- <img src="/images/canorockXVI/CANOROCK_payload.jpg" width="50%" height="50%"> -->
+          </div>
+        </div>
+
+      </div>
+
+      <h1>The Simulation team</h1>
+      <div class="content">
+        <div class="column-split">
+          <div class="column" style="flex:40%">
+            <p>
+              After the GPS modules were incorporated to the payload my team moved on
+              to simulate the rocket flight. Our team of four split into teams of two
+              to model the rocket in OpenRocket (3D rocket design software) using the
+              dimensions of the one built. This 3D rocket model was then imported into
+              RockSim (rocket simulation software) and the simulations could begin.
+              Our team split in two to do these first steps as there were many factors
+              in the software resulting in a lot of errors that can be made. Once
+              everything was properly set up and the two teams got the simulations to
+              work, the testing began. Many factors of the rockets initial conditions
+              were tested until the ones which we would use were set. Finally, weather
+              forecast elements such as wind direction, speed, temperature, humidity were
+              implemented and a rocket flight animation was produced. This data was also
+              imported to google earth for more intuitive flight path images.
+            </p>
+
+          </div>
+          <div class="column" style="flex:30%">
+            <img style="max-width:100%; max-height:100%;" src="/images/canorockXVI/CaNoRock_GE-Sim.png">
+          </div>
+        </div>
+      </div>
+
+      <h1>Particular task</h1>
+      <div class="content">
+        <p>
+          The simulation team was set to pursue two tasks in particular. This could be
+          anything we determined was worth researching with the instrument data we had
+          available. The group split in two and me and Brady Pomerleau discussed
+          calculating the drag coefficient of the rocket using the GPS data.
+          The mathematical model we used to determine the drag coefficient was:
+
+          $$
+          F_D = \frac{1}{2} C_D \rho A v^2,
+          $$
+          where <em>FD</em> is the drag force, <em>CD</em> is the drag coefficient, &rho; is
+          the density of the surrounding fluid (in this case atmospheric density),
+          <em>A</em> is the area and <em>v</em> is the speed. Brady and I discussed in detail how
+          the center of drag would change in time and how they were influenced
+          by wind speed and rocket roll. The GPS data would tell us of the
+          acceleration of the rocket at any given point in time, and if the mass
+          of the rocket is known (by calculating how much fuel mass has been expulsed
+          at the time) then the sum of the forces (at a time step <em>i</em>) can be found by:
+
+          $$
+          \vec{F}_i = m_i \vec{a}_i
+          $$
+          The sum of forces on the rocket were then modeled to be the combination
+          of gravitational, drag, and rocket thruster forces.
+
+          $$
+          \vec{F}_i = \vec{F}_D + \vec{F}_G + \vec{F}_T
+          $$
+          If the output of the thruster on the rocket is known at any given
+          time step <em>i</em>, then all parameters will be known except for
+          the drag coefficient. This can then be calculated for every time
+          step and averaged.
+        </p>
+      </div>
+
+      <h1>Post-Launch words</h1>
+      <div class="content">
+        <p>
+          Many hours were spent trying to figure out how to calculate the drag
+          coefficient as accurately as possible and a MATLAB script was designed
+          to do so, though both GPS modules were faulty and did not record the
+          data properly in post-launch analyses. The launch was a thrilling
+          experience. On Thursday we had a misfire which delayed the launch too
+          long (bad weather caused the launch to be delayed even further afterwards),
+          but on T+7s on Friday we had a successful launch into the clouds.
+        </p>
+      </div>
+
+      <h1>Workshop Summary</h1>
+      <div class="content">
+        <p>
+          It was very enjoyable to get to work with students from all around the
+          world which had similar interests to mine. All the students got each
+          others contact information for any possible work together in the future.
+          It was enjoyable also to meet the five physics students from Tromso,
+          Norway, as that's where I considered studying in my first year. All a
+          very fun experience with great people.
+        </p>
+      </div>
+
+    </div>
+
+  </body>
+</html>
