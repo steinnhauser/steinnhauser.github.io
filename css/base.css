@@ -13,14 +13,16 @@ body {
   align-items: center;
   min-height: 10vh;
   margin: 0px 30px;
-  padding: 10px;
+  /* padding-top: 30px;
+  padding-bottom: 30px; */
 }
 
 .section .content {
   background-color: #C8C8C8;
-  border-radius: 5px;
+  border-radius: 7.5px;
   border-color: #C8C8C8;
-  padding: 20px;
+  padding: 30px 20px;
+  /* min-height:20px; */
 }
 
 .section .content .abstract {
@@ -31,26 +33,37 @@ body {
   padding: 10px;
 }
 
+img {
+  margin-top:20px;
+}
+
 .section h1 {
-  font-size:50px;
+  /* text-decoration-color: black; */
+  font-size: clamp(2rem, 5vw, 4rem);
   font-weight:500;
+  padding-top:15px;
 }
 
 .section h2 {
-  font-size:30px;
+  font-size: clamp(1.2rem, 3vw, 2.4rem); /*30px;*/
   font-weight:50;
   display: inline;
 }
 
 .section p {
-  font-size:20px;
+  font-size: clamp(0.8rem, 2vw, 1.6rem); /*20px*/
   font-weight:30;
 }
 
 span.date {
-  font-size:20px;
+  font-size: clamp(0.8rem, 2vw, 1.6rem);
   font-weight:30;
   float:right;
+
+  margin-top:5px;
+  /* display:flex;
+  justify-content: center;
+  align-items: center */
 }
 
 p.lowfloat {
@@ -64,4 +77,24 @@ p.lowfloat {
 
 .section .content .column-split .column {
   padding: 5px;
+}
+
+.abstract {
+  font-size: clamp(0.8rem, 2vw, 1.6rem);
+}
+
+a.div-link {
+  display:block;
+  height:100%;
+  width:100%;
+  text-decoration: none;
+  color: inherit;
+  transition: all 500ms ease;
+  margin-bottom: 18px;
+}
+
+a.div-link:hover {
+
+  background-color: blue;
+  color: black;
 }

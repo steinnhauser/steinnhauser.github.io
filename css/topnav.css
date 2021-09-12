@@ -1,29 +1,99 @@
 .topnav {
   background-color: #dedede;
   overflow: hidden;
+  border-radius: 10px;
 }
 .topnav-right {
   float: right;
 }
 
-.topnav a {
+.topnav a.logo {
   float: left;
   color: black;
   text-align: center;
   padding: 30px 50px;
   text-decoration: none;
   font-size: 25px;
-}
-.topnav a.logo {
+  /* transform: 250ms ease-in; */
+  transition: all 500ms ease;
   font-size: 25px;
   font-weight: bold;
   color: black;
 }
-.topnav a:hover {
+.topnav a.logo:hover {
   background-color: #f1f1f1;
   color: black;
 }
-.topnav a.active {
+
+div.topnav-right {
+  float:right;
+  justify-content: center;
+  align-items: center;
+}
+
+a.triple-choice-bar div {
+  height: 4px;
+  background-color:#777777;
+  margin: 5px 0;
+  border-radius: 25px;
+  transition: all 500ms ease;
+  /* transition: all 500ms ease; */
+}
+
+a.triple-choice-bar {
+  width:30px;
+  display:block;
+  padding: 30px 50px;
+  /* text-align: center; */
+
+  /* float:right; */
+}
+
+
+.triple-choice-bar-1 {
+  width:25px;
+}
+.triple-choice-bar-2 {
+  width:20px;
+}
+.triple-choice-bar-3 {
+  width:30px;
+}
+
+a.triple-choice-bar:hover div {
+  background-color: #555555;
+  width:30px;
+}
+
+
+div.sub-menu-main {
+  /* display:none; */
+}
+ul.sub-menu-main-ul {
+  display: block;
+  position: absolute;
+}
+
+.dropdown-content {
+  /* display: none; */
+  
+  position: absolute;
   background-color: #f1f1f1;
-  color: white;
+  width: 130px;
+}
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #555555}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+
+#dropdown-menu a {
+  text-align: right;
 }

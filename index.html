@@ -12,17 +12,33 @@
 
     <div class="topnav">
       <a href="/" class="logo">Steinn Magnusson</a>
+
       <div class="topnav-right">
-       <a href="https://github.com/steinnhauser">Github</a>
-       <a href="https://linkedin.com/in/steinnhauser/">Linkedin</a>
-       <a href="about.html">About</a>
+
+        <a class="triple-choice-bar" href="#" onclick="triggerDropdown()">
+          <div class="triple-choice-bar-1"></div>
+          <div class="triple-choice-bar-2"></div>
+          <div class="triple-choice-bar-3"></div>
+        </a>
+
+        <div id="dropdown-menu" class="dropdown-content">
+          <a href="https://github.com/steinnhauser">Github</a>
+          <a href="https://linkedin.com/in/steinnhauser/">Linkedin</a>
+          <a href="about.html">About</a>
+          <a href="#">Photography</a>
+          <!-- photography.html -->
+        </div>
+        <script type="text/javascript">
+          document.getElementById("dropdown-menu").style.display = "none";
+        </script>
       </div>
+
     </div>
 
     <div class="section">
       <h1>Webpage Aims</h1>
       <div class="content">
-        <p>
+        <p style="margin: 0px;">
           This webpage is a personal side project where I write about some of my favorite
           excursions and experiences in a number of blog posts.
           Some of my largest scale projects are also showcased, and when I find time
@@ -59,13 +75,14 @@
           Despite this the kernel method was found to provide significant computational advantages, and both methods were overall successful in recreating the ground-truth signal.
           This demonstrates that a substantial amount of network LFP variability can be captured using linear spike-LFP models.
         </div>
-        Full thesis is available on
-        <a href="https://github.com/steinnhauser/linearLFP">Github</a>.
+        <p style="margin-bottom:0px;">
+          Full thesis is available on <a href="https://github.com/steinnhauser/linearLFP">Github</a>.
+        </p>
       </div>
     </div>
 
     <div class="section">
-      <h1>Previous Projects and Experience</h1>
+      <h1>Project Blogs</h1>
 
       <div class="content">
         <h2>Summer Internship for SINTEF</h2>
@@ -97,36 +114,36 @@
       </div>
 
       <br><br>
-      <div class="content">
-        <h2>4D Space Numerical Workshop</h2>
-        <span class="date"><small>Summer 2019</small></span>
-        <p class="lowfloat">A full report of the 4DNSW workshop can be found
-          <a href="4dsnw.html">here</a>.
-        </p>
-      </div>
+      <a class="div-link" href="4dsnw.html">
+        <div class="content">
+          <h2>4D Space Numerical Workshop Blog Post</h2>
+          <span class="date"><small>Summer 2019</small></span>
+        </div>
+      </a>
 
-      <br><br>
-      <div class="content">
-        <h2>CaNoRock XVI</h2>
-        <span class="date"><small>Autumn 2018</small></span>
-        <p class="lowfloat">A full report of the CaNoRock XVI project can be found
-          <a href="canorockXVI.html">here</a>.
-        </p>
-      </div>
+      <a class="div-link" href="canorockXVI.html">
+        <div class="content">
+          <h2>CaNoRock XVI Blog Post</h2>
+          <span class="date"><small>Autumn 2018</small></span>
+        </div>
+      </a>
 
-      <br><br>
-      <div class="content">
-        <h2>Space Weather Summer School</h2>
-        <span class="date"><small>Summer 2018</small></span>
-        <p class="lowfloat">A full report of the SWSS project can be found
-          <a href="swss2018.html">here</a>.
-        </p>
-      </div>
+      <a class="div-link" href="swss2018.html">
+        <div class="content">
+          <h2>Space Weather Summer School Blog Post</h2>
+          <span class="date"><small>Summer 2018</small></span>
+        </div>
+      </a>
 
+      <!-- <div class="content">
+          <h2>Photography Page</h2>
 
+      </div> -->
 
 
     </div>
 
+    <script type="text/javascript" src="js/misc.js"></script>
   </body>
+
 </html>
