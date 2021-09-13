@@ -75,8 +75,7 @@ ul.sub-menu-main-ul {
 }
 
 .dropdown-content {
-  /* display: none; */
-  
+  display: none;
   position: absolute;
   background-color: #f1f1f1;
   width: 130px;
@@ -96,4 +95,10 @@ ul.sub-menu-main-ul {
 
 #dropdown-menu a {
   text-align: right;
+}
+
+
+p.lone-p {
+  margin-top:0px;
+  margin-bottom:0px;
 }

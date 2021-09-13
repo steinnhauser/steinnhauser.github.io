@@ -9,21 +9,35 @@
     <title>Home</title>
   </head>
   <body>
+    <script>0</script>
 
     <div class="topnav">
       <a href="/" class="logo">Steinn Magnusson</a>
+
       <div class="topnav-right">
-       <a href="https://github.com/steinnhauser">Github</a>
-       <a href="https://linkedin.com/in/steinnhauser/">Linkedin</a>
-       <a href="about.html">About</a>
+
+        <a class="triple-choice-bar" href="#" onclick="triggerDropdown()">
+          <div class="triple-choice-bar-1"></div>
+          <div class="triple-choice-bar-2"></div>
+          <div class="triple-choice-bar-3"></div>
+        </a>
+
+        <div id="dropdown-menu" class="dropdown-content">
+          <a href="https://github.com/steinnhauser" target="_blank">Github</a>
+          <a href="https://linkedin.com/in/steinnhauser/" target="_blank">Linkedin</a>
+          <a href="about.html">About</a>
+          <!-- <a href="#">Photography</a> -->
+          <!-- photography.html -->
+        </div>
       </div>
+
     </div>
 
     <div class="section">
 
       <h1>Introduction</h1>
       <div class="content">
-        <p>
+        <p class="lone-p">
           In the summer of 2019, from June 17th to June 21th, 10 students were brought
           together in Japan to partake in a summer school dedicated to an introduction
           to supercomputer simulations of satellites in the ionosphere. Three instructors
@@ -34,7 +48,7 @@
 
       <h1>Purpose</h1>
       <div class="content">
-        <p>
+        <p class="lone-p">
           The purpose of the trip was to encourage students to work together with
           international scientists in the same fields. The students were also encouraged
           to venture into more challenging projects which may be worth publishing.
@@ -53,7 +67,7 @@
 
       <h1>Team Project</h1>
       <div class="content">
-        <p>
+        <p class="lone-p">
           My team of five conducted several simulations which were designed to study
           the floating potential of the spacecraft. These were designed to be comparable
           to theoretical values given by the <em>PP-regime</em> as opposed to the <em>OML-regime</em>
@@ -78,7 +92,7 @@
       <div class="content">
         <div class="column-split">
           <!-- <div class="column" style="flex: 40%;"> -->
-            <p>
+            <p class="lone-p">
               Following is the floating potential for the oxygen ions. On the left is the
               floating potential as a cross sectional contour, and on the right is a line
               plot from the bottom left corner to the top right. This was done to set a
@@ -101,7 +115,7 @@
 
       <h1>My experience</h1>
       <div class="content">
-        <p>
+        <p class="lone-p">
           Japan was the most incredible country to travel to with students and
           lecturers which I had seen and worked with in my first three years of
           University. The first complimentary week in Kobe was incredible; so much
@@ -120,6 +134,8 @@
 
 
     </div>
+
+    <script type="text/javascript" src="js/misc.js"></script>
 
   </body>
 </html>

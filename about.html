@@ -9,21 +9,35 @@
     <title>Contact</title>
   </head>
   <body>
+    <script>0</script>
 
     <div class="topnav">
       <a href="/" class="logo">Steinn Magnusson</a>
+
       <div class="topnav-right">
-       <a href="https://github.com/steinnhauser">Github</a>
-       <a href="https://linkedin.com/in/steinnhauser/">Linkedin</a>  <!-- href="{% url 'base-home' %}" -->
-       <a href="about.html">About</a>
+
+        <a class="triple-choice-bar" href="#" onclick="triggerDropdown()">
+          <div class="triple-choice-bar-1"></div>
+          <div class="triple-choice-bar-2"></div>
+          <div class="triple-choice-bar-3"></div>
+        </a>
+
+        <div id="dropdown-menu" class="dropdown-content">
+          <a href="https://github.com/steinnhauser" target="_blank">Github</a>
+          <a href="https://linkedin.com/in/steinnhauser/" target="_blank">Linkedin</a>
+          <a href="about.html">About</a>
+          <!-- <a href="#">Photography</a> -->
+          <!-- photography.html -->
+        </div>
       </div>
+
     </div>
 
     <div class="section">
 
       <h1>About</h1>
       <div class="content">
-        <p>
+        <p class="lone-p">
           My passion for astronomy and physics lead me to pursuit a BSc in
           Physics & Astronomy in the University of Oslo which I completed in
           the summer of 2019. In completing the degree I learned a lot of
@@ -33,8 +47,8 @@
           My thesis covered predictions of biophysical signals in the brain,
           and the thesis PDF and project repo can both be found in the following
           <a href="https://github.com/steinnhauser/linearLFP">Github repository</a>.
-        </p>
-        <p>
+        </p> <br>
+        <p class="lone-p">
           My current interests include computational neuroscience, large scale data
           structure processing, and language processing and NLU.
         </p>
@@ -53,6 +67,8 @@
 
 
     </div>
+
+    <script type="text/javascript" src="js/misc.js"></script>
 
   </body>
 </html>
