@@ -6,8 +6,10 @@ function triggerDropdown() {
 
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
+
   var toggleTarget = '.triple-choice-bar'; //'.dropbtn';
   if (!event.target.matches(toggleTarget)) {
+
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;
     for (i = 0; i < dropdowns.length; i++) {
@@ -16,5 +18,6 @@ window.onclick = function(event) {
         openDropdown.classList.remove('show');
       }
     }
+
   }
 }
