@@ -24,6 +24,6 @@ a.link-item {
         background-position 0s 0.5s; /*change after the size immediately*/
 }
 a.link-item:hover {
-    background-position: 0 100%; /*OR bottom left*/
+    background-position: 0 100%; /*OR bottom left */
     background-size: 0% 1px;
 }

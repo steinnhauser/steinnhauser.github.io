@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    
+  
   <head>
     <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="images/self/Cool_S_white.png"/>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300" rel="stylesheet">
     <link rel="stylesheet" href="css/master.css">  <!-- One stylesheet to import them all. -->
     <title>SHM</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- Import collapsible functionality for abstract and projects. -->
+    <script type="text/javascript" src="js/collapsibles.js" defer></script>
 
     <!-- Import text content -->
     <script type="text/javascript" src="js/imports.js" defer></script>
@@ -15,12 +19,11 @@
     <!-- topnav things -->
     <script type="text/javascript" src="js/topnav.js" defer></script>
     <script type="text/javascript" defer>$(function(){$("#topnav").load("common/topnav.html");});</script>
-    
   </head>
 
   <body>
 
-    <div class="topnav" id="topnav">
+    <div class="topnav subtle-shadow" id="topnav">
       <!-- topnav.html is imported into here -->
     </div>
 
@@ -46,12 +49,13 @@
       <div class="section">
 
         <h1>Masters Thesis</h1>
-        <div class="content">
+        <div class="content clickable" onclick="triggerCollapsible(this)">
           <h2>
             Evaluating Approximate Methods for Computing Extracellular Potentials from Neuronal Networks
           </h2>
-          <p>Abstract:</p>
-          <div class="abstract" id="masters-abstract-import">
+          <br>
+          <p class="no-margin inline underline">Abstract:</p><h2 class="fade-arrow"><i class="down-hat"></i></h2>
+          <div class="abstract collapsible" id="masters-abstract-import">
             <!-- Import of text here -->
             <!-- TODO: Ref to google Scholar and OrcID? -->
             <!--  -->
@@ -63,38 +67,41 @@
       </div>
 
       <div class="section">
-        <h1>Project Blogs</h1>
-
-        <div class="content">
-          <h2>SINTEF Job</h2>
+        <h1>Professional Experience</h1>
+        <div class="content clickable" onclick="triggerCollapsible(this)">
+          <h2>SINTEF Job</h2><h2 class="fade-arrow"><i class="down-hat"></i></h2><!--&#8595;  -->
           <span class="content-date">Summer 2020</span>
-          <p class="content-box">
-            In 2020 I worked for two months with researchers at SINTEF, Trondheim
-            to implement a new communication protocol between intelligent
-            electronic devices (IEDs) in digital substations (DSs).
-            The IEC 61850 standard for substation communication involves
-            Manufacturing Message Specification (MMS),
-            Generic Object Oriented Substation Event (GOOSE), and
-            Sampled Value (SV) mappings which are available in the
-            <a class="link-item" href="http://libiec61850.com/libiec61850/">libIEC61850 library</a> for C.
-            I developed a python Graphical User Interface (GUI) using the
-            <a class="link-item" href="https://doc.qt.io/qtforpython/">PyQt</a>
-            library from which subprocesses in C can be spawned for the IEC 61850 mappings.
-            Efficient port communication connected the mapped values in C to
-            the GUI using <a class="link-item" href="https://zeromq.org/">ZeroMQ</a>, such that the
-            MMS, GOOSE and SV messages could be processed and illustrated in the GUI.
-          </p>
-          <p class="content-box">
-            The main goal of the application was to allow for efficient use of the
-            IEC 61850 standard in a GUI which was easy to use and easy to distribute.
-            The final GUI was capable of multiple IEC 61850
-            connections on varying IP ports and application IDs in parallel,
-            where the mapped values from each connection can be visualized and compared.
-            <!-- An estimation of the SV phasor diagrams from DSs was also included. -->
-          </p>
+          <div class="collapsible"> 
+            <p class="content-box">
+              In 2020 I worked for two months with researchers at SINTEF, Trondheim
+              to implement a new communication protocol between intelligent
+              electronic devices (IEDs) in digital substations (DSs).
+              The IEC 61850 standard for substation communication involves
+              Manufacturing Message Specification (MMS),
+              Generic Object Oriented Substation Event (GOOSE), and
+              Sampled Value (SV) mappings which are available in the
+              <a class="link-item" href="http://libiec61850.com/libiec61850/">libIEC61850 library</a> for C.
+              I developed a python Graphical User Interface (GUI) using the
+              <a class="link-item" href="https://doc.qt.io/qtforpython/">PyQt</a>
+              library from which subprocesses in C can be spawned for the IEC 61850 mappings.
+              Efficient port communication connected the mapped values in C to
+              the GUI using <a class="link-item" href="https://zeromq.org/">ZeroMQ</a>, such that the
+              MMS, GOOSE and SV messages could be processed and illustrated in the GUI.
+            </p>
+            <p class="content-box">
+              The main goal of the application was to allow for efficient use of the
+              IEC 61850 standard in a GUI which was easy to use and easy to distribute.
+              The final GUI was capable of multiple IEC 61850
+              connections on varying IP ports and application IDs in parallel,
+              where the mapped values from each connection can be visualized and compared.
+              <!-- An estimation of the SV phasor diagrams from DSs was also included. -->
+            </p>
+          </div>
         </div>
+      </div>
 
-        <br>
+      <div class="section">
+        <h1>Project Blogs</h1>
         <!-- <br> -->
         <a class="div-link content" href="4dsnw.html">
           <h2>4D Space Numerical Workshop</h2><h2 class="fade-arrow">&#8594;</h2>

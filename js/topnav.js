@@ -14,7 +14,9 @@ function triggerDropdown() {
 $('body').click(function(e) {
   var target = $(e.target);
   // Check if item is not either topnav button or itself. Then check if visible.
-  if (!(target.hasClass("dropdown-container") || target.hasClass("topnav-dropdown")))
-    if (!$('.dropdown-container').children().is(':hidden'))
+  if (!(target.hasClass("dropdown-container") || target.hasClass("topnav-dropdown"))){
+    if (!$('.dropdown-container').children().is(':hidden')){
       triggerDropdown();
+    }
+  }
 });

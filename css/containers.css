@@ -3,7 +3,6 @@
     align-items: center;
     min-height: 10vh;
     margin: 0px 30px;
-    
 }
 .section .content {
     background-image: linear-gradient(to bottom right, var(--secondary-color), var(--secondary-color-var1));

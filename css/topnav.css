@@ -3,6 +3,10 @@
   overflow: hidden;
   display: flex;
   justify-content: space-between;
+  position:fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
 }
 
 .topnav-text {
@@ -48,7 +52,7 @@
 }
 
 .dropdown-container {
-  position:absolute;
+  position:fixed;
   top:92px;
   right:0;
   background-color: var(--secondary-color-var1);
