@@ -1,141 +1,119 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+    
   <head>
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300" rel="stylesheet">
+    <link rel="stylesheet" href="css/master.css">  <!-- One stylesheet to import them all. -->
+    <title>SHM</title>
 
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/topnav.css">
-    <title>Home</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- Import text content -->
+    <script type="text/javascript" src="js/imports.js" defer></script>
+
+    <!-- topnav things -->
+    <script type="text/javascript" src="js/topnav.js" defer></script>
+    <script type="text/javascript" defer>$(function(){$("#topnav").load("common/topnav.html");});</script>
+    
   </head>
+
   <body>
-    <script>0</script>
 
-    <div class="topnav">
-      <a href="/" class="logo">Steinn Magnusson</a>
+    <div class="topnav" id="topnav">
+      <!-- topnav.html is imported into here -->
+    </div>
 
-      <div class="topnav-right">
+    <div class="main-body">
 
-        <a class="triple-choice-bar" href="#" onclick="triggerDropdown()">
-          <div class="triple-choice-bar-1"></div>
-          <div class="triple-choice-bar-2"></div>
-          <div class="triple-choice-bar-3"></div>
+      <div class="section">
+        <div class="page-introduction">
+          <p style="margin:0;">
+            Welcome to my webpage! <br> <br>
+            This webpage is a personal side project where I write about some of my favorite
+            excursions and experiences in a number of blog posts.
+            Some of my largest scale projects are also showcased, and when I find time
+            I work on and post smaller projects as well.
+            Feel free to look around or contact me with any inquiries.
+          </p>
+
+        </div>
+      </div>
+
+      <div class="section">
+
+        <h1>Masters Thesis</h1>
+        <div class="content">
+          <h2>
+            Evaluating Approximate Methods for Computing Extracellular Potentials from Neuronal Networks
+          </h2>
+          <p>Abstract:</p>
+          <div class="abstract" id="masters-abstract-import">
+            <!-- Import of text here -->
+          </div>
+          <p style="margin-bottom:0px;">
+            Full thesis is available on <a href="https://github.com/steinnhauser/linearLFP">Github</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h1>Project Blogs</h1>
+
+        <div class="content">
+          <h2>Summer Internship for SINTEF</h2>
+          <span class="date"><small>Summer 2020</small></span>
+          <p class="lowfloat">
+            In 2020 I worked for two months with researchers at SINTEF, Trondheim
+            to implement a new communication protocol between intelligent
+            electronic devices (IEDs) in digital substations (DSs).
+            The IEC 61850 standard for substation communication involves
+            Manufacturing Message Specification (MMS),
+            Generic Object Oriented Substation Event (GOOSE), and
+            Sampled Value (SV) mappings which are available in the
+            <a href="http://libiec61850.com/libiec61850/">libIEC61850 library</a> for C.
+            I developed a python Graphical User Interface (GUI) using the
+            <a href="https://doc.qt.io/qtforpython/">PyQt</a>
+            library from which subprocesses in C can be spawned for the IEC 61850 mappings.
+            Efficient port communication connected the mapped values in C to
+            the GUI using <a href="https://zeromq.org/">ZeroMQ</a>, such that the
+            MMS, GOOSE and SV messages could be processed and illustrated in the GUI.
+          </p>
+          <p class="lowfloat">
+            The main goal of the application was to allow for efficient use of the
+            IEC 61850 standard in a GUI which was easy to use and easy to distribute.
+            The final GUI was capable of multiple IEC 61850
+            connections on varying IP ports and application IDs in parallel,
+            where the mapped values from each connection can be visualized and compared.
+            <!-- An estimation of the SV phasor diagrams from DSs was also included. -->
+          </p>
+        </div>
+
+        <br><br>
+        <a class="div-link" href="4dsnw.html">
+          <div class="content">
+            <h2>4D Space Numerical Workshop Blog Post</h2> <h2 class="fade-arrow">&#8594;</h2>
+            <span class="date">Summer 2019</span>
+          </div>
         </a>
 
-        <div id="dropdown-menu" class="dropdown-content">
-          <a href="https://github.com/steinnhauser" target="_blank">Github</a>
-          <a href="https://linkedin.com/in/steinnhauser/" target="_blank">Linkedin</a>
-          <a href="about.html">About</a>
-          <!-- <a href="#">Photography</a> -->
-          <!-- photography.html -->
-        </div>
-      </div>
+        <a class="div-link" href="canorockXVI.html">
+          <div class="content">
+            <h2>CaNoRock XVI Blog Post</h2> <h2 class="fade-arrow">&#8594;</h2>
+            <span class="date"><small>Autumn 2018</small></span>
+          </div>
+        </a>
 
-    </div>
-
-    <div class="section">
-      <h1>Webpage Aims</h1>
-      <div class="content">
-        <p style="margin: 0px;">
-          This webpage is a personal side project where I write about some of my favorite
-          excursions and experiences in a number of blog posts.
-          Some of my largest scale projects are also showcased, and when I find time
-          I work on and post smaller projects as well.
-          Feel free to look around or contact me with any inquiries.
-        </p>
+        <a class="div-link" href="swss2018.html">
+          <div class="content">
+            <h2>Space Weather Summer School Blog Post</h2> <h2 class="fade-arrow">&#8594;</h2>
+            <span class="date"><small>Summer 2018</small></span>
+          </div>
+        </a>
 
       </div>
     </div>
 
-    <div class="section">
-
-      <h1>Masters Thesis</h1>
-      <div class="content">
-        <h2>
-          Evaluating Approximate Methods for Computing Extracellular Potentials from Neuronal Networks
-        </h2>
-        <p>Abstract:</p>
-        <div class="abstract">
-          With the resurgence in popularity of the local field potential (LFP) as a measurement of neuronal activity in the brain, it remains a difficult signal to interpret.
-          The LFP signal comprises activity originating in the electrophysiological features of neurons and network synapses, and sophisticated simulations of these signals involve a large number of nonlinear coupled differential equations.
-          Simplified LFP approximation models have been developed in an effort to improve the computational efficiency of network LFP predictions, as well as gain a better understanding of the LFP signal using linear models.
-          Two such linear LFP models are presented and evaluated, namely the hybrid- and kernel models.
-          The hybrid model adapts simplified point-neuron spike times to synaptic activation times in biophysically detailed networks, removing the need to simulate the detailed neuron dynamics.
-          Alternatively, the kernel method first spikes a population of neurons simultaneously to register the net LFP response per spike per neuron.
-          This is subsequently combined with the spiking activity of a simulated network to obtain an approximation of the network LFP signal.
-          This thesis presents a critical evaluation of the two linear LFP prediction methods by applying them to various network conditions and neuron models.
-          A network of excitatory and inhibitory multicompartmental ball-and-stick neurons is first simulated and the ground-truth LFP signal is compared to the hybrid- and kernel method LFP approximations.
-          These methods are then evaluated under two network conditions. The first in which the external drive/stimulus of the network is increased to up to four times stronger than the baseline, and another in which synchronous network spiking activity is induced.
-          Neither network condition was found to jeopardize the linear method prediction performances, though the amplitude of the kernel method LFP prediction in the most synchronous network was found to be approximately two times larger than the ground-truth LFP signal.
-          Finally, a layer 5b pyramidal cell was implemented to better represent a biophysically detailed system.
-          The linear method LFP approximations of the L5b cell network were evaluated, and an external drive up to four times stronger than the baseline was used to investigate if the linear LFP approximation performances were consistent.
-          The kernel method failed to capture high-frequency components of the ground-truth LFP signal in regions far from the synaptic input, and the hybrid method predictions were found to outperform the kernel method predictions in these regions.
-          Despite this the kernel method was found to provide significant computational advantages, and both methods were overall successful in recreating the ground-truth signal.
-          This demonstrates that a substantial amount of network LFP variability can be captured using linear spike-LFP models.
-        </div>
-        <p style="margin-bottom:0px;">
-          Full thesis is available on <a href="https://github.com/steinnhauser/linearLFP">Github</a>.
-        </p>
-      </div>
-    </div>
-
-    <div class="section">
-      <h1>Project Blogs</h1>
-
-      <div class="content">
-        <h2>Summer Internship for SINTEF</h2>
-        <span class="date"><small>Summer 2020</small></span>
-        <p class="lowfloat">
-          In 2020 I worked for two months with researchers at SINTEF, Trondheim
-          to implement a new communication protocol between intelligent
-          electronic devices (IEDs) in digital substations (DSs).
-          The IEC 61850 standard for substation communication involves
-          Manufacturing Message Specification (MMS),
-          Generic Object Oriented Substation Event (GOOSE), and
-          Sampled Value (SV) mappings which are available in the
-          <a href="http://libiec61850.com/libiec61850/">libIEC61850 library</a> for C.
-          I developed a python Graphical User Interface (GUI) using the
-          <a href="https://doc.qt.io/qtforpython/">PyQt</a>
-          library from which subprocesses in C can be spawned for the IEC 61850 mappings.
-          Efficient port communication connected the mapped values in C to
-          the GUI using <a href="https://zeromq.org/">ZeroMQ</a>, such that the
-          MMS, GOOSE and SV messages could be processed and illustrated in the GUI.
-        </p>
-        <p class="lowfloat">
-          The main goal of the application was to allow for efficient use of the
-          IEC 61850 standard in a GUI which was easy to use and easy to distribute.
-          The final GUI was capable of multiple IEC 61850
-          connections on varying IP ports and application IDs in parallel,
-          where the mapped values from each connection can be visualized and compared.
-          <!-- An estimation of the SV phasor diagrams from DSs was also included. -->
-        </p>
-      </div>
-
-      <br><br>
-      <a class="div-link" href="4dsnw.html">
-        <div class="content">
-          <h2>4D Space Numerical Workshop Blog Post</h2> <h2 class="fade-arrow">&#8594;</h2>
-          <span class="date"><small>Summer 2019</small></span>
-        </div>
-      </a>
-
-      <a class="div-link" href="canorockXVI.html">
-        <div class="content">
-          <h2>CaNoRock XVI Blog Post</h2> <h2 class="fade-arrow">&#8594;</h2>
-          <span class="date"><small>Autumn 2018</small></span>
-        </div>
-      </a>
-
-      <a class="div-link" href="swss2018.html">
-        <div class="content">
-          <h2>Space Weather Summer School Blog Post</h2> <h2 class="fade-arrow">&#8594;</h2>
-          <span class="date"><small>Summer 2018</small></span>
-        </div>
-      </a>
-
-    </div>
-
-    <script type="text/javascript" src="js/misc.js"></script>
   </body>
 
 </html>

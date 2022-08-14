@@ -1,0 +1,16 @@
+With the resurgence in popularity of the local field potential (LFP) as a measurement of neuronal activity in the brain, it remains a difficult signal to interpret.
+The LFP signal comprises activity originating in the electrophysiological features of neurons and network synapses, and sophisticated simulations of these signals involve a large number of nonlinear coupled differential equations.
+Simplified LFP approximation models have been developed in an effort to improve the computational efficiency of network LFP predictions, as well as gain a better understanding of the LFP signal using linear models.
+Two such linear LFP models are presented and evaluated, namely the hybrid- and kernel models.
+The hybrid model adapts simplified point-neuron spike times to synaptic activation times in biophysically detailed networks, removing the need to simulate the detailed neuron dynamics.
+Alternatively, the kernel method first spikes a population of neurons simultaneously to register the net LFP response per spike per neuron.
+This is subsequently combined with the spiking activity of a simulated network to obtain an approximation of the network LFP signal.
+This thesis presents a critical evaluation of the two linear LFP prediction methods by applying them to various network conditions and neuron models.
+A network of excitatory and inhibitory multicompartmental ball-and-stick neurons is first simulated and the ground-truth LFP signal is compared to the hybrid- and kernel method LFP approximations.
+These methods are then evaluated under two network conditions. The first in which the external drive/stimulus of the network is increased to up to four times stronger than the baseline, and another in which synchronous network spiking activity is induced.
+Neither network condition was found to jeopardize the linear method prediction performances, though the amplitude of the kernel method LFP prediction in the most synchronous network was found to be approximately two times larger than the ground-truth LFP signal.
+Finally, a layer 5b pyramidal cell was implemented to better represent a biophysically detailed system.
+The linear method LFP approximations of the L5b cell network were evaluated, and an external drive up to four times stronger than the baseline was used to investigate if the linear LFP approximation performances were consistent.
+The kernel method failed to capture high-frequency components of the ground-truth LFP signal in regions far from the synaptic input, and the hybrid method predictions were found to outperform the kernel method predictions in these regions.
+Despite this the kernel method was found to provide significant computational advantages, and both methods were overall successful in recreating the ground-truth signal.
+This demonstrates that a substantial amount of network LFP variability can be captured using linear spike-LFP models.

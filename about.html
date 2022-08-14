@@ -1,74 +1,63 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
   <head>
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300" rel="stylesheet">
+    <link rel="stylesheet" href="css/master.css">  <!-- One stylesheet to import them all. -->
+    <title>About - SHM</title>
 
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/topnav.css">
-    <title>Contact</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- topnav things -->
+    <script type="text/javascript" src="js/topnav.js" defer></script>
+    <script type="text/javascript" defer>$(function(){$("#topnav").load("common/topnav.html");});</script>
   </head>
+
   <body>
-    <script>0</script>
 
-    <div class="topnav">
-      <a href="/" class="logo">Steinn Magnusson</a>
+    <div class="topnav" id="topnav">
+      <!-- topnav.html is imported into here -->
+    </div>
 
-      <div class="topnav-right">
+    <div class="main-body">
 
-        <a class="triple-choice-bar" href="#" onclick="triggerDropdown()">
-          <div class="triple-choice-bar-1"></div>
-          <div class="triple-choice-bar-2"></div>
-          <div class="triple-choice-bar-3"></div>
-        </a>
+    
+      <div class="section">
 
-        <div id="dropdown-menu" class="dropdown-content">
-          <a href="https://github.com/steinnhauser" target="_blank">Github</a>
-          <a href="https://linkedin.com/in/steinnhauser/" target="_blank">Linkedin</a>
-          <a href="about.html">About</a>
-          <!-- <a href="#">Photography</a> -->
-          <!-- photography.html -->
+        <h1>About</h1>
+        <div class="content">
+          <p class="lone-p">
+            My passion for astronomy and physics lead me to pursuit a BSc in
+            Physics & Astronomy in the University of Oslo which I completed in
+            the summer of 2019. In completing the degree I learned a lot of
+            programming through a number of large scale computational projects.
+            My new interest for python and C/C++ projects inspired me to complete
+            my MSc degree in Computational Science: Physics in the summer of 2021.
+            My thesis covered predictions of biophysical signals in the brain,
+            and the thesis PDF and project repo can both be found in the following
+            <a href="https://github.com/steinnhauser/linearLFP">Github repository</a>.
+          </p> <br>
+          <p class="lone-p">
+            My current interests include computational neuroscience, large scale data
+            structure processing, and language processing and NLU.
+          </p>
         </div>
+
       </div>
 
-    </div>
+      <div class="section">
+        <h1>Contact</h1>
+        <div class="content">
+          <ul>
+            <li><p>hausersteinn@gmail.com</p></li>
+            <li><p>+47 908 31 145</p></li>
+          </ul>
+        </div>
 
-    <div class="section">
 
-      <h1>About</h1>
-      <div class="content">
-        <p class="lone-p">
-          My passion for astronomy and physics lead me to pursuit a BSc in
-          Physics & Astronomy in the University of Oslo which I completed in
-          the summer of 2019. In completing the degree I learned a lot of
-          programming through a number of large scale computational projects.
-          My new interest for python and C/C++ projects inspired me to complete
-          my MSc degree in Computational Science: Physics in the summer of 2021.
-          My thesis covered predictions of biophysical signals in the brain,
-          and the thesis PDF and project repo can both be found in the following
-          <a href="https://github.com/steinnhauser/linearLFP">Github repository</a>.
-        </p> <br>
-        <p class="lone-p">
-          My current interests include computational neuroscience, large scale data
-          structure processing, and language processing and NLU.
-        </p>
       </div>
-
     </div>
-
-    <div class="section">
-      <h1>Contact</h1>
-      <div class="content">
-        <ul>
-          <li><p>hausersteinn@gmail.com</p></li>
-          <li><p>+47 908 31 145</p></li>
-        </ul>
-      </div>
-
-
-    </div>
-
-    <script type="text/javascript" src="js/misc.js"></script>
 
   </body>
 </html>
