@@ -1,7 +1,29 @@
+.page-intro-container {
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
 .page-introduction {
     background-color: #f1f1f1;
     padding: 20px 15px;
-    max-width: 70%;
+    max-width: 50%;
     margin: 0 auto;
     box-shadow: 0px 2px 4px rgba(77, 60, 130, 0.2);
+}
+
+.section .content .abstract {
+    /* Abstract section of main Masters */
+    margin: 10px 15px;
+    padding: 10px;
+    font-size: 20px;
+}
+.title-image {
+    max-width:300px;
+    max-height:300px;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    margin-right:0;
+    border-radius: 50%;
 }

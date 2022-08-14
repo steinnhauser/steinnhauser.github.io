@@ -1,5 +1,4 @@
 .topnav {
-  /* background-color: var(); */
   background-image: linear-gradient(to bottom right, var(--secondary-color), var(--secondary-color-var1));
   overflow: hidden;
   display: flex;
@@ -34,20 +33,18 @@
 }
 
 .topnav-dropdown:hover .x3-bar .x3-bar-elements {width:30px;}
-.x3-bar-1 {width:25px;} 
-.x3-bar-2 {width:20px;} 
-.x3-bar-3 {width:30px;} 
-.topnav-dropdown:hover .x3-bar .x3-bar-1 {background-image: linear-gradient(0deg, #FF8D00 50%, #E50000 50%);}
-.topnav-dropdown:hover .x3-bar .x3-bar-2 {background-image: linear-gradient(0deg, #028121 50%, #FFEE00 50%);}
-.topnav-dropdown:hover .x3-bar .x3-bar-3 {background-image: linear-gradient(0deg, #770088 50%, #004CFF 50%);}
+.x3-bar-1 {width:12px; transition: width 500ms ease;} 
+.x3-bar-2 {width:8px; transition: width 200ms ease;} 
+.x3-bar-3 {width:16px; transition: width 900ms ease;} 
+
+/* Placeholder of max width so it doesnt snap into place on open. */
+.x3-bar { width: 46px; } 
 
 .x3-bar .x3-bar-elements {
-  margin: 5px;
+  background-color:white;
   height: 4px;
-  background-color: white;
   margin: 5px 8px;
   border-radius: 25px;
-  transition: all 500ms ease;
 }
 
 .dropdown-container {
@@ -79,3 +76,10 @@
 .dropdown-container .dropdown-item:hover .dropdown-text{
   color: black;
 }
+
+
+
+/* To change colors on hover */
+/* .topnav-dropdown:hover .x3-bar .x3-bar-1 {background: linear-gradient(0deg, #FF8D00 50%, #E50000 50%);} */
+/* .topnav-dropdown:hover .x3-bar .x3-bar-2 {background: linear-gradient(0deg, #028121 50%, #FFEE00 50%);} */
+/* .topnav-dropdown:hover .x3-bar .x3-bar-3 {background: linear-gradient(0deg, #770088 50%, #004CFF 50%);} */

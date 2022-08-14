@@ -27,16 +27,19 @@
     <div class="main-body">
 
       <div class="section">
-        <div class="page-introduction">
-          <p style="margin:0;">
-            Welcome to my webpage! <br> <br>
-            This webpage is a personal side project where I write about some of my favorite
-            excursions and experiences in a number of blog posts.
-            Some of my largest scale projects are also showcased, and when I find time
-            I work on and post smaller projects as well.
-            Feel free to look around or contact me with any inquiries.
-          </p>
+        <div class="page-intro-container">
+          <img class="title-image subtle-shadow" src="images/self/bio_img.JPG" alt="">
+          <div class="page-introduction">
+            <p class="no-margin">
+              Welcome to my webpage! <br> <br>
+              This webpage is a personal side project where I write about some of my favorite
+              excursions and experiences in a number of blog posts.
+              Some of my largest scale projects are also showcased, and when I find time
+              I work on and post smaller projects as well.
+              Feel free to look around or contact me with any inquiries.
+            </p>
 
+          </div>
         </div>
       </div>
 
@@ -50,9 +53,11 @@
           <p>Abstract:</p>
           <div class="abstract" id="masters-abstract-import">
             <!-- Import of text here -->
+            <!-- TODO: Ref to google Scholar and OrcID? -->
+            <!--  -->
           </div>
           <p style="margin-bottom:0px;">
-            Full thesis is available on <a href="https://github.com/steinnhauser/linearLFP">Github</a>.
+            For thesis and papers published, visit my <a class="link-item" href="https://scholar.google.com/citations?user=bKuuDx0EtBQC&hl=en" target="_blank">Google Scholar</a>.
           </p>
         </div>
       </div>
@@ -61,9 +66,9 @@
         <h1>Project Blogs</h1>
 
         <div class="content">
-          <h2>Summer Internship for SINTEF</h2>
-          <span class="date"><small>Summer 2020</small></span>
-          <p class="lowfloat">
+          <h2>SINTEF Job</h2>
+          <span class="content-date">Summer 2020</span>
+          <p class="content-box">
             In 2020 I worked for two months with researchers at SINTEF, Trondheim
             to implement a new communication protocol between intelligent
             electronic devices (IEDs) in digital substations (DSs).
@@ -71,15 +76,15 @@
             Manufacturing Message Specification (MMS),
             Generic Object Oriented Substation Event (GOOSE), and
             Sampled Value (SV) mappings which are available in the
-            <a href="http://libiec61850.com/libiec61850/">libIEC61850 library</a> for C.
+            <a class="link-item" href="http://libiec61850.com/libiec61850/">libIEC61850 library</a> for C.
             I developed a python Graphical User Interface (GUI) using the
-            <a href="https://doc.qt.io/qtforpython/">PyQt</a>
+            <a class="link-item" href="https://doc.qt.io/qtforpython/">PyQt</a>
             library from which subprocesses in C can be spawned for the IEC 61850 mappings.
             Efficient port communication connected the mapped values in C to
-            the GUI using <a href="https://zeromq.org/">ZeroMQ</a>, such that the
+            the GUI using <a class="link-item" href="https://zeromq.org/">ZeroMQ</a>, such that the
             MMS, GOOSE and SV messages could be processed and illustrated in the GUI.
           </p>
-          <p class="lowfloat">
+          <p class="content-box">
             The main goal of the application was to allow for efficient use of the
             IEC 61850 standard in a GUI which was easy to use and easy to distribute.
             The final GUI was capable of multiple IEC 61850
@@ -89,26 +94,21 @@
           </p>
         </div>
 
-        <br><br>
-        <a class="div-link" href="4dsnw.html">
-          <div class="content">
-            <h2>4D Space Numerical Workshop Blog Post</h2> <h2 class="fade-arrow">&#8594;</h2>
-            <span class="date">Summer 2019</span>
-          </div>
+        <br>
+        <!-- <br> -->
+        <a class="div-link content" href="4dsnw.html">
+          <h2>4D Space Numerical Workshop</h2><h2 class="fade-arrow">&#8594;</h2>
+          <span class="content-date">Summer 2019</span>
         </a>
 
-        <a class="div-link" href="canorockXVI.html">
-          <div class="content">
-            <h2>CaNoRock XVI Blog Post</h2> <h2 class="fade-arrow">&#8594;</h2>
-            <span class="date"><small>Autumn 2018</small></span>
-          </div>
+        <a class="div-link content" href="canorockXVI.html">
+          <h2>CaNoRock XVI</h2><h2 class="fade-arrow">&#8594;</h2>
+          <span class="content-date">Autumn 2018</span>
         </a>
 
-        <a class="div-link" href="swss2018.html">
-          <div class="content">
-            <h2>Space Weather Summer School Blog Post</h2> <h2 class="fade-arrow">&#8594;</h2>
-            <span class="date"><small>Summer 2018</small></span>
-          </div>
+        <a class="div-link content" href="swss2018.html">
+          <h2>Space Weather Summer School</h2><h2 class="fade-arrow">&#8594;</h2>
+          <span class="content-date">Summer 2018</span>
         </a>
 
       </div>

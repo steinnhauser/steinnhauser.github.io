@@ -5,16 +5,14 @@
   --secondary-color: #1d7874;
   --secondary-color-var1: #00593e;
   --tertiary-color: #071e22;
-
   --cream-color: #F6F6F8;
-
   --main-bkg-repeat-1: rgba(255, 200, 200, 0.6);
   --main-bkg-repeat-2: rgba(200, 255, 200, 0.6);
   --main-bkg-repeat-3: rgba(200, 200, 255, 0.6);
 }
 
-* { outline: 1px solid red; }
-
+/* Debugging outlines */
+/* * { outline: 1px solid red; } */
 
 body {  
   margin: 0;
@@ -29,90 +27,7 @@ body {
   background-size: 100% 280vh;
 }
 
-.main-body {
-  /* linear-gradient(top to bottom, var(--main-repeat-color-1), var(--main-repeat-color-2)); */
-  margin: 80px 180px;
-}
-
-.section {
-  justify-content: center;
-  align-items: center;
-  min-height: 10vh;
-  margin: 0px 30px;
-}
-
-.section .content {
-  background-color: var(--secondary-color);
-  border-radius: 6px;
-  padding: 20px 20px;
-}
-
-.section .content .abstract {
-  border-radius: 5px;
-  margin: 40px;
-  padding: 10px;
-}
-
-img {
-  margin-top:20px;
-}
-
-.section h1 {
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight:500;
-  padding-top:15px;
-}
-
-.section h2 {
-  font-size: clamp(1.2rem, 3vw, 2.4rem);
-  font-weight:50;
-  display: inline;
-}
-
-.section p {
-  font-size: clamp(0.8rem, 2vw, 1.6rem);
-  font-weight:30;
-}
-
-span.date {
-  font-size: clamp(0.8rem, 2vw, 1.6rem);
-  font-weight:30;
-  float:right;
-  margin: auto 0;
-}
-
-p.lowfloat {
-  margin: 0px;
-}
-
-.section .content .column-split {
-  display: flex;
-}
-
-.section .content .column-split .column {
-  padding: 5px;
-}
-
-.abstract {
-  font-size: clamp(0.8rem, 2vw, 1.6rem);
-}
-
-a.div-link {
-  display:block;
-  /* padding: 0; */
-  height:100%;
-  text-decoration: none;
-  color: inherit;
-  transition: all 500ms ease;
-  margin-bottom: 18px;
-}
-
-h2.fade-arrow {
-  opacity: 0;
-  transition: all 500ms ease;
-}
-
-a:hover h2.fade-arrow {
-  opacity: 1;
-  margin-left: 10px;
-}
+.main-body { margin: 80px 180px; }
+.no-margin {margin: 0;}
+.content-box {margin: 10px 15px;}
+.subtle-shadow {box-shadow: 0px 2px 4px rgba(77, 60, 130, 0.2);}
