@@ -3,7 +3,8 @@ h2.fade-arrow {
     transition: all 500ms ease;
 }
 
-.content:hover .fade-arrow {
+
+.content:hover .fade-arrow, .clickable:hover .fade-arrow, .clickable:hover + .fade-arrow {
     opacity: 1;
     margin-left: 10px;
 }
