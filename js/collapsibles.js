@@ -24,5 +24,4 @@ function triggerCollapsible(clicked_obj) {
         else
             arrows.removeClass("down-hat-active");
     
-    
 }

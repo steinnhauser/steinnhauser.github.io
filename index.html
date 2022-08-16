@@ -9,19 +9,12 @@
     <title>SHM</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
-    <!-- Import collapsible functionality for abstract and projects. -->
-    <script type="text/javascript" src="js/collapsibles.js" defer></script>
-
-    <!-- Import text content -->
-    <script type="text/javascript" src="js/imports.js" defer></script>
-
-    <!-- topnav things -->
-    <script type="text/javascript" src="js/topnav.js" defer></script>
-    <script type="text/javascript" defer>$(function(){$("#topnav").load("common/topnav.html");});</script>
+    <script type="text/javascript" src="index.js"></script>
   </head>
 
   <body>
+
+    <div id="bkground"></div>  <!-- Background element controller -->
 
     <div class="topnav subtle-shadow" id="topnav">
       <!-- topnav.html is imported into here -->
@@ -47,27 +40,9 @@
       </div>
 
       <div class="section">
-
-        <h1>Masters Thesis</h1>
-        <div class="content">
-          <h2>Evaluating Approximate Methods for Computing Extracellular Potentials from Neuronal Networks</h2>
-          <br>
-          <p class="no-margin inline underline clickable" onclick="triggerCollapsible(this)">Abstract:</p><h2 class="fade-arrow"><i class="down-hat"></i></h2>
-          <div class="abstract collapsible" id="masters-abstract-import">
-            <!-- Import of text here -->
-            <!-- TODO: Ref to google Scholar and OrcID? -->
-            <!--  -->
-          </div>
-          <p style="margin-bottom:0px;">
-            For thesis and papers published, visit my <a class="link-item" href="https://scholar.google.com/citations?user=bKuuDx0EtBQC&hl=en" target="_blank">Google Scholar</a>.
-          </p>
-        </div>
-      </div>
-
-      <div class="section">
         <h1>Professional Experience</h1>
         <div class="content clickable" onclick="triggerCollapsible(this)">
-          <h2>SINTEF Job</h2><h2 class="fade-arrow"><i class="down-hat"></i></h2><!--&#8595;  -->
+          <h2>SINTEF</h2><h2 class="fade-arrow"><i class="down-hat"></i></h2>
           <span class="content-date">Summer 2020</span>
           <div class="collapsible"> 
             <p class="content-box">
@@ -78,12 +53,12 @@
               Manufacturing Message Specification (MMS),
               Generic Object Oriented Substation Event (GOOSE), and
               Sampled Value (SV) mappings which are available in the
-              <a class="link-item" href="http://libiec61850.com/libiec61850/">libIEC61850 library</a> for C.
+              <a class="link-item" target="_blank" href="http://libiec61850.com/libiec61850/">libIEC61850 library</a> for C.
               I developed a python Graphical User Interface (GUI) using the
-              <a class="link-item" href="https://doc.qt.io/qtforpython/">PyQt</a>
+              <a class="link-item" target="_blank" href="https://doc.qt.io/qtforpython/">PyQt</a>
               library from which subprocesses in C can be spawned for the IEC 61850 mappings.
               Efficient port communication connected the mapped values in C to
-              the GUI using <a class="link-item" href="https://zeromq.org/">ZeroMQ</a>, such that the
+              the GUI using <a class="link-item" target="_blank" href="https://zeromq.org/">ZeroMQ</a>, such that the
               MMS, GOOSE and SV messages could be processed and illustrated in the GUI.
             </p>
             <p class="content-box">
@@ -95,6 +70,53 @@
               <!-- An estimation of the SV phasor diagrams from DSs was also included. -->
             </p>
           </div>
+        </div>
+        <br>
+        <div class="content clickable" onclick="triggerCollapsible(this)">
+          <h2>UiO HPC</h2><h2 class="fade-arrow"><i class="down-hat"></i></h2>
+          <span class="content-date">Spring 2020</span>
+          <div class="collapsible"> 
+            <p class="content-box">
+              In the Spring of 2020 the Physics Department of the University of Oslo received a large donation
+              of computational nodes from the Abel Supercomputer. After assisting with carrying the nodes to 
+              the Physics Dpt. I got the opportunity to have the leading role in building the new cabinet of
+              nodes for the Department. 
+              I accepted and spent the next month researching the hardware required to house the nodes and their
+              InfiniBand- and Ethernet switches.
+              After researching costs of Computing Cabinets I contacted members of USIT and managed to arrange
+              for the pickup of unused Cabinets which could house the nodes, resulting in no additional costs.
+              When it came time to assemble the hardware, the cabinet did not fit the node chassis perfectly, but
+              I worked around this in collaboration with one of the PhD students in my department. Assembling
+              equipment of such high value was stressful, but we completed the job in 2-3 days. 
+              <!-- <a href="">Click the following link for a compilation of images and videos I took along the way. </a>. -->
+              <!-- TODO: ADD A LINK TO THE TIMELAPSE CONTENT -->
+              After the hardware was configured, the nodes were booted up and the ROCKS HPC ISO was used to configure
+              the cabinet. This took me an additional 2-3 days to complete.
+            </p>
+            <p class="content-box">
+              The Physics Dpt. Computational Cluster project scope was increasing, and the 
+              responsibilities of my studies and next job needed prioritization. The two cabinets were moved
+              to a basement room where it is meant to join multiple new cabinets to form a cluster. The 
+              PhD student which joined me on the journey took over the responsibilities.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h1>Masters Thesis</h1>
+        <div class="content">
+          <h2>Evaluating Approximate Methods for Computing Extracellular Potentials from Neuronal Networks</h2>
+          <br>
+          <p class="no-margin inline underline clickable" onclick="triggerCollapsible(this)">Abstract:</p><h2 class="fade-arrow"><i class="down-hat"></i></h2>
+          <div class="abstract collapsible" id="masters-abstract-import">
+            <!-- Import of text here -->
+            <!-- TODO: Ref to google Scholar and OrcID? -->
+            <!--  -->
+          </div>
+          <p style="margin-bottom:0px;">
+            For thesis and papers published, visit my <a class="link-item" href="https://scholar.google.com/citations?user=bKuuDx0EtBQC&hl=en">Google Scholar</a>.
+          </p>
         </div>
       </div>
 
