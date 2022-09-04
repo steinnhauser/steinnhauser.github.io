@@ -1,0 +1,9 @@
+#P5JS_container {
+    padding: 10px 15px;
+}
+
+.p5-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

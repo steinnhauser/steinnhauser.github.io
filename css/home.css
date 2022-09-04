@@ -4,14 +4,6 @@
     justify-content: space-evenly;
 }
 
-.white-floating-box {
-    background-color: #f1f1f1;
-    padding: 20px 15px;
-    max-width: 50%;
-    margin: 0 auto;
-    box-shadow: 0px 2px 4px rgba(77, 60, 130, 0.2);
-}
-
 .section .content .abstract {
     /* Abstract section of main Masters */
     margin: 10px 15px;

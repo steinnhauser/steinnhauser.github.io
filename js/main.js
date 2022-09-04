@@ -23,8 +23,8 @@ function verifyURL(url) {
     try { url = new URL(url); } 
     catch (_) { isLocalUrl = true; }
 
-    if (isLocalUrl && debug) {
-        url += ".html"; // this extension is needed in local, debug mode.
+    if (isLocalUrl && isLocalMachine) {
+        url += ".html"; // this extension is needed in local mode.
         url = window.location.origin + "/" + url;
     }
     return url;

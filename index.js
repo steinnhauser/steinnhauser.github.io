@@ -7,7 +7,9 @@ var __ROOT_DIR__ = __ROOT_DIR__ || '.';
 
 // debug mode
 var debug = false;
-if (window.location.origin == "http://0.0.0.0:8000") { debug = true };
+var isLocalMachine = false;
+if (window.location.origin == "http://0.0.0.0:8000") { isLocalMachine = true };
+
 
 // animation between items:
 // https://stackoverflow.com/questions/5841424/smooth-transition-between-html-pages
@@ -35,6 +37,7 @@ $(window).on('pageshow', function () {
 
                     var url = $(this).attr('href');
                     if (url.indexOf('#') == 0 || url.indexOf('javascript:') == 0) {
+                        // two functionalities of <a -> #> tags. Either they have a <a data-url="..."> property, or not.
                         redirectURL = $(this).data('url');
                         if (typeof redirectURL === "undefined") {
                             return;
