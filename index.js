@@ -44,7 +44,6 @@ $(window).on('pageshow', function () {
                     }
                     event.preventDefault();
 
-                    console.log(url);
                     // Animate the fade-out.
                     full_body.animate({ opacity: 0, marginLeft: '-=10px' },
                         FADE_BETWEEN_HTML_SPEED, function () {
