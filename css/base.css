@@ -11,13 +11,11 @@
   --main-bkg-repeat-3: rgba(200, 200, 255, 0.3);
 }
 
-/* Debugging outlines */
-/* * { outline: 1px solid red; } */
-
 body {  
   position:relative;
   margin: 0;
   padding: 70px 0 70px 0; /* Padding for bottom of page. */
+  min-height: 85vh;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -38,7 +36,7 @@ body {
 }
 
 
-.main-body { margin: 80px 180px; }
+.main-body { margin: 80px 17vw; } /* 180px */
 .no-margin {margin: 0;}
 .inline {display:inline;}
 .underline {text-decoration: 1px underline;}

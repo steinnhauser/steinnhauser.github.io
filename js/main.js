@@ -16,5 +16,20 @@ $('a').click(function(e) {
     e.stopPropagation();
 });
 
+function verifyURL(url) {
+
+    // have parameter which indicates if it's a local url or new
+    var isLocalUrl = false
+    try { url = new URL(url); } 
+    catch (_) { isLocalUrl = true; }
+
+    if (isLocalUrl && debug) {
+        url += ".html"; // this extension is needed in local, debug mode.
+        url = window.location.origin + "/" + url;
+    }
+    return url;
+
+}
+
 
 

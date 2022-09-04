@@ -3,7 +3,8 @@
     font-size: clamp(2rem, 5vw, 4rem);
     font-weight:500;
     padding-top:15px;
-    margin-bottom:5px;
+    padding-bottom:5px;
+    margin-bottom:0;
 }
 
 .section h2 {

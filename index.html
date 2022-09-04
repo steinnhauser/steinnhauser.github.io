@@ -3,9 +3,7 @@
   
   <head>
     <meta charset="utf-8">
-    <link rel="icon" type="image/png" href="images/self/Cool_S_white.png"/>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300" rel="stylesheet">
-    <link rel="stylesheet" href="css/master.css">  <!-- One stylesheet to import them all. -->
     <title>SHM</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -25,14 +23,17 @@
       <div class="section">
         <div class="page-intro-container">
           <img class="title-image subtle-shadow" src="images/self/bio_img.JPG" alt="">
-          <div class="page-introduction">
+          <div class="white-floating-box">
+            <p class="centered-elem">
+              Welcome to my webpage!
+            </p>
+            <br>
             <p class="no-margin">
-              Welcome to my webpage! <br> <br>
-              This webpage is a personal side project where I write about some of my favorite
-              excursions and experiences in a number of blog posts.
-              Some of my largest scale projects are also showcased, and when I find time
-              I work on and post smaller projects as well.
-              Feel free to look around or contact me with any inquiries.
+              This webpage is a personal side project where I detail my past 
+              few years in the field of data science. Here you can read about my 
+              most recent professional experience, the subject of my MSc., and 
+              blog posts about some of my favorite excursions.
+              Feel free to look around and contact me if you have any inquiries!
             </p>
 
           </div>
@@ -41,6 +42,36 @@
 
       <div class="section">
         <h1>Professional Experience</h1>
+        <!-- <div class="content clickable" onclick="triggerCollapsible(this)">
+          <h2>Future Ready AS</h2><h2 class="fade-arrow"><i class="down-hat"></i></h2>
+          <span class="content-date">Autumn 2020 - Present</span>
+          <div class="collapsible"> 
+            <p class="content-box">
+              I've been employed by Future Ready AS since October 2020.
+              The first major project involved the cleaning, processing, and visualization of 
+              insurance datasets of over 15,000 cold-call insurance sales. 
+              The datasets detailed the success rate of cold-calls, and our analysis 
+              aimed to identify patterns and conditions which lead to the highest probability of sale.
+            </p>
+            <p class="content-box">
+              In the next quarter the company focused time and resources into the RND and 
+              development of bots which could simulate sales calls. We utilized the  
+              <a class="link-item" target="_blank" href="https://rasa.com/">Rasa OS</a> 
+              library for python, along with a
+              <a class="link-item" target="_blank" href="https://flask-restful.readthedocs.io/en/latest/">Flask RESTful API</a>
+              to produce an interface for bot conversations. I developed a demo product to showcase the potential
+              for chatbot conversations using HTML, CSS and JS without previous experience with the languages.
+            </p>
+            <p class="content-box">
+              In January of 2022 I was promoted to Senior Data Scientist in the company.
+              Throughout the year we've worked to develop a seamless UX/UI chatbot interface with
+              a team of designers, and a team of webpage developers are handling the implementation.
+              I'm currently training up another data scientist and I oversee further API and chatbot 
+              development to meet the needs of the website developers.
+            </p>
+          </div>
+        </div>
+        <br> -->
         <div class="content clickable" onclick="triggerCollapsible(this)">
           <h2>SINTEF</h2><h2 class="fade-arrow"><i class="down-hat"></i></h2>
           <span class="content-date">Summer 2020</span>
@@ -53,7 +84,7 @@
               Manufacturing Message Specification (MMS),
               Generic Object Oriented Substation Event (GOOSE), and
               Sampled Value (SV) mappings which are available in the
-              <a class="link-item" target="_blank" href="http://libiec61850.com/libiec61850/">libIEC61850 library</a> for C.
+              <a class="link-item" target="_blank" href="http://libiec61850.com/libiec61850/">libIEC61850</a> library for C.
               I developed a python Graphical User Interface (GUI) using the
               <a class="link-item" target="_blank" href="https://doc.qt.io/qtforpython/">PyQt</a>
               library from which subprocesses in C can be spawned for the IEC 61850 mappings.
