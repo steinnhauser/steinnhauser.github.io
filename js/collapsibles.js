@@ -15,13 +15,13 @@ function triggerCollapsible(clicked_obj) {
 
     // give fade arrows (if there are any) "active" status.
     // var arrows = jquery_object.children().filter(function () {return $(this).hasClass("fade-arrow");});
-    var arrows_kids = jquery_object.children().find("i").filter(function () {return $(this).hasClass("down-hat")});
-    var arrows_sibs = jquery_object.siblings().find("i").filter(function () {return $(this).hasClass("down-hat")});
+    var arrows_kids = jquery_object.children().find("i").filter(function () {return $(this).hasClass("right-hat")});
+    var arrows_sibs = jquery_object.siblings().find("i").filter(function () {return $(this).hasClass("right-hat")});
     var arrows = jQuery.merge(arrows_kids, arrows_sibs);
     if (arrows.length > 0)
         if (was_closed)
-            arrows.addClass("down-hat-active");
+            arrows.addClass("right-hat-active");
         else
-            arrows.removeClass("down-hat-active");
+            arrows.removeClass("right-hat-active");
     
 }

@@ -27,3 +27,22 @@ a.link-item:hover {
     background-position: 0 100%; /*OR bottom left */
     background-size: 0% 1px;
 }
+
+.link-item-nolink {
+    text-decoration: none;
+    color:white;
+    background-image: linear-gradient(#fff, #fff);
+    
+    /* sliding underline effects */
+    background-position: 100% 100%; /*OR bottom right*/
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    transition:
+        background-size 0.5s,
+        background-position 0s 0.5s; /*change after the size immediately*/
+}
+
+.link-item-nolink:hover {
+    background-position: 0 100%; /*OR bottom left */
+    background-size: 0% 1px;
+}

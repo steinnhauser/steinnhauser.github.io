@@ -1,13 +1,24 @@
+var topnavDropdownIsOpen = false;
 
 // Close the dropdown menu if the user clicks outside of it
 $('body').click(function(e) {
     var target = $(e.target);
+
+    // check if videopopup is opened. 
+    if (video_modem_is_open && target.is("#opct")) {
+        closeVideoModem();
+        video_modem_is_open = false;
+    }
+
     // Check if item is not either topnav button or itself. Then check if visible.
     if (!(target.hasClass("dropdown-container") || target.hasClass("topnav-dropdown"))){
-        if (!$('.dropdown-container').children().is(':hidden')){
+        if (!$('.dropdown-container').children().is(':hidden') && topnavDropdownIsOpen){
             triggerDropdown();
+            topnavDropdownIsOpen = false;
         }
     }
+
+    
 });
 
 $('a.link-item').attr('target', '_blank'); // Add target=_blank to all a.link-items. Opens popup

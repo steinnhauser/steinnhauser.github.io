@@ -115,4 +115,6 @@ function triggerDropdown() {
         duration: DROPDOWN_SPEED_MS,
         start: function () { $(this).css({ display: "block" }) }
     })
+    topnavDropdownIsOpen = true;
 }
+
