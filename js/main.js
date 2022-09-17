@@ -4,10 +4,18 @@ var topnavDropdownIsOpen = false;
 $('body').click(function(e) {
     var target = $(e.target);
 
-    // check if videopopup is opened. 
-    if (video_modem_is_open && target.is("#opct")) {
-        closeVideoModem();
-        video_modem_is_open = false;
+    // if there is a popup video in the current webpage
+    try{ 
+        // check if videopopup is opened. 
+        if (video_modem_is_open && target.is("#opct")) {
+            closeVideoModem();
+            video_modem_is_open = false;
+        }
+    }
+    catch(e) {
+        if(e.name == "ReferenceError") {
+            // video modem is not included in this page. Catch this error to avoid console log cluter
+        }
     }
 
     // Check if item is not either topnav button or itself. Then check if visible.
