@@ -1,5 +1,14 @@
 var topnavDropdownIsOpen = false;
 
+// background magic nr
+var BACKGROUND_COLOR_OPACITY = 0.4;
+
+// these are already defined in base.css, but opacity can be changed here.
+document.documentElement.style.setProperty('--cream-color', '#F6F6F8');
+document.documentElement.style.setProperty('--main-bkg-repeat-1', `rgba(255, 200, 200, ${BACKGROUND_COLOR_OPACITY})`);
+document.documentElement.style.setProperty('--main-bkg-repeat-2', `rgba(200, 255, 200, ${BACKGROUND_COLOR_OPACITY})`);
+document.documentElement.style.setProperty('--main-bkg-repeat-3', `rgba(200, 200, 255, ${BACKGROUND_COLOR_OPACITY})`);
+
 // Close the dropdown menu if the user clicks outside of it
 $('body').click(function(e) {
     var target = $(e.target);

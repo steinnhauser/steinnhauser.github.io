@@ -24,3 +24,7 @@
     font-size: 25px;
     float:right;
 }
+
+.playfair-display {
+    font-family: 'Playfair Display';
+}

@@ -23,3 +23,8 @@
     text-align: center;
     margin: 0;
 }
+
+.intro-container-title {
+    /* font-weight: bold !important; */
+    font-size: 30px !important;
+}

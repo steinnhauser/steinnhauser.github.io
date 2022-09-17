@@ -5,10 +5,12 @@
   --secondary-color: #1d7874;
   --secondary-color-var1: #00593e;
   --tertiary-color: #071e22;
+
+  --bkg-opacity: 0.3;
   --cream-color: #F6F6F8;
-  --main-bkg-repeat-1: rgba(255, 200, 200, 0.3);
-  --main-bkg-repeat-2: rgba(200, 255, 200, 0.3);
-  --main-bkg-repeat-3: rgba(200, 200, 255, 0.3);
+  --main-bkg-repeat-1: rgba(255, 200, 200, var(--bkg-opacity));
+  --main-bkg-repeat-2: rgba(200, 255, 200, var(--bkg-opacity));
+  --main-bkg-repeat-3: rgba(200, 200, 255, var(--bkg-opacity));
 }
 
 body {  
