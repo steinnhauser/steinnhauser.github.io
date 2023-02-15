@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700&display=swap');
+
+#root {
+    width: 100%;
+}
+
+
+* {
+    /* outline: 2px solid red; */
+}
+
+.scroll-shown {
+    filter: blur(0px);
+    opacity: 1;
+    transition: opacity 1s ease, filter 1s ease;
+}
+
+.scroll-hidden {
+    filter: blur(1px);
+    opacity: 0;
+    transition: opacity 1s ease, filter 1s ease;
+}
+
+.flex-faded-in {
+    gap: 5vw;
+}
+.flex-faded-out {
+    gap: 6vw;
+}
+
+.flex-faded-in-reduced {
+    gap: 1vw;
+}
+.flex-faded-out-reduced {
+    gap: 2vw;
+}
+
+
+.fade-out {
+    opacity: 1;
+    animation: opacity-zero 1s linear forwards;
+}
+
+@keyframes opacity-zero {
+    to {
+        opacity: 0;
+    }
+}
+
+.draw {
+    stroke-dasharray: 4050;
+    stroke-dashoffset: 4050;
+    animation: draw-svg 1s linear forwards;
+}
+
+@keyframes draw-svg {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
