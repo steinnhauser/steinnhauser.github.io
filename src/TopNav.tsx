@@ -1,4 +1,10 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import {
+  GithubSVG,
+  LinkedInSVG,
+  StackOverflowSVG,
+} from "./animations/SvgCurves";
 
 const TN = styled.div`
   height: 10%;
@@ -21,28 +27,37 @@ const LinkContainer = styled.div`
   margin-left: 4vw;
 `;
 
-const ATag = styled.a`
-  color: white;
-  margin: 3vw;
-  &:hover {
-    color: white;
-  }
-  margin: 0;
-`;
-
 function TopNav() {
   return (
     <TN>
       <LinkContainer>
-        <ATag href="/" style={{}}>
-          <h3 style={{ margin: 0 }}>Home</h3>
-        </ATag>
-        <ATag href="/about" style={{}}>
-          <h3 style={{ margin: 0 }}>About Me</h3>
-        </ATag>
-        {/* <ATag href="">
-          <h3 style={{ margin: 0 }}>Contact Me</h3>
-        </ATag> */}
+        <NavLink to={"/"}>
+          <h3 style={{ margin: 0, color: "white" }}>Home</h3>
+        </NavLink>
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "flex-end",
+            gap: "2vw",
+          }}
+        >
+          <NavLink to={"/about"}>
+            <h3 style={{ margin: 0, color: "white" }}>About Me</h3>
+          </NavLink>
+          <a target="_blank" href="https://github.com/steinnhauser/">
+            <GithubSVG color={"#ffffff"} />
+          </a>
+          <a target="_blank" href="https://linkedin.com/in/steinnhauser/">
+            <LinkedInSVG color={"#ffffff"} />
+          </a>
+          <a
+            target="_blank"
+            href="https://stackoverflow.com/users/13819183/steinn-hauser-magnusson/"
+          >
+            <StackOverflowSVG color={"#ffffff"} />
+          </a>
+        </div>
       </LinkContainer>
     </TN>
   );
