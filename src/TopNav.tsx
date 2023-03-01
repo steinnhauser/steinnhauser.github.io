@@ -6,6 +6,10 @@ import {
   StackOverflowSVG,
 } from "./animations/SvgCurves";
 
+import config from "./components/Config";
+const primaryColor = config["primaryColor"];
+const secondaryColor = config["secondaryColor"];
+
 const TN = styled.div`
   height: 10%;
   width: 100%;
@@ -13,7 +17,7 @@ const TN = styled.div`
   top: 0;
   z-index: 99;
 
-  background-color: inherit;
+  background-color: ${primaryColor};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -23,8 +27,8 @@ const LinkContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  margin-right: 4vw;
-  margin-left: 4vw;
+  margin-right: 3vw;
+  margin-left: 3vw;
 `;
 
 function TopNav() {
@@ -32,18 +36,18 @@ function TopNav() {
     <TN>
       <LinkContainer>
         <NavLink to={"/"}>
-          <h3 style={{ margin: 0, color: "white" }}>Home</h3>
+          <h2 style={{ margin: 0, color: "white" }}>Home</h2>
         </NavLink>
         <div
           style={{
             display: "flex",
             width: "100%",
             justifyContent: "flex-end",
-            gap: "2vw",
+            gap: "1vw",
           }}
         >
           <NavLink to={"/about"}>
-            <h3 style={{ margin: 0, color: "white" }}>About Me</h3>
+            <h2 style={{ margin: 0, color: "white" }}>About Me</h2>
           </NavLink>
           <a target="_blank" href="https://github.com/steinnhauser/">
             <GithubSVG color={"#ffffff"} />

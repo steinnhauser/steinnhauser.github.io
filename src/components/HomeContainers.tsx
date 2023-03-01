@@ -1,4 +1,5 @@
 // import { secondaryColor } from "../main";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import config from "./Config";
 const secondaryColor = config["secondaryColor"];
@@ -59,12 +60,15 @@ function ProfessionalExpBox({
   imageRef,
   animationDelayMS,
   transformation,
+  linkTo,
 }: {
   title: string;
   imageRef: any;
   animationDelayMS: number;
   transformation: string;
+  linkTo: string;
 }) {
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -75,7 +79,11 @@ function ProfessionalExpBox({
         transition: `transform ${animationDelayMS}ms ease-in-out, opacity 0.05s ease-in-out`,
       }}
     >
-      <ClickableImgDiv>
+      <ClickableImgDiv
+        onClick={() => {
+          navigate(linkTo);
+        }}
+      >
         <img
           src={imageRef}
           style={{

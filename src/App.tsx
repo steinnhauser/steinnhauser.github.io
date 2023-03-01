@@ -60,18 +60,22 @@ function App() {
     {
       title: "Software Developer",
       imageRef: SENECImg,
+      linkTo: "senec",
     },
     {
       title: "Senior Data Scientist",
       imageRef: FRImg,
+      linkTo: "future-ready",
     },
     {
       title: "Junior Software Developer",
       imageRef: SINTEFIimg,
+      linkTo: "sintef",
     },
     {
       title: "Cluster Engineer",
       imageRef: UIOImg,
+      linkTo: "uio",
     },
   ];
   const academicExpMap = [
@@ -204,6 +208,7 @@ function App() {
             >
               {professionalExpMap.map((v, i) => (
                 <ProfessionalExpBox
+                  linkTo={v.linkTo}
                   title={v.title}
                   imageRef={v.imageRef}
                   key={v.title}

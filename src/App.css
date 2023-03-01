@@ -58,3 +58,11 @@
         stroke-dashoffset: 0;
     }
 }
+
+.margin-faded-in{
+    transform: translateX(0);
+}
+
+.margin-faded-out{
+    transform: translateX(-1vw);
+}
