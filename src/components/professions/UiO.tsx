@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Curves4 } from "../../animations/SvgCurves";
+import { Curves4, Curves8 } from "../../animations/SvgCurves";
 import config from "../Config";
 import useElementOnScreen from "../../hooks/UseElementOnScreen";
 import TopNav from "../../TopNav";
@@ -37,7 +37,7 @@ function UiOAbout() {
         style={{ backgroundColor: secondaryColor + "33" }}
       >
         {/* Separate div for background image overlay */}
-        {/* <div
+        <div
           style={{
             height: "100%",
             width: "100%",
@@ -48,8 +48,8 @@ function UiOAbout() {
             justifyContent: "center",
           }}
         >
-          <Curves4 pathClassName={"draw"} strokeColor={secondaryColor} />
-        </div> */}
+          <Curves8 pathClassName={"draw"} strokeColor={secondaryColor} />
+        </div>
 
         <div
           style={{
@@ -69,33 +69,31 @@ function UiOAbout() {
           <br />
           February 2020 - August 2020
           <br />
-          <p>
-            <b>Responsibilities:</b>
-            <ul style={{ marginTop: "5px" }}>
-              <li
-                className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
-                style={{ transition: "transform 1000ms ease-in-out" }}
-              >
-                Built a cabinet of computational nodes for the physics
-                department of the University of Oslo using hardware donated from
-                the Abel supercomputer in Oslo.
-              </li>
-              <li
-                className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
-                style={{ transition: "transform 1200ms ease-in-out" }}
-              >
-                Set up cluster software and node connectivity using the ROCKS
-                High Performance Computing ISO.
-              </li>
-              <li
-                className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
-                style={{ transition: "transform 1400ms ease-in-out" }}
-              >
-                Collaborated with members of USIT to assemble the cabinet using
-                unused supercomputing parts, resulting in no additional costs.
-              </li>
-            </ul>
-          </p>
+          <b>Responsibilities:</b>
+          <ul style={{ marginTop: "5px" }}>
+            <li
+              className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
+              style={{ transition: "transform 1000ms ease-in-out" }}
+            >
+              Built a cabinet of computational nodes for the physics department
+              of the University of Oslo using hardware donated from the Abel
+              supercomputer in Oslo.
+            </li>
+            <li
+              className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
+              style={{ transition: "transform 1200ms ease-in-out" }}
+            >
+              Set up cluster software and node connectivity using the ROCKS High
+              Performance Computing ISO.
+            </li>
+            <li
+              className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
+              style={{ transition: "transform 1400ms ease-in-out" }}
+            >
+              Collaborated with members of USIT to assemble the cabinet using
+              unused supercomputing parts, resulting in no additional costs.
+            </li>
+          </ul>
         </div>
       </MPSection>
     </Body>

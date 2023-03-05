@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Curves4 } from "../../animations/SvgCurves";
+import { Curves4, Curves6 } from "../../animations/SvgCurves";
 import config from "../Config";
 import useElementOnScreen from "../../hooks/UseElementOnScreen";
 import TopNav from "../../TopNav";
@@ -37,7 +37,7 @@ function SENECAbout() {
         style={{ backgroundColor: secondaryColor + "33" }}
       >
         {/* Separate div for background image overlay */}
-        {/* <div
+        <div
           style={{
             height: "100%",
             width: "100%",
@@ -48,8 +48,8 @@ function SENECAbout() {
             justifyContent: "center",
           }}
         >
-          <Curves4 pathClassName={"draw"} strokeColor={secondaryColor} />
-        </div> */}
+          <Curves6 pathClassName={"draw"} strokeColor={secondaryColor} />
+        </div>
 
         <div
           style={{
@@ -69,17 +69,15 @@ function SENECAbout() {
           <br />
           March 2023 - Present
           <br />
-          <p>
-            <b>Responsibilities:</b>
-            <ul style={{ marginTop: "5px" }}>
-              <li
-                className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
-                style={{ transition: "margin-left 1000ms ease-in-out" }}
-              >
-                TBD.
-              </li>
-            </ul>
-          </p>
+          <b>Responsibilities:</b>
+          <ul style={{ marginTop: "5px" }}>
+            <li
+              className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
+              style={{ transition: "margin-left 1000ms ease-in-out" }}
+            >
+              TBD.
+            </li>
+          </ul>
         </div>
       </MPSection>
     </Body>

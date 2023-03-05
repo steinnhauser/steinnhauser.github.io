@@ -65,19 +65,32 @@ function About() {
             isVisible0 ? "flex-faded-in-reduced" : "flex-faded-out-reduced"
           }
         >
-          <h1>Welcome.</h1>
+          <h1>About me.</h1>
           <p>
-            This is my page typ. andomised words which don't look even slightly
-            believable. If you are going to use a passage of Lorem Ipsum, you
-            need to be sure there isn't anything embarrassing hidden in the
-            middle of text. All the Lorem Ipsum generators on the Internet tend
-            to repeat predefined chunks as necessary, making this the first true
-            generator on the Internet. It uses a dictionary of over 200 Latin
-            words, combined with a handful of model sentence structures, to
-            generate Lorem Ipsum which looks reasonable. The generated Lorem
-            Ipsum is therefore always free from repetition, injected humour, or
-            non-characteristic words etc.
+            I enjoy building architecures from scratch and contributing to
+            projects in early stages of development. Projects in this phase have
+            a high level of creative freedom and the dynamics allow for a lot of
+            interesting possibilities. After the architecture is mapped and a
+            thorough round of RND is completed I find that the POC development
+            becomes a path of little resistance. After POC completion and
+            pitching I also have experience in communications and leadership of
+            UX&Design, UI, Frontend and Backend teams.
           </p>
+          <p>
+            I practice modular code for reusability in my projects, as well as
+            proper testing conventions, code readability, documentation in
+            Confluence, and ticket management in Jira. Github workflows which
+            have manual CI/CD pipeline triggers in Azure are my preferred
+            integration methods, where branch protection rules can manage
+            changes in development/PG environments before a change on a
+            production branch is approved.
+          </p>
+          <h2 style={{ marginBottom: "0" }}>
+            For project inquiries feel free to contact me at:
+          </h2>
+          hausersteinn@gmail.com
+          <br />
+          (+49) 179 6047 257
         </div>
       </MPSection>
     </Body>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Curves4 } from "../../animations/SvgCurves";
+import { Curves4, Curves5 } from "../../animations/SvgCurves";
 import config from "../Config";
 import useElementOnScreen from "../../hooks/UseElementOnScreen";
 import TopNav from "../../TopNav";
@@ -37,7 +37,7 @@ function FutureReadyAbout() {
         style={{ backgroundColor: secondaryColor + "33" }}
       >
         {/* Separate div for background image overlay */}
-        {/* <div
+        <div
           style={{
             height: "100%",
             width: "100%",
@@ -48,8 +48,8 @@ function FutureReadyAbout() {
             justifyContent: "center",
           }}
         >
-          <Curves4 pathClassName={"draw"} strokeColor={secondaryColor} />
-        </div> */}
+          <Curves5 pathClassName={"draw"} strokeColor={secondaryColor} />
+        </div>
 
         <div
           style={{
@@ -69,59 +69,55 @@ function FutureReadyAbout() {
           <br />
           January 2022 - February 2023
           <br />
-          <p>
-            <b>Responsibilities:</b>
-            <ul style={{ marginTop: "5px" }}>
-              <li
-                className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
-                style={{ transition: "margin-left 1000ms ease-in-out" }}
-              >
-                Manage UX and developer teams to design and build an interactive
-                learning platform online.
-              </li>
-              <li
-                className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
-                style={{ transition: "margin-left 1200ms ease-in-out" }}
-              >
-                Develop and maintain an architecture for interactive
-                conversation simulation with feedback. Extensive use of Docker,
-                Flask APIs, Azure, MongoDB, Github Workflows, Nginx, Natural
-                Language Processing models using Rasa.
-              </li>
-              <li
-                className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
-                style={{ transition: "margin-left 1400ms ease-in-out" }}
-              >
-                Leadership experience: Onboarding and training new Data Science
-                team members.
-              </li>
-            </ul>
-          </p>
+          <b>Responsibilities:</b>
+          <ul style={{ marginTop: "5px" }}>
+            <li
+              className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
+              style={{ transition: "margin-left 1000ms ease-in-out" }}
+            >
+              Manage UX and developer teams to design and build an interactive
+              learning platform online.
+            </li>
+            <li
+              className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
+              style={{ transition: "margin-left 1200ms ease-in-out" }}
+            >
+              Develop and maintain an architecture for interactive conversation
+              simulation with feedback. Extensive use of Docker, Flask APIs,
+              Azure, MongoDB, Github Workflows, Nginx, Natural Language
+              Processing models using Rasa.
+            </li>
+            <li
+              className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
+              style={{ transition: "margin-left 1400ms ease-in-out" }}
+            >
+              Leadership experience: Onboarding and training new Data Science
+              team members.
+            </li>
+          </ul>
           <h1>Data Scientist</h1>
           Future Ready AS
           <br />
           November 2020 - December 2021
           <br />
-          <p>
-            <b>Responsibilities:</b>
-            <ul style={{ marginTop: "5px" }}>
-              <li
-                className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
-                style={{ transition: "margin-left 1000ms ease-in-out" }}
-              >
-                Provide sales analytics of telecommunications data to identify
-                trends in customer sales and strengths in sales representatives.
-              </li>
-              <li
-                className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
-                style={{ transition: "margin-left 1200ms ease-in-out" }}
-              >
-                Develop software for transcribing calls and identifying
-                successful sales techniques. Extensive use of Python (Rasa,
-                Pandas, Django), JavaScript, Azure, Weka, HTML/CSS.
-              </li>
-            </ul>
-          </p>
+          <b>Responsibilities:</b>
+          <ul style={{ marginTop: "5px" }}>
+            <li
+              className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
+              style={{ transition: "margin-left 1000ms ease-in-out" }}
+            >
+              Provide sales analytics of telecommunications data to identify
+              trends in customer sales and strengths in sales representatives.
+            </li>
+            <li
+              className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
+              style={{ transition: "margin-left 1200ms ease-in-out" }}
+            >
+              Develop software for transcribing calls and identifying successful
+              sales techniques. Extensive use of Python (Rasa, Pandas, Django),
+              JavaScript, Azure, Weka, HTML/CSS.
+            </li>
+          </ul>
         </div>
       </MPSection>
     </Body>

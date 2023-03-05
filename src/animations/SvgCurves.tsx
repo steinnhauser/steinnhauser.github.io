@@ -141,6 +141,140 @@ function Curves4({
     </svg>
   );
 }
+function Curves5({
+  pathClassName,
+  strokeColor,
+}: {
+  pathClassName: string;
+  strokeColor: string;
+}) {
+  return (
+    <svg
+      id="eiteNxwLlFM1"
+      xmlns="http://www.w3.org/2000/svg"
+      shapeRendering="geometricPrecision"
+      textRendering="geometricPrecision"
+      viewBox={SVGViewBox}
+    >
+      <path
+        d="M-109.035533,26.465955C265.268685,640.854192,87.568702,1034.062665,764.340976,998.144583s582.251006-510.414843,1283.598809-720.252057q701.347803-209.837214,207.946788-60.493611"
+        transform="translate(.000002 -100)" // offsetY to fit window
+        fill="none"
+        strokeWidth="3.84"
+        stroke={strokeColor}
+        className={pathClassName}
+      />
+      <path
+        d="M-194.104674,349.728689C1040.343077,463.15421,1136.754769,914.965866,1839.992998,784.526518q703.238229-130.439348,415.893577-138.00105"
+        fill="none"
+        strokeWidth="3.84"
+        stroke={strokeColor}
+        className={pathClassName}
+      />
+    </svg>
+  );
+}
+function Curves6({
+  pathClassName,
+  strokeColor,
+}: {
+  pathClassName: string;
+  strokeColor: string;
+}) {
+  return (
+    <svg
+      id="eREtiYoIe871"
+      xmlns="http://www.w3.org/2000/svg"
+      shapeRendering="geometricPrecision"
+      textRendering="geometricPrecision"
+      viewBox={SVGViewBox}
+    >
+      <path
+        d="M-231.913181,506.633993C637.682478,111.535095,671.710134,310.029757,1284.207946,119.096797q612.497812-190.93296,962.226501,219.28934"
+        fill="none"
+        strokeWidth="3.84"
+        stroke={strokeColor}
+        className={pathClassName}
+      />
+      <path
+        d="M-165.748294,158.795729C819.163311,714.580781,388.146332,943.322247,1108.398389,854.472256s47.260632-266.549974,739.156309-355.399965q691.895677-88.849991,398.879748-54.822335"
+        transform="translate(.000001 0)"
+        fill="none"
+        strokeWidth="3.84"
+        stroke={strokeColor}
+        className={pathClassName}
+      />
+    </svg>
+  );
+}
+function Curves7({
+  pathClassName,
+  strokeColor,
+}: {
+  pathClassName: string;
+  strokeColor: string;
+}) {
+  return (
+    <svg
+      id="eElXcnq3pAo1"
+      xmlns="http://www.w3.org/2000/svg"
+      shapeRendering="geometricPrecision"
+      textRendering="geometricPrecision"
+      viewBox={SVGViewBox}
+    >
+      <path
+        d="M-152.515316,943.322248C875.876072,296.796779,985.520741,1226.886049,1518.620689,776.964817q533.099948-449.921232,731.594608-493.401016"
+        transform="translate(.000002 0.000002)"
+        fill="none"
+        strokeWidth="3.84"
+        stroke={strokeColor}
+        className={pathClassName}
+      />
+      <path
+        d="M-152.515314,809.102048C947.712235,109.64467,558.284614,888.499912,1329.578155,466.93506Q2100.871696,45.370208,2240.76317,69.945738"
+        transform="translate(.000001 0)"
+        fill="none"
+        strokeWidth="3.84"
+        stroke={strokeColor}
+        className={pathClassName}
+      />
+    </svg>
+  );
+}
+function Curves8({
+  pathClassName,
+  strokeColor,
+}: {
+  pathClassName: string;
+  strokeColor: string;
+}) {
+  return (
+    <svg
+      id="enO10GI4j6c1"
+      xmlns="http://www.w3.org/2000/svg"
+      shapeRendering="geometricPrecision"
+      textRendering="geometricPrecision"
+      viewBox={SVGViewBox}
+    >
+      <path
+        d="M-75.007877,0C174.528268,550.113776,142.391038,1064.30947,690.614388,1005.706284s586.031856-523.64782,1170.173288-565.237178q584.141432-41.589358,391.318046-30.246806"
+        transform="translate(.000002 -40)"
+        fill="none"
+        strokeWidth="3.84"
+        stroke={strokeColor}
+        className={pathClassName}
+      />
+      <path
+        d="M-188.433398,336.495712C856.971818,790.197795,694.395238,424.189701,1184.015403,505.110779s449.921231,636.706129,1007.596708,417.416789"
+        transform="translate(100.000001 0.000002)"
+        fill="none"
+        strokeWidth="3.84"
+        stroke={strokeColor}
+        className={pathClassName}
+      />
+    </svg>
+  );
+}
 
 function Triangle({ color }: { color: string }) {
   return (
@@ -202,6 +336,10 @@ export {
   Curves2,
   Curves3,
   Curves4,
+  Curves5,
+  Curves6,
+  Curves7,
+  Curves8,
   Triangle,
   GithubSVG,
   LinkedInSVG,

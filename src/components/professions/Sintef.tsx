@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Curves4 } from "../../animations/SvgCurves";
+import { Curves4, Curves7 } from "../../animations/SvgCurves";
 import config from "../Config";
 import useElementOnScreen from "../../hooks/UseElementOnScreen";
 import TopNav from "../../TopNav";
@@ -37,7 +37,7 @@ function SINTEFAbout() {
         style={{ backgroundColor: secondaryColor + "33" }}
       >
         {/* Separate div for background image overlay */}
-        {/* <div
+        <div
           style={{
             height: "100%",
             width: "100%",
@@ -48,8 +48,8 @@ function SINTEFAbout() {
             justifyContent: "center",
           }}
         >
-          <Curves4 pathClassName={"draw"} strokeColor={secondaryColor} />
-        </div> */}
+          <Curves7 pathClassName={"draw"} strokeColor={secondaryColor} />
+        </div>
 
         <div
           style={{
@@ -69,26 +69,24 @@ function SINTEFAbout() {
           <br />
           June 2020 - August 2020
           <br />
-          <p>
-            <b>Responsibilities:</b>
-            <ul style={{ marginTop: "5px" }}>
-              <li
-                className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
-                style={{ transition: "margin-left 1000ms ease-in-out" }}
-              >
-                Developed a Graphical User Interface for the IEC61850 Digital
-                Substation Communication protocol.
-              </li>
-              <li
-                className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
-                style={{ transition: "margin-left 1200ms ease-in-out" }}
-              >
-                Extensive use of C (libIEC61850) and Python (PyQt, ZeroMQ).
-                Focus on high-performance data pipelines, data processing and
-                data visualization.
-              </li>
-            </ul>
-          </p>
+          <b>Responsibilities:</b>
+          <ul style={{ marginTop: "5px" }}>
+            <li
+              className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
+              style={{ transition: "margin-left 1000ms ease-in-out" }}
+            >
+              Developed a Graphical User Interface for the IEC61850 Digital
+              Substation Communication protocol.
+            </li>
+            <li
+              className={isVisible0 ? "margin-faded-in" : "margin-faded-out"}
+              style={{ transition: "margin-left 1200ms ease-in-out" }}
+            >
+              Extensive use of C (libIEC61850) and Python (PyQt, ZeroMQ). Focus
+              on high-performance data pipelines, data processing and data
+              visualization.
+            </li>
+          </ul>
         </div>
       </MPSection>
     </Body>
