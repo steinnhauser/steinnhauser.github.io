@@ -3,10 +3,10 @@
 
 import type { CurveVariant } from "./components/Curves";
 
-import senecLogo from "./assets/senec_logo.png";
-import futureReadyLogo from "./assets/fricon_fill.png";
-import sintefLogo from "./assets/sintef_logo.jpg";
-import uioLogo from "./assets/uio_logo.png";
+import futureReadyLogo from "./assets/logos/future-ready.webp";
+import senecLogo from "./assets/logos/senec.webp";
+import sintefLogo from "./assets/logos/sintef.webp";
+import uioLogo from "./assets/logos/uio.webp";
 
 export const profile = {
   name: "Steinn Hauser Magnússon",

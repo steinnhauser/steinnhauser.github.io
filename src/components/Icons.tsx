@@ -1,5 +1,7 @@
 // Small inline SVG icons. They inherit `currentColor` so hover styles work.
 
+import type { ReactNode } from "react";
+
 function Icon({ d, title }: { d: string; title: string }) {
   return (
     <svg
@@ -58,3 +60,43 @@ export function SectionDivider({ color }: { color: string }) {
     </svg>
   );
 }
+
+// Outline icons for the contact card (24px grid, stroked in currentColor).
+function LineIcon({ children }: { children: ReactNode }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="100%"
+      height="100%"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {children}
+    </svg>
+  );
+}
+
+export const MailIcon = () => (
+  <LineIcon>
+    <rect x="3" y="5" width="18" height="14" rx="2.5" />
+    <path d="m4 7 8 6 8-6" />
+  </LineIcon>
+);
+
+export const PhoneIcon = () => (
+  <LineIcon>
+    <path d="M6.6 3.5h2.6l1.4 4.1-2 1.4a12 12 0 0 0 6.4 6.4l1.4-2 4.1 1.4v2.6a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z" />
+  </LineIcon>
+);
+
+export const PinIcon = () => (
+  <LineIcon>
+    <path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z" />
+    <circle cx="12" cy="9.5" r="2.5" />
+  </LineIcon>
+);

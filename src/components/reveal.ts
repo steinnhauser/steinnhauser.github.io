@@ -17,6 +17,8 @@ export function reveal(
   return {
     opacity: visible ? 1 : 0,
     transform: visible ? "none" : offset,
-    transition: `opacity 350ms ease-out, transform ${slide}ms ease-in-out`,
+    // translate/box-shadow keep the glass hover lift (hoverLift) animated,
+    // since an inline transition replaces the stylesheet's.
+    transition: `opacity 350ms ease-out, transform ${slide}ms ease-in-out, translate 300ms ease, box-shadow 300ms ease`,
   };
 }

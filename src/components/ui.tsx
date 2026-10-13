@@ -1,9 +1,44 @@
 import styled, { css } from "styled-components";
-import { breakpoints, colors, fonts, glass } from "../theme";
+import { aurora, breakpoints, colors, fonts, glass, hoverLift } from "../theme";
 
 export const GlassCard = styled.div`
   ${glass}
+  ${hoverLift}
   padding: 20px 24px;
+`;
+
+// The most refined glass in the project, for large reading panels: deeper
+// blur, a larger radius, and a soft caustic sheen across the top-left as if
+// light were bending through a thick pane.
+export const LiquidPanel = styled.div`
+  ${glass}
+  border-radius: 26px;
+  padding: clamp(24px, 4vw, 44px);
+  background:
+    radial-gradient(
+      120% 70% at 0% 0%,
+      rgba(255, 255, 255, 0.13),
+      transparent 55%
+    ),
+    radial-gradient(
+      80% 60% at 100% 100%,
+      ${aurora.lavender}1f,
+      transparent 60%
+    ),
+    linear-gradient(
+      155deg,
+      rgba(255, 255, 255, 0.07),
+      rgba(255, 255, 255, 0.02) 50%,
+      rgba(255, 255, 255, 0.05)
+    ),
+    rgba(19, 19, 22, 0.34);
+  backdrop-filter: blur(26px) saturate(185%);
+  -webkit-backdrop-filter: blur(26px) saturate(185%);
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 0 40px rgba(255, 255, 255, 0.025);
 `;
 
 export const SectionTitle = styled.h2`
@@ -64,37 +99,37 @@ export const Tag = styled.li`
   white-space: nowrap;
 `;
 
+// Glass pill button/link. `$primary` tints it with sunset colours.
 export const PillLink = styled.a<{ $primary?: boolean }>`
   ${glass}
+  ${hoverLift}
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 22px;
+  gap: 10px;
+  padding: 11px 22px;
+  border: 0;
   border-radius: 999px;
   color: ${colors.text};
   font-weight: 400;
   cursor: pointer;
-  transition:
-    border-color 250ms ease,
-    background-color 250ms ease,
-    transform 250ms ease;
 
   &:hover {
     color: ${colors.text};
-    border-color: ${colors.accent};
-    transform: translateY(-2px);
+  }
+  svg {
+    width: 18px;
+    height: 18px;
   }
 
   ${(p) =>
     p.$primary &&
     css`
-      border-color: ${colors.sun}b3;
-      background: ${colors.sun}1f;
-
-      &:hover {
-        border-color: ${colors.sun};
-        background: ${colors.sun}33;
-      }
+      background:
+        linear-gradient(120deg, ${colors.sun}40, ${aurora.rose}33),
+        rgba(19, 19, 22, 0.3);
+      box-shadow:
+        0 10px 32px ${aurora.peach}2e,
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
     `}
 `;
 

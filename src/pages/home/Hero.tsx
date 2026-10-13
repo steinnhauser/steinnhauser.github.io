@@ -1,12 +1,13 @@
 import { Link } from "react-router";
 import styled from "styled-components";
-import lavaField from "../../assets/photos/lava-field.webp";
-import portrait from "../../assets/photos/portrait.jpg";
+import lavaLarge from "../../assets/photos/lava-field.webp";
+import lavaSmall from "../../assets/photos/lava-field-800.webp";
+import portrait from "../../assets/photos/portrait.webp";
 import { reveal } from "../../components/reveal";
 import Section from "../../components/Section";
 import { Dot, Eyebrow, PillLink } from "../../components/ui";
 import { highlights, profile } from "../../content";
-import { breakpoints, colors, fonts, glass } from "../../theme";
+import { breakpoints, colors, fonts, glass, hoverLift } from "../../theme";
 
 const Intro = styled.div`
   display: flex;
@@ -14,9 +15,11 @@ const Intro = styled.div`
   align-items: center;
   transition: gap 1s ease;
 
+  /* Phones (portrait): stack, with the portrait centred above
+     left-aligned text, which reads far better than centred paragraphs. */
   @media (max-width: ${breakpoints.mobile}) {
     flex-direction: column;
-    text-align: center;
+    align-items: stretch;
   }
 `;
 
@@ -25,6 +28,7 @@ const Intro = styled.div`
 const PortraitFrame = styled.div`
   position: relative;
   flex-shrink: 0;
+  align-self: center;
   width: clamp(190px, 24vw, 320px);
   aspect-ratio: 1;
   border-radius: 50%;
@@ -72,7 +76,10 @@ const Actions = styled.div`
   margin-top: 26px;
 
   @media (max-width: ${breakpoints.mobile}) {
-    justify-content: center;
+    > * {
+      flex: 1 1 auto;
+      justify-content: center;
+    }
   }
 `;
 
@@ -85,26 +92,19 @@ const Highlights = styled.dl`
 
   div {
     ${glass}
-    position: relative;
+    ${hoverLift}
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 16px 18px 18px;
-    transition:
-      border-color 300ms ease,
-      translate 300ms ease;
 
     /* Thin sunlit edge along the top of each figure. */
-    &::before {
+    &::after {
       content: "";
       position: absolute;
       inset: 0 0 auto;
       height: 2px;
       background: linear-gradient(90deg, ${colors.sun}, transparent 80%);
       opacity: 0.8;
-    }
-    &:hover {
-      border-color: ${colors.sun}99;
-      translate: 0 -3px;
     }
   }
   dt {
@@ -142,7 +142,11 @@ function Hero() {
       ?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <Section curves={1} photo={lavaField}>
+    <Section
+      curves={1}
+      photo={{ large: lavaLarge, small: lavaSmall }}
+      aurora="ember"
+    >
       {(visible) => (
         <>
           <Intro className={visible ? "flex-faded-in" : "flex-faded-out"}>

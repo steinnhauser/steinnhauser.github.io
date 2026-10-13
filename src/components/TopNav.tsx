@@ -22,10 +22,28 @@ const Bar = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 0 clamp(16px, 3vw, 48px);
-  background: ${colors.primary}8c;
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  /* Liquid-glass bar: tinted, strongly blurred, with a light rim along its
+     bottom edge that warms towards the right. */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent),
+    ${colors.primary}99;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.18) 40%,
+      ${colors.sun}59 85%,
+      rgba(255, 255, 255, 0.04)
+    );
+  }
 `;
 
 const Links = styled.nav`

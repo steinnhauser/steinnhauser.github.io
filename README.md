@@ -95,9 +95,13 @@ To change the site's content:
    certification, language, degree or key figure on the site isn't in the
    CV.
 
-Photos in `src/assets/photos/` are resized copies of the originals. Keep the
-raw camera files out of git (see `.gitignore`); they are several MB each and
-the large-file hook rejects anything over 1 MB.
+### Images
+
+Images in `src/assets/photos/` and `src/assets/logos/` are WebP copies of
+the originals, encoded at the size they're displayed (logos 340px, portrait
+560px, backdrops 1280px plus an 800px variant for phones). `src/assets.test.ts`
+enforces the budget: WebP only, at most 100 KB per image and 250 KB in total.
+Keep the raw camera files out of git (see `.gitignore`).
 
 ## CI and deployment
 
