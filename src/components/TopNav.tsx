@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { socials } from "../content";
 import { breakpoints, colors, NAV_HEIGHT } from "../theme";
 import { GithubIcon, LinkedInIcon, StackOverflowIcon } from "./Icons";
+import ExternalLink from "./ExternalLink";
 
 const icons = {
   github: GithubIcon,
@@ -60,7 +61,7 @@ const PageLink = styled(NavLink)`
   }
 `;
 
-const IconLink = styled.a`
+const IconLink = styled(ExternalLink)`
   display: block;
   width: 32px;
   height: 32px;
@@ -91,14 +92,7 @@ function TopNav() {
         {socials.map(({ label, href, icon }) => {
           const Icon = icons[icon];
           return (
-            <IconLink
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              title={label}
-            >
+            <IconLink key={label} href={href} aria-label={label} title={label}>
               <Icon />
             </IconLink>
           );

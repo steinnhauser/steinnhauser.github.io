@@ -1,0 +1,187 @@
+import { Link } from "react-router";
+import styled from "styled-components";
+import lavaField from "../../assets/photos/lava-field.webp";
+import portrait from "../../assets/photos/portrait.jpg";
+import { reveal } from "../../components/reveal";
+import Section from "../../components/Section";
+import { Dot, Eyebrow, PillLink } from "../../components/ui";
+import { highlights, profile } from "../../content";
+import { breakpoints, colors, fonts, glass } from "../../theme";
+
+const Intro = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: gap 1s ease;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    flex-direction: column;
+    text-align: center;
+  }
+`;
+
+// Portrait in a thin ring that runs from sunlight into slate blue, with a
+// soft warm glow behind it like the low sun in the coastal photo.
+const PortraitFrame = styled.div`
+  position: relative;
+  flex-shrink: 0;
+  width: clamp(190px, 24vw, 320px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  padding: 4px;
+  background: conic-gradient(
+    from 200deg,
+    ${colors.sun},
+    ${colors.secondary} 35%,
+    ${colors.accent} 60%,
+    ${colors.secondary} 80%,
+    ${colors.sun}
+  );
+  box-shadow:
+    0 0 80px ${colors.sun}2e,
+    0 24px 60px rgba(0, 0, 0, 0.55);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid ${colors.primary};
+  }
+`;
+
+const Text = styled.div`
+  max-width: 640px;
+
+  h1 {
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    line-height: 1.1;
+    margin: 10px 0 22px;
+  }
+  p {
+    line-height: 1.7;
+    margin: 0 0 14px;
+  }
+`;
+
+const Actions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    justify-content: center;
+  }
+`;
+
+// Full-width band of key figures under the introduction.
+const Highlights = styled.dl`
+  display: grid;
+  grid-template-columns: repeat(${highlights.length}, minmax(0, 1fr));
+  gap: 14px;
+  margin: clamp(40px, 6vh, 64px) 0 0;
+
+  div {
+    ${glass}
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    padding: 16px 18px 18px;
+    transition:
+      border-color 300ms ease,
+      translate 300ms ease;
+
+    /* Thin sunlit edge along the top of each figure. */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 2px;
+      background: linear-gradient(90deg, ${colors.sun}, transparent 80%);
+      opacity: 0.8;
+    }
+    &:hover {
+      border-color: ${colors.sun}99;
+      translate: 0 -3px;
+    }
+  }
+  dt {
+    font-family: ${fonts.mono};
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+    font-weight: 500;
+    color: ${colors.sun};
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+  dd {
+    margin: 6px 0 0;
+    font-size: 0.82rem;
+    color: ${colors.muted};
+    line-height: 1.4;
+  }
+
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  @media (max-width: ${breakpoints.mobile}) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    /* An odd figure out spans the full row instead of sitting alone. */
+    div:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+`;
+
+function Hero() {
+  const scrollToExperience = () =>
+    document
+      .getElementById("experience")
+      ?.scrollIntoView({ behavior: "smooth" });
+
+  return (
+    <Section curves={1} photo={lavaField}>
+      {(visible) => (
+        <>
+          <Intro className={visible ? "flex-faded-in" : "flex-faded-out"}>
+            <PortraitFrame style={reveal(visible, 2, "scale(0.96)")}>
+              <img src={portrait} alt={`Portrait of ${profile.name}`} />
+            </PortraitFrame>
+            <Text>
+              <Eyebrow style={reveal(visible, 0)}>{profile.headline}</Eyebrow>
+              <h1 style={reveal(visible, 0)}>
+                Welcome<Dot>.</Dot>
+              </h1>
+              {profile.welcome.map((paragraph, i) => (
+                <p key={paragraph.slice(0, 24)} style={reveal(visible, 1 + i)}>
+                  {paragraph}
+                </p>
+              ))}
+              <Actions style={reveal(visible, 3)}>
+                <PillLink as="button" $primary onClick={scrollToExperience}>
+                  My experience ↓
+                </PillLink>
+                <PillLink as={Link} to="/about">
+                  Get in touch
+                </PillLink>
+              </Actions>
+            </Text>
+          </Intro>
+
+          <Highlights aria-label="Key figures">
+            {highlights.map((h, i) => (
+              <div key={h.value} style={reveal(visible, 3 + i)}>
+                <dt>{h.value}</dt>
+                <dd>{h.label}</dd>
+              </div>
+            ))}
+          </Highlights>
+        </>
+      )}
+    </Section>
+  );
+}
+
+export default Hero;

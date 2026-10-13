@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { profile, socials } from "../content";
 import { colors, fonts } from "../theme";
 import TopNav from "./TopNav";
+import ExternalLink from "./ExternalLink";
 
 // Fine sand-like grain over the whole page (inspired by the owner's photo of
 // beach ripples). Pure SVG noise, so it costs no image request.
@@ -61,14 +62,9 @@ function Layout({ children }: { children: ReactNode }) {
         <nav aria-label="Contact">
           <a href={`mailto:${profile.email}`}>{profile.email}</a>
           {socials.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <ExternalLink key={s.label} href={s.href}>
               {s.label}
-            </a>
+            </ExternalLink>
           ))}
         </nav>
         Made using Vite + React + TypeScript.
