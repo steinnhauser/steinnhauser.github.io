@@ -1,0 +1,135 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: dark;
+  font-family: "Poppins", system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #ffffff;
+  background-color: #131316;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+a {
+  color: #8fa8dc;
+  text-decoration: none;
+}
+a:hover {
+  color: #ffffff;
+}
+
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid #8fa8dc;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ---------- Section fade ---------- */
+
+.scroll-shown {
+  filter: none;
+  opacity: 1;
+  transition:
+    opacity 1s ease,
+    filter 1s ease;
+}
+
+.scroll-hidden {
+  filter: blur(1px);
+  opacity: 0;
+  transition:
+    opacity 1s ease,
+    filter 1s ease;
+}
+
+/* Gap "breathes" in as a section appears. */
+.flex-faded-in {
+  gap: 5vw;
+}
+.flex-faded-out {
+  gap: 6vw;
+}
+.flex-faded-in-reduced {
+  gap: 1vw;
+}
+.flex-faded-out-reduced {
+  gap: 2vw;
+}
+
+/* ---------- Background curves ---------- */
+
+.draw {
+  stroke-dasharray: 4050;
+  stroke-dashoffset: 4050;
+  animation: draw-svg 1s linear forwards;
+}
+
+@keyframes draw-svg {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.fade-out {
+  opacity: 1;
+  animation: opacity-zero 1s linear forwards;
+}
+
+@keyframes opacity-zero {
+  to {
+    opacity: 0;
+  }
+}
+
+/* ---------- List items sliding in ---------- */
+
+.slide-in {
+  transform: none;
+}
+.slide-out {
+  transform: translateX(-1vw);
+}
+
+@media (max-width: 760px) {
+  .flex-faded-in,
+  .flex-faded-out {
+    gap: 32px;
+  }
+  .flex-faded-in-reduced,
+  .flex-faded-out-reduced {
+    gap: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
