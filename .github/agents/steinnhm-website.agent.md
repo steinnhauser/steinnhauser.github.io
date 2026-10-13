@@ -12,30 +12,39 @@ up to date whenever you finish or start a piece of work.
 
 ## Stack
 
-- Vite 4 + React 18 + TypeScript, compiled with SWC.
-- styled-components 5 for component styles; `src/index.css` for global
+- Node 24 LTS (`.nvmrc`). Vite 8, React 19 and TypeScript 6.
+- styled-components 6 for component styles. `src/index.css` holds the global
   styles and the keyframe animations.
-- react-router-dom 6 with `HashRouter` (URLs look like `/#/about`), so
-  GitHub Pages needs no SPA fallback.
+- react-router 8 with `HashRouter` (URLs look like `/#/about`), so GitHub
+  Pages needs no SPA fallback.
+- Prettier (format), ESLint 10 with typescript-eslint, react-hooks and
+  react-refresh (lint), Vitest with Testing Library and jsdom (tests).
 - Font: Poppins (200/400/700), loaded from Google Fonts in `index.html`.
+- TypeScript stays on 6.x until typescript-eslint supports 7.
 
 ## Project map
 
-| Path | Purpose |
-| --- | --- |
-| `src/content.ts` | **All site content**: profile text, experiences, skills, certifications, languages, education, volunteering, social links. |
-| `src/theme.ts` | Colour tokens, breakpoint, nav height, and the `glass` frosted-glass mixin. |
-| `src/main.tsx` | Routes, plus redirects from the old `/#/senec`-style experience URLs. |
-| `src/components/Layout.tsx` | Page shell: top nav, footer, scroll-to-top on navigation. |
-| `src/components/Section.tsx` | Full-height section with background curves, fade-in, optional tint and slanted divider. Children are a render function receiving `visible`. |
-| `src/components/Curves.tsx` | The eight hand-drawn background curve variants (`variant={1..8}`). |
-| `src/components/Icons.tsx` | Social icons and the slanted `SectionDivider`. |
-| `src/components/ui.tsx` | Shared primitives: `GlassCard`, `SectionTitle`, `Tag`/`TagList`, `PillLink`, `Eyebrow`, `TwoColumn`. |
-| `src/pages/Home.tsx` | Welcome → Professional Experience → Skills & Certifications → Academic Background. |
-| `src/pages/Experience.tsx` | One template for every `/#/experience/:slug` page, driven by `content.ts`. |
-| `src/pages/About.tsx` | About text, contact card, volunteering & open source. |
-| `src/hooks/useElementOnScreen.ts` | IntersectionObserver hook that drives every scroll animation. |
-| `.github/workflows/deploy.yml` | CI build + deploy to the `gh-pages` branch. |
+| Path                              | Purpose                                                                                                                                     |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/content.ts`                  | **All site content**: profile text, experiences, skills, certifications, languages, education, volunteering, social links.                  |
+| `src/theme.ts`                    | Colour tokens, breakpoint, nav height, and the `glass` frosted-glass mixin.                                                                 |
+| `src/main.tsx`                    | Entry point: mounts `<App />` inside `HashRouter`.                                                                                          |
+| `src/App.tsx`                     | Layout and routes, plus redirects from the old `/#/senec`-style URLs.                                                                       |
+| `src/components/Layout.tsx`       | Page shell: top nav, footer, scroll-to-top on navigation.                                                                                   |
+| `src/components/Section.tsx`      | Full-height section with background curves, fade-in, optional tint and slanted divider. Children are a render function receiving `visible`. |
+| `src/components/Curves.tsx`       | The eight hand-drawn background curve variants (`variant={1..8}`).                                                                          |
+| `src/components/Icons.tsx`        | Social icons and the slanted `SectionDivider`.                                                                                              |
+| `src/components/ui.tsx`           | Shared primitives: `GlassCard`, `SectionTitle`, `Tag`/`TagList`, `PillLink`, `Eyebrow`, `TwoColumn`.                                        |
+| `src/pages/Home.tsx`              | Welcome → Professional Experience → Skills & Certifications → Academic Background.                                                          |
+| `src/pages/Experience.tsx`        | One template for every `/#/experience/:slug` page, driven by `content.ts`.                                                                  |
+| `src/pages/About.tsx`             | About text, contact card, volunteering & open source.                                                                                       |
+| `src/hooks/useElementOnScreen.ts` | IntersectionObserver hook that drives every scroll animation.                                                                               |
+| `src/content.test.ts`             | Data-integrity tests for `content.ts` (unique slugs, valid curves, https links, and so on).                                                 |
+| `src/App.test.tsx`                | Rendering and routing tests for every page.                                                                                                 |
+| `src/test/`                       | Vitest setup (IntersectionObserver/scroll mocks) and the `renderAt` helper.                                                                 |
+| `.pre-commit-config.yaml`         | Git hooks: file hygiene, Prettier, ESLint, `tsc`, Vitest.                                                                                   |
+| `.github/workflows/ci.yml`        | PR checks (the same pre-commit hooks), build, and deploy to `gh-pages`.                                                                     |
+| `.github/dependabot.yml`          | Weekly npm and GitHub Actions update PRs.                                                                                                   |
 
 ## Design language (preserve it)
 
@@ -75,15 +84,18 @@ These details are the site's character. Don't remove them without asking the own
 
 ## Develop, verify, deploy
 
-- `npm ci`, then `npm run dev` for local development and `npm run build`
-  (runs `tsc`) before committing.
-- Check desktop (~1440px) and mobile (~390px) widths. There must be no
-  horizontal scroll, and the curves must still draw.
-- Deployment: pushing to `master`, or running the **Build and deploy**
-  workflow manually from any branch, builds the site and publishes `dist/` to
-  the `gh-pages` branch. GitHub Pages serves that branch at the domain in
-  `public/CNAME`. `npm run deploy` (gh-pages CLI) still works as a manual
-  fallback.
+- `nvm use`, `npm ci`, then `npm run dev`.
+- Before committing, run `npm run check` (format check, lint, typecheck and
+  tests), or let the pre-commit hooks do it (`pre-commit install` once).
+  CI runs exactly the same hooks, so local and PR results match.
+- Add or extend tests in `src/*.test.ts(x)` for new behaviour. Content
+  changes are covered by `content.test.ts` and the page tests automatically.
+- Check desktop (~1440px) and mobile (~390px) widths in a browser. There must
+  be no horizontal scroll, and the curves must still draw.
+- Deployment: the `CI` workflow deploys `dist/` to the `gh-pages` branch on
+  every push to `master`, or on a manual run from any branch, once the checks
+  and the build pass. GitHub Pages serves that branch at the domain in
+  `public/CNAME`. There is no local deploy command; use a manual workflow run.
 
 ## Status
 
@@ -111,18 +123,28 @@ _Last updated: 2026-10-13_
   labelled icon links, `rel="noopener"`, focus rings, reduced motion).
 - Portrait resized from 2754px / 970 KB to 800px / 80 KB.
 - SEO basics in `index.html` (description, Open Graph, theme colour).
-- GitHub Actions workflow deploying to `gh-pages`. `public/CNAME` is now
-  part of every build.
+- All dependencies upgraded to their latest versions (Vite 8, React 19,
+  react-router 8, styled-components 6, TypeScript 6). Moved to
+  `@vitejs/plugin-react` and dropped the `gh-pages` CLI (the source of five
+  high `npm audit` findings). `npm audit`: 0 vulnerabilities.
+- Prettier, ESLint, Vitest (18 tests) and pre-commit hooks, all run in CI on
+  every PR. Weekly updates via Dependabot.
+- Dependabot alert #5 (jQuery 3.3.1, XSS): the flagged file
+  `assets/js/vendor/jquery/jquery-3.3.1.min.js` was removed from `master` in
+  2021 (`4872f14`), so the alert is stale and can be dismissed. The React
+  site contains no jQuery.
 
 ### Open / next steps
 
-- Merge `react-app` into `master` so pushes deploy automatically (until
-  then, run the workflow manually on `react-app`).
+- Merge `react-app` into `master`. This replaces the old static site, which
+  still loads jQuery 2.1.3 (known XSS issues) from Google's CDN, and turns
+  on automatic deploys.
+- Dismiss Dependabot alert #5 once that merge is done.
 - In repo Settings → Pages, confirm the source is "Deploy from a branch:
-  `gh-pages` / root".
-- Upgrade the toolchain (Vite 4 → current, TypeScript 5, styled-components
-  6) and resolve the `npm audit` findings.
+  `gh-pages` / root". In Settings → Branches, consider requiring the CI
+  checks before merging into `master`.
+- Move to TypeScript 7 when typescript-eslint supports it.
+- Consider code-splitting the experience/about pages (bundle is about
+  104 KB gzipped).
 - Consider a downloadable CV (PDF) link on the About page.
 - Consider an Open Graph preview image and a proper favicon set.
-- Old screenshot showed a broken Future Ready logo. The asset is valid
-  locally and in the deployed bundle, so re-check after the next deploy.

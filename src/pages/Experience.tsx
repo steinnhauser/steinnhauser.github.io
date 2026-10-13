@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router";
 import styled from "styled-components";
 import Section from "../components/Section";
 import { Eyebrow, GlassCard, Muted, Tag, TagList } from "../components/ui";

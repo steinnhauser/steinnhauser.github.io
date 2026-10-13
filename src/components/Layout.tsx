@@ -1,5 +1,5 @@
-import { ReactNode, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { type ReactNode, useEffect } from "react";
+import { useLocation } from "react-router";
 import styled from "styled-components";
 import { profile } from "../content";
 import { colors } from "../theme";

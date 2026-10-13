@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 // (common on mobile). Toggles back to false when the element leaves, so
 // section animations replay on the way back.
 export default function useElementOnScreen<T extends Element = HTMLDivElement>(
-  rootMargin = "-35% 0px -35% 0px"
+  rootMargin = "-35% 0px -35% 0px",
 ) {
   const ref = useRef<T>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -15,7 +15,7 @@ export default function useElementOnScreen<T extends Element = HTMLDivElement>(
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => setIsVisible(entry.isIntersecting),
-      { rootMargin, threshold: 0 }
+      { rootMargin, threshold: 0 },
     );
     observer.observe(el);
     return () => observer.disconnect();

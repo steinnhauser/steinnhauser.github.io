@@ -98,7 +98,11 @@ function About() {
                   {socials.map((s, i) => (
                     <span key={s.label}>
                       {i > 0 && " · "}
-                      <a href={s.href} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         {s.label}
                       </a>
                     </span>
@@ -129,7 +133,11 @@ function About() {
                   {v.description && <p>{v.description}</p>}
                   {v.link && (
                     <p>
-                      <a href={v.link.href} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={v.link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         {v.link.label} ↗
                       </a>
                     </p>
