@@ -53,3 +53,30 @@ export const DownloadIcon = () => (
     <path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" />
   </svg>
 );
+
+// Site monogram: a gold "S" drawn as one stroke, like the background curves.
+// Same artwork as public/favicon.svg, without the tile.
+export const Monogram = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="14 10 36 46"
+    width="100%"
+    height="100%"
+    aria-hidden="true"
+  >
+    <defs>
+      <linearGradient id="monogram-gold" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#f6cd85" />
+        <stop offset="1" stopColor="#e9a443" />
+      </linearGradient>
+    </defs>
+    <path
+      d="M42.5 19.5 C 39 14.5, 23 14, 22 22.5 C 21 31, 42.5 30.5, 42.5 40.5 C 42.5 50, 25 51, 20.5 44.5"
+      fill="none"
+      stroke="url(#monogram-gold)"
+      strokeWidth="6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);

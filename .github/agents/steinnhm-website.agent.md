@@ -54,12 +54,12 @@ within seconds and wants to read further.
 
 `HashRouter`, so every URL looks like `https://steinnhm.com/#/...`.
 
-| Route                   | Page                                                                                                                                                                                                                                                                                                                                |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `#/`                    | **Home**, four sections (a full-screen hero, then sections of at least 85% screen height). **Hero:** portrait, headline, "Hi, I'm Steinn." and a two-paragraph professional summary, CTAs, and the key-figure band (`highlights`). **01 Experience:** tiles linking to each role. **02 Skills & Certifications.** **03 Education.** |
-| `#/experience/:slug`    | One page per experience (`experiences[]`): logo, company, every position with dates and bullets, technology tags, and prev/next links.                                                                                                                                                                                              |
-| `#/about`               | **About:** longer narrative, contact card (email, phone, location, profiles), and Volunteering & Open Source.                                                                                                                                                                                                                       |
-| `#/senec`, `#/uio`, ... | Legacy URLs from the old site. They redirect to `#/experience/...` (`legacyRoutes` in `App.tsx`). Anything else redirects home.                                                                                                                                                                                                     |
+| Route                   | Page                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `#/`                    | **Home**, four sections (a full-screen hero, then sections of at least 85% screen height). **Hero:** portrait, headline, "I'm Steinn," (the first paragraph continues the sentence) and a two-paragraph professional summary, CTAs, and the key-figure band (`highlights`). **01 Experience:** muted logo tiles linking to each role. **02 Selected Work:** project cards (`projects`), the featured one with a flow diagram. **03 Skills & Certifications.** **04 Education.** |
+| `#/experience/:slug`    | One page per experience (`experiences[]`): logo, company, every position with dates and bullets, technology tags, and prev/next links.                                                                                                                                                                                                                                                                                                                                          |
+| `#/about`               | **About:** longer narrative, contact card (email, phone, location, profiles), and Volunteering & Open Source.                                                                                                                                                                                                                                                                                                                                                                   |
+| `#/senec`, `#/uio`, ... | Legacy URLs from the old site. They redirect to `#/experience/...` (`legacyRoutes` in `App.tsx`). Anything else redirects home.                                                                                                                                                                                                                                                                                                                                                 |
 
 Every page shares the frosted top nav (Home, About Me, GitHub, LinkedIn,
 Stack Overflow) and a footer with contact links.
@@ -79,8 +79,16 @@ Stack Overflow) and a footer with contact links.
   Preact lacks must be checked first.
 - Prettier, ESLint 10 (typescript-eslint, react-hooks, react-refresh), and
   Vitest with Testing Library (Preact) and jsdom.
-- Fonts: Poppins (text and headings) and JetBrains Mono (eyebrows, tags,
-  figures), from Google Fonts in `index.html`.
+- Fonts, self-hosted (no Google Fonts; faster and GDPR-safe):
+  **Space Grotesk** for headings and nav, **Inter** for body text,
+  **JetBrains Mono** for eyebrows, tags and figures (`fonts` in `theme.ts`).
+  `src/fonts.css` declares only the latin and latin-ext subsets of the
+  `@fontsource-variable` packages; `assets.test.ts` checks it.
+- Brand assets in `public/`: `favicon.svg` (gold stroke "S" monogram on a
+  dark tile, also the `Monogram` component in the nav), `favicon-32.png`,
+  `apple-touch-icon.png`, and `og-image.jpg` (1200×630 link preview; the
+  `og:image`/`twitter:card` tags are in `index.html`). Re-render the PNG
+  and JPEG files if the monogram, portrait or title change.
 - `Makefile` for all tasks. Every Node command goes through
   `scripts/node-env.sh`, which switches to the `.nvmrc` Node via nvm. The
   owner's shell defaults to Node 22.9, and the tests crash on that version.
@@ -157,6 +165,12 @@ owner:
   caustic sheen, 26px radius), used for reading panels: the hero intro, the
   About story and contact cards, and experience pages. A panel that contains
   glass buttons reveals as one piece (its children don't fade separately).
+  **Cursor light:** glass surfaces carry `data-light` (built into
+  `GlassCard`, `LiquidPanel`, `PillLink` and the tiles); `usePointerLight`
+  sets `--lx/--ly` on the surface under the pointer and its glass
+  ancestors, and `pointerLight()` draws the highlight. Fine pointers only,
+  off for reduced motion. (A viewport-`fixed` gradient was tried and does
+  not render inside these clipped, blurred surfaces.)
   Rules:
   - **Never put `opacity` or `filter` (or a transition of them) on an
     ancestor of a glass element.** Browsers skip the backdrop blur while it
@@ -168,9 +182,16 @@ owner:
     devices with hover), so they combine with `reveal()`'s inline transform.
 - **Portfolio conventions:** monospace headline, key-figure band, numbered
   section labels ("01 / experience"), monospace tags and year ranges.
-  Headings are bold Poppins ending in a gold full stop ("Hi, I'm Steinn.",
-  "About me."). The hero has three actions: View experience (primary), Get
+  Headings are bold Space Grotesk ending in gold punctuation ("I'm Steinn,",
+  whose sentence the intro continues in lowercase, and "About me."). The hero has three actions: View experience (primary), Get
   in touch, and Download CV; the About contact card also offers the CV.
+- **Muted logos:** experience tiles show logos as a slate-blue duotone
+  (greyscale plus a `mix-blend-mode: color` wash) and reveal full colour on
+  hover or focus, so brand colours don't compete with the palette.
+- **Scroll-driven details** (CSS `animation-timeline`, progressive
+  enhancement, no JavaScript): a gold reading-progress line under the nav,
+  and parallax on the curves and aurora (`.parallax`, `--parallax`). Both
+  are off for reduced motion.
 
 ## Content rules
 
@@ -250,12 +271,16 @@ _Last updated: 2026-10-13_
   section via router state), gold bullet markers, a labelled tag group and
   prev/next pills, typography tuning (`text-wrap`, softer body text), and
   a tighter About narrative.
-- Hero heading "Hi, I'm Steinn." with an intro that now reads as a full
-  sentence; "Download CV" buttons (hero and About; PDF in `public/cv/`);
+- Hero heading "I'm Steinn," continued by the intro ("a cloud operator
+  and software engineer based in Berlin..."); "Download CV" buttons (hero and About; PDF in `public/cv/`);
   lower sections at least 85% of the screen tall; expanded ENT3R tutoring
   description.
 - Moved from React to Preact: JavaScript 111.8 → 52.3 KB gzipped.
 - Dismissed the stale Dependabot alert #5 (jQuery file deleted in 2021).
+- Sophistication pass: self-hosted Space Grotesk / Inter / JetBrains Mono,
+  "S" monogram favicon set and nav mark, link-preview image, muted duotone
+  logos, Selected Work section (CV facts only), cursor light on glass,
+  scroll progress line and parallax.
 - Build size: images re-encoded to WebP at their displayed size (558 KB →
   184 KB, with 800px backdrops on phones), an unused font weight dropped,
   and an image budget test added. `dist/` is about 600 KB in total.
@@ -263,7 +288,7 @@ _Last updated: 2026-10-13_
   rebuilt every render; slide-ins that never ran; sections taller than the
   viewport never appearing; accessibility gaps.
 - Tooling: latest dependencies (`npm audit`: 0), Prettier, ESLint, Vitest
-  (48 tests), pre-commit, CI with deploy, Dependabot, Makefile.
+  (53 tests), pre-commit, CI with deploy, Dependabot, Makefile.
 
 ### Open / next steps
 
@@ -275,4 +300,6 @@ _Last updated: 2026-10-13_
 - In Settings → Branches, consider requiring the CI checks before merging
   into `master`.
 - Move to TypeScript 7 when typescript-eslint supports it.
-- Consider an Open Graph preview image and a full favicon set.
+- Selected Work: add measured outcomes (from the owner) to `projects`.
+- Certifications: link the AZ-104 and ITIL 4 verification pages (owner to
+  provide the links) and give the core stack more visual weight.

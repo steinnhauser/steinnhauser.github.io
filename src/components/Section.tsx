@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import styled, { css } from "styled-components";
 import useElementOnScreen from "../hooks/useElementOnScreen";
 import { breakpoints, colors, NAV_HEIGHT, SLANT, slantTop } from "../theme";
@@ -141,7 +141,10 @@ function Section({
           <Photo $photo={photo} $visible={visible} aria-hidden="true" />
         )}
         {aurora && <Aurora variant={aurora} visible={visible} />}
-        <CurveLayer>
+        <CurveLayer
+          className="parallax"
+          style={{ "--parallax": "36px" } as CSSProperties}
+        >
           <Curves variant={curves} visible={visible} color={colors.secondary} />
         </CurveLayer>
         <Content>{children(visible)}</Content>

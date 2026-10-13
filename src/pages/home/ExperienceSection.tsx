@@ -34,32 +34,60 @@ const Tile = styled(Link)`
   }
 `;
 
-const TileImage = styled.div`
+// Logos are muted to one slate-blue duotone so the five brand colours don't
+// fight the dark glass; each returns to full colour on hover or focus.
+const TileImage = styled.div.attrs<{ "data-light"?: string }>({
+  "data-light": "",
+})`
   ${glass}
   width: 100%;
   aspect-ratio: 1;
   overflow: hidden;
   transition:
     transform 400ms ease,
-    border-color 400ms ease,
     box-shadow 400ms ease;
 
   img {
+    position: relative;
+    z-index: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.8;
-    transition: opacity 400ms ease;
+    filter: grayscale(1) contrast(1.05) brightness(0.78);
+    transition: filter 500ms ease;
+  }
+
+  /* Slate-blue wash over the greyscale logo (the duotone). */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: ${colors.secondary};
+    mix-blend-mode: color;
+    opacity: 0.85;
+    transition: opacity 500ms ease;
+    pointer-events: none;
+  }
+  /* Keep the glass rim above the logo. */
+  &::before {
+    z-index: 2;
   }
 
   ${Tile}:hover &,
   ${Tile}:focus-visible & {
     transform: scale(1.04);
-    border-color: ${colors.sun}cc;
-    box-shadow: 0 12px 40px ${colors.sun}26;
+    box-shadow:
+      0 14px 44px ${colors.sun}26,
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
-  ${Tile}:hover & img {
-    opacity: 1;
+  ${Tile}:hover & img,
+  ${Tile}:focus-visible & img {
+    filter: none;
+  }
+  ${Tile}:hover &::after,
+  ${Tile}:focus-visible &::after {
+    opacity: 0;
   }
 `;
 

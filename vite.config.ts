@@ -22,7 +22,8 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     setupFiles: ["./src/test/setup.ts"],
-    css: false,
+    // Stub CSS in tests, except fonts.css, which assets.test.ts reads.
+    css: { include: [/fonts\.css/] },
     // Use the same ESM builds as the browser (Node would otherwise pick the
     // CommonJS ones, whose require("react") bypasses the aliases), and
     // bundle them through Vite so the aliases apply inside them.

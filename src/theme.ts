@@ -23,9 +23,12 @@ export const aurora = {
   blue: "#4f6fb8",
 };
 
+// Self-hosted variable fonts (see main.tsx): Space Grotesk for headings,
+// Inter for reading, JetBrains Mono for labels, tags and figures.
 export const fonts = {
-  body: `"Poppins", system-ui, sans-serif`,
-  mono: `"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace`,
+  display: `"Space Grotesk Variable", "Inter Variable", system-ui, sans-serif`,
+  body: `"Inter Variable", system-ui, -apple-system, "Segoe UI", sans-serif`,
+  mono: `"JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace`,
 };
 
 export const breakpoints = {
@@ -47,6 +50,12 @@ export const slantTop = css`
   clip-path: polygon(0 0, 100% ${SLANT}, 100% 100%, 0 100%);
 `;
 
+// Cursor light: a soft highlight centred on the pointer. usePointerLight
+// sets --lx/--ly (pointer position inside the element) on every element
+// marked data-light under the pointer; elsewhere the light sits off-screen.
+export const pointerLight = (size = 420, strength = 0.12) =>
+  `radial-gradient(${size}px circle at var(--lx, -9999px) var(--ly, -9999px), rgba(255, 255, 255, ${strength}), transparent 65%)`;
+
 // Liquid-glass surface: a strongly blurred and saturated view of whatever is
 // behind it (curves, photos, aurora), a soft sheen from the top-left, and a
 // specular rim drawn by ::before that is bright at the top-left and picks up
@@ -61,6 +70,7 @@ export const slantTop = css`
 export const glass = css`
   position: relative;
   background:
+    ${pointerLight()},
     linear-gradient(
       155deg,
       rgba(255, 255, 255, 0.1) 0%,
@@ -83,14 +93,16 @@ export const glass = css`
     inset: 0;
     padding: 1px;
     border-radius: inherit;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.42),
-      rgba(255, 255, 255, 0.1) 28%,
-      rgba(255, 255, 255, 0.03) 55%,
-      ${colors.secondary}cc 80%,
-      ${colors.sun}80
-    );
+    background:
+      ${pointerLight(260, 0.85)},
+      linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.42),
+        rgba(255, 255, 255, 0.1) 28%,
+        rgba(255, 255, 255, 0.03) 55%,
+        ${colors.secondary}cc 80%,
+        ${colors.sun}80
+      );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
