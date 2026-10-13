@@ -3,6 +3,7 @@ import styled from "styled-components";
 import lavaLarge from "../../assets/photos/lava-field.webp";
 import lavaSmall from "../../assets/photos/lava-field-800.webp";
 import portrait from "../../assets/photos/portrait.webp";
+import { DownloadIcon } from "../../components/Icons";
 import { reveal } from "../../components/reveal";
 import Section from "../../components/Section";
 import { Dot, Eyebrow, LiquidPanel, PillLink } from "../../components/ui";
@@ -158,17 +159,22 @@ function Hero() {
             <Text style={reveal(visible, 0)}>
               <Eyebrow>{profile.headline}</Eyebrow>
               <h1>
-                Welcome<Dot>.</Dot>
+                {profile.greeting}
+                <Dot>,</Dot>
               </h1>
               {profile.welcome.map((paragraph) => (
                 <p key={paragraph.slice(0, 24)}>{paragraph}</p>
               ))}
               <Actions>
                 <PillLink as="button" $primary onClick={scrollToExperience}>
-                  My experience ↓
+                  View experience ↓
                 </PillLink>
                 <PillLink as={Link} to="/about">
                   Get in touch
+                </PillLink>
+                <PillLink href={profile.cvUrl} download>
+                  <DownloadIcon />
+                  Download CV
                 </PillLink>
               </Actions>
             </Text>
@@ -176,7 +182,7 @@ function Hero() {
 
           <Highlights aria-label="Key figures">
             {highlights.map((h, i) => (
-              <div key={h.value} style={reveal(visible, 3 + i)}>
+              <div key={h.value} data-light style={reveal(visible, 3 + i)}>
                 <dt>{h.value}</dt>
                 <dd>{h.label}</dd>
               </div>

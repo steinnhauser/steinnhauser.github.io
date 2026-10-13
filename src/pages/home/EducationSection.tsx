@@ -11,7 +11,18 @@ import {
   TwoColumn,
 } from "../../components/ui";
 import { academics } from "../../content";
-import { colors } from "../../theme";
+import { breakpoints, NAV_HEIGHT } from "../../theme";
+
+// Title stays in view while the cards scroll past (desktop only).
+const Heading = styled.div`
+  align-self: start;
+  position: sticky;
+  top: calc(${NAV_HEIGHT} + 40px);
+
+  @media (max-width: ${breakpoints.mobile}) {
+    position: static;
+  }
+`;
 
 const Stack = styled.div`
   display: grid;
@@ -32,15 +43,15 @@ const Card = styled(GlassCard)`
 
 function EducationSection() {
   return (
-    <Section curves={3} tinted dividerColor={colors.primary}>
+    <Section curves={3} aurora="tide" slant compact>
       {(visible) => (
         <TwoColumn>
-          <div style={reveal(visible)}>
-            <SectionLabel>03 / education</SectionLabel>
+          <Heading style={reveal(visible)}>
+            <SectionLabel>04 / education</SectionLabel>
             <SectionTitle>
               My Academic <br /> Background
             </SectionTitle>
-          </div>
+          </Heading>
           <Stack>
             {academics.map((a, i) => (
               <Card

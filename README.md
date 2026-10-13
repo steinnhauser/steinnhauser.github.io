@@ -3,8 +3,9 @@
 Personal portfolio website of Steinn Hauser Magnússon, served at
 <https://steinnhm.com>.
 
-Built with [Vite](https://vite.dev), [React](https://react.dev),
-TypeScript and styled-components, and deployed to GitHub Pages from the
+Built with [Vite](https://vite.dev), TypeScript and styled-components,
+written as React code that runs on [Preact](https://preactjs.com) (about
+60 KB smaller; see `vite.config.ts`), and deployed to GitHub Pages from the
 `gh-pages` branch.
 
 ## What the site is for
@@ -76,20 +77,25 @@ first.
 docs/cv/cv.md         The CV: source of truth for all content
 src/
   content.ts          All site text and data, derived from the CV
-  theme.ts            Colours, fonts, breakpoints, frosted-glass mixin
+  theme.ts            Colours, fonts, breakpoints, glass and light mixins
+  fonts.css           Self-hosted fonts (latin subsets)
+  compat/             react → Preact shim (see vite.config.ts)
   App.tsx, main.tsx   Routes (incl. legacy redirects) and entry point
   pages/              Home, Experience (one template for all roles), About
-  pages/home/         Home sections: Hero, Experience, Skills, Education
+  pages/home/         Home sections: Hero, Experience, Selected Work,
+                      Skills, Education
   components/         Layout, TopNav, Section, reveal, Curves, Icons,
                       ExternalLink, shared UI primitives
-  hooks/              useElementOnScreen (drives the scroll animations)
+  hooks/              useElementOnScreen (scroll reveals), usePointerLight
+                      (cursor light on glass)
   assets/photos/      Portrait and landscape backgrounds (web-optimized)
   *.test.ts(x), test/ Tests: content integrity, site-vs-CV, pages/routing
 ```
 
 To change the site's content:
 
-1. Update [`docs/cv/cv.md`](docs/cv/cv.md) if the facts changed.
+1. Update [`docs/cv/cv.md`](docs/cv/cv.md) if the facts changed, and
+   replace the downloadable PDF in `public/cv/`.
 2. Update `src/content.ts`. The pages pick the changes up automatically.
 3. Run `make validate`. `src/cv.test.ts` fails if a title, date,
    certification, language, degree or key figure on the site isn't in the

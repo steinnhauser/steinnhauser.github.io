@@ -32,3 +32,27 @@ describe("image budget", () => {
     expect(total).toBeLessThanOrEqual(250 * KB);
   });
 });
+
+describe("fonts", () => {
+  it("self-hosts the three families, latin subsets only", () => {
+    // Read as text (CSS imports are stubbed out in tests).
+    const [css] = Object.values(
+      import.meta.glob<string>("./fonts.css", {
+        query: "?raw",
+        import: "default",
+        eager: true,
+      }),
+    );
+    for (const family of [
+      "Inter Variable",
+      "Space Grotesk Variable",
+      "JetBrains Mono Variable",
+    ]) {
+      expect(css, family).toMatch(new RegExp(`font-family: ["']${family}["']`));
+    }
+    const files = css.match(/url\([^)]+\)/g) ?? [];
+    expect(files).toHaveLength(6);
+    for (const f of files)
+      expect(f).toMatch(/-latin(-ext)?-wght-normal\.woff2/);
+  });
+});

@@ -14,33 +14,36 @@ export const profile = {
   email: "hausersteinn@gmail.com",
   phone: "+49 179 6047 257",
   headline: "Cloud Operator @ SENEC · Berlin",
+  // Home page heading. The page adds a gold comma, and the first welcome
+  // paragraph continues the sentence ("I'm Steinn, a cloud operator...").
+  greeting: "I'm Steinn",
+  // The CV as a PDF, served from public/cv/.
+  cvUrl: `${import.meta.env.BASE_URL}cv/Steinn-Hauser-Magnusson-CV.pdf`,
   // Home page introduction. Written as a professional summary: role and
   // scope first, then the background that sets it apart.
   welcome: [
-    "Cloud operator and software engineer based in Berlin. At SENEC I run " +
-      "large-scale Kubernetes platforms and build the infrastructure as " +
-      "code, GitOps delivery and automation that keep them secure, " +
+    "a cloud operator and software engineer based in Berlin. At SENEC I " +
+      "run large-scale Kubernetes platforms and build the infrastructure " +
+      "as code, GitOps delivery and automation that keep them secure, " +
       "observable and up to date.",
     "My background is in computational physics and data science: an MSc " +
       "from the University of Oslo, peer-reviewed research in computational " +
       "neuroscience, and production machine-learning work. I work in four " +
       "languages: English, Icelandic, Norwegian and German.",
   ],
+  // About page narrative: what I do, how I work, and how I lead.
   about: [
-    "I enjoy building architectures from scratch and contributing to " +
-      "projects in early stages of development. Projects in this phase have " +
-      "a high level of creative freedom, and the dynamics allow for a lot of " +
-      "interesting possibilities. Once the architecture is mapped and a " +
-      "thorough round of R&D is completed, I find that proof-of-concept " +
-      "development becomes a path of little resistance. I also have " +
-      "experience leading and communicating with UX & design, frontend and " +
-      "backend teams, as well as onboarding and training new team members.",
-    "Day to day I work on platform operations: Kubernetes clusters managed " +
-      "through Terragrunt, Helm and ArgoCD, GitLab CI/CD pipelines, and " +
-      "observability with Prometheus, Grafana and Alertmanager. I care about " +
-      "modular, reusable infrastructure code, strict access policies and " +
-      "secure networking, and changes that are reviewed and promoted through " +
-      "environments before they reach production.",
+    "I work in platform operations: Kubernetes clusters managed with " +
+      "Terragrunt, Helm and ArgoCD, GitLab CI/CD pipelines, and " +
+      "observability with Prometheus, Grafana and Alertmanager.",
+    "I enjoy building architectures from scratch and joining projects " +
+      "early, while there is still room to shape them: map the problem, " +
+      "research the options, prove the idea, then build it properly. I care " +
+      "about modular, reusable infrastructure code, strict access policies " +
+      "and secure networking, and about changes that are reviewed and " +
+      "promoted through environments before they reach production.",
+    "I have led and worked closely with UX and design, frontend and backend " +
+      "teams, and I enjoy onboarding and training new team members.",
   ],
 };
 
@@ -69,6 +72,8 @@ export type Experience = {
   // Title shown on the home page tile.
   tileTitle: string;
   company: string;
+  // Shorter company name for the home page tile, if `company` is long.
+  shortCompany?: string;
   logo: string;
   curves: CurveVariant;
   positions: Position[];
@@ -201,6 +206,7 @@ export const experiences: Experience[] = [
     slug: "uio",
     tileTitle: "Cluster Project Manager",
     company: "University of Oslo, Physics Department",
+    shortCompany: "University of Oslo",
     logo: uioLogo,
     curves: 8,
     positions: [
@@ -215,6 +221,70 @@ export const experiences: Experience[] = [
       },
     ],
     tags: ["HPC", "ROCKS", "Linux", "Networking"],
+  },
+];
+
+// Selected work for the home page. Every statement must come from the CV
+// (docs/cv/cv.md); add measured outcomes here only when the owner provides
+// them.
+export type Project = {
+  title: string;
+  context: string;
+  summary: string;
+  // Optional "how it fits together" flow, rendered as a small diagram.
+  flow?: { label: string; detail: string }[];
+  tags: string[];
+  link?: { label: string; href: string };
+  featured?: boolean;
+};
+
+export const projects: Project[] = [
+  {
+    title: "Automated server maintenance platform",
+    context: "SENEC · Cloud Operator · 2026",
+    summary:
+      "A secure pipeline for automated maintenance updates across 50+ " +
+      "Ansible-managed, WireGuard-connected servers, built with strict " +
+      "access policies and secure networking. Hosts run a lightweight Go " +
+      "client for mTLS-secured maintenance checks, an API gateway schedules " +
+      "each host's maintenance slot, custom aptly-based repository mirrors " +
+      "serve the packages, and dashboards give an overview of host package " +
+      "lists and updates.",
+    flow: [
+      { label: "Go client", detail: "mTLS maintenance checks" },
+      { label: "API gateway", detail: "schedules maintenance slots" },
+      { label: "aptly mirrors", detail: "custom package repositories" },
+      { label: "Dashboards", detail: "package lists and update overview" },
+    ],
+    tags: ["Go", "mTLS", "Ansible", "WireGuard", "aptly", "Linux"],
+    featured: true,
+  },
+  {
+    title: "Cardiac artefact removal for MNE-Python",
+    context: "Max Planck Institute · Guest Developer · 2024-2025",
+    summary:
+      "Helped develop, package and formalize a tool that removes cardiac " +
+      "artefacts from spinal electrophysiology data, contributed to the " +
+      "open-source MNE-Python library.",
+    tags: ["Python", "MNE-Python", "Signal processing", "Open source"],
+    link: {
+      label: "Pull request #13037",
+      href: "https://github.com/mne-tools/mne-python/pull/13037",
+    },
+  },
+  {
+    title: "Predicting brain signals from neuronal networks",
+    context: "University of Oslo · MSc thesis & publication · 2021-2022",
+    summary:
+      "Evaluated the kernel and hybrid approximation methods for computing " +
+      "local field potentials across a range of network conditions, " +
+      "simulating neuronal networks in Python with LFPy. Published in PLOS " +
+      "Computational Biology (2022).",
+    tags: ["Python", "LFPy", "Computational neuroscience", "Simulation"],
+    link: {
+      label: "doi.org/10.1371/journal.pcbi.1010353",
+      href: "https://doi.org/10.1371/journal.pcbi.1010353",
+    },
   },
 ];
 
@@ -359,6 +429,10 @@ export const volunteering = [
     period: "January 2017 - June 2020",
     title: "Mathematics Tutor",
     organization: "ENT3R",
-    description: "",
+    // Provided by the owner; the CV lists only the title and dates.
+    description:
+      "Alongside my own university classes, I tutored students aged 16 to 18, " +
+      "helping them prepare for their final exams in advanced mathematics " +
+      "and the sciences.",
   },
 ];

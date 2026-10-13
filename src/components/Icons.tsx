@@ -36,25 +36,47 @@ export const StackOverflowIcon = () => (
   />
 );
 
-// Slanted divider drawn at the top of a section, filled with the colour of
-// the section above it.
-export function SectionDivider({ color }: { color: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 1200 25"
-      preserveAspectRatio="none"
-      fill={color}
-      aria-hidden="true"
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        zIndex: 1,
-      }}
-    >
-      <path d="M1200 25L0 0 0 0 1200 0 1200 25z" />
-    </svg>
-  );
-}
+// Arrow into a tray, for the "Download CV" buttons.
+export const DownloadIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="100%"
+    height="100%"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" />
+  </svg>
+);
+
+// Site monogram: a gold "S" drawn as one stroke, like the background curves.
+// Same artwork as public/favicon.svg, without the tile.
+export const Monogram = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="14 10 36 46"
+    width="100%"
+    height="100%"
+    aria-hidden="true"
+  >
+    <defs>
+      <linearGradient id="monogram-gold" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#f6cd85" />
+        <stop offset="1" stopColor="#e9a443" />
+      </linearGradient>
+    </defs>
+    <path
+      d="M42.5 19.5 C 39 14.5, 23 14, 22 22.5 C 21 31, 42.5 30.5, 42.5 40.5 C 42.5 50, 25 51, 20.5 44.5"
+      fill="none"
+      stroke="url(#monogram-gold)"
+      strokeWidth="6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);

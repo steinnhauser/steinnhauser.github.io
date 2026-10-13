@@ -6,7 +6,15 @@
 
 :root {
   color-scheme: dark;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family:
+    "Inter Variable",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  /* Inter: lowercase "l" with a tail, so l / I / 1 never look alike
+     (useful in tool names such as "mTLS" or "LLMs"). */
+  font-feature-settings: "cv05";
   line-height: 1.5;
   font-weight: 400;
   color: #ffffff;
@@ -39,6 +47,29 @@ button {
   font: inherit;
 }
 
+/* Typography: balanced headings, no single-word last lines in paragraphs,
+   and body text a touch softer than headings for clearer hierarchy. */
+h1,
+h2,
+h3 {
+  font-family:
+    "Space Grotesk Variable", "Inter Variable", system-ui, sans-serif;
+  font-weight: 700;
+  text-wrap: balance;
+  letter-spacing: -0.025em;
+}
+h3 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+p,
+li {
+  text-wrap: pretty;
+}
+p {
+  color: rgba(255, 255, 255, 0.86);
+}
+
 :focus-visible {
   outline: 2px solid #8fa8dc;
   outline-offset: 4px;
@@ -59,6 +90,31 @@ button {
 }
 .flex-faded-out-reduced {
   gap: 2vw;
+}
+
+/* ---------- Scroll-driven effects (progressive enhancement) ---------- */
+
+@keyframes nav-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Background layers drift slightly slower than the page (parallax). */
+@keyframes parallax {
+  from {
+    transform: translateY(var(--parallax, 40px));
+  }
+  to {
+    transform: translateY(calc(-1 * var(--parallax, 40px)));
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .parallax {
+    animation: parallax linear both;
+    animation-timeline: view();
+  }
 }
 
 /* ---------- Background curves ---------- */
@@ -109,6 +165,9 @@ button {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .parallax {
+    animation: none !important;
   }
   *,
   *::before,
