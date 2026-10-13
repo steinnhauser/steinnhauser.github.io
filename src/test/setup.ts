@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup } from "@testing-library/react";
+import { cleanup } from "@testing-library/preact";
 import { afterEach, vi } from "vitest";
 
 // jsdom has no IntersectionObserver. Report every observed element as

@@ -12,12 +12,18 @@ const Wrapper = styled.section<{
 }>`
   position: relative;
   display: grid;
+  /* Page-top sections fill the screen; later ones take at least 85% of it,
+     so each still reads as its own "page" without large empty bands. */
   ${(p) =>
-    !p.$compact &&
-    css`
-      min-height: 100vh;
-      min-height: 100svh;
-    `}
+    p.$compact
+      ? css`
+          min-height: 85vh;
+          min-height: 85svh;
+        `
+      : css`
+          min-height: 100vh;
+          min-height: 100svh;
+        `}
   /* Opaque, so a slanted section fully covers the strip it overlaps. */
   background-color: ${colors.primary};
   background-image: ${(p) =>
@@ -101,8 +107,8 @@ type Props = {
   tinted?: boolean;
   // Diagonal top edge that overlaps the section above.
   slant?: boolean;
-  // Height follows the content (with generous padding) instead of filling
-  // the screen. For every section below the first on a page.
+  // At least 85% of the screen (content centred) instead of the full
+  // screen. For every section below the first on a page.
   compact?: boolean;
   photo?: SectionPhoto;
   // Coloured glows behind the glass.

@@ -47,7 +47,7 @@ export const SectionTitle = styled.h2`
   margin: 0 0 32px;
 `;
 
-// The full stop in "Welcome." / "About me.", lit like the low sun.
+// The full stop in "Hi, I'm Steinn." / "About me.", lit like the low sun.
 export const Dot = styled.span`
   color: ${colors.sun};
 `;

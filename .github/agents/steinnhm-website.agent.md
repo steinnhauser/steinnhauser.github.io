@@ -1,6 +1,6 @@
 ---
 name: steinnhm-website
-description: Maintains steinnhm.com, Steinn Hauser Magnússon's personal portfolio site (Vite + React + TypeScript, deployed to GitHub Pages via the gh-pages branch). Knows the site's purpose, its page structure, the CV it must reflect, the design language, how to verify changes, and the current project status.
+description: Maintains steinnhm.com, Steinn Hauser Magnússon's personal portfolio site (Vite + Preact (React-compatible) + TypeScript, deployed to GitHub Pages via the gh-pages branch). Knows the site's purpose, its page structure, the CV it must reflect, the design language, how to verify changes, and the current project status.
 ---
 
 # steinnhm.com website agent
@@ -31,8 +31,10 @@ within seconds and wants to read further.
 
 - `docs/cv/cv.md` is a Markdown transcription of the owner's CV. Agents read
   it, and git shows changes to it as reviewable diffs.
-- **Workflow when the CV changes:** update `docs/cv/cv.md` first, then
-  `src/content.ts`, then run `make validate`.
+- **Workflow when the CV changes:** update `docs/cv/cv.md` first, replace
+  the downloadable PDF at `public/cv/Steinn-Hauser-Magnusson-CV.pdf` (the
+  owner's master copy is `~/personal/projects/cv_steinnhm.pdf`), then update
+  `src/content.ts` and run `make validate`.
 - `src/cv.test.ts` fails the build if the site shows a role title, date
   range, certification, language, degree, volunteer role, publication link
   or key figure that isn't in the CV.
@@ -42,7 +44,9 @@ within seconds and wants to read further.
 - Deliberate exceptions (owner's decisions): SINTEF Energi (summer 2020)
   stays on the site although it is no longer on the CV (`NOT_ON_CV` in
   `cv.test.ts`). The "GitHub Actions" skill and the USIT bullet under UiO
-  come from the original site.
+  come from the original site. The ENT3R tutoring description (students
+  aged 16 to 18, final exams in advanced maths and sciences) was provided
+  by the owner; the CV lists only the title and dates.
 - The repository is **public**: everything in `docs/cv/` is published with
   it.
 
@@ -50,22 +54,31 @@ within seconds and wants to read further.
 
 `HashRouter`, so every URL looks like `https://steinnhm.com/#/...`.
 
-| Route                   | Page                                                                                                                                                                                                                                                                                                          |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `#/`                    | **Home**, four sections (a full-screen hero, then content-height sections). **Hero:** portrait, headline, "Welcome." and a two-paragraph professional summary, CTAs, and the key-figure band (`highlights`). **01 Experience:** tiles linking to each role. **02 Skills & Certifications.** **03 Education.** |
-| `#/experience/:slug`    | One page per experience (`experiences[]`): logo, company, every position with dates and bullets, technology tags, and prev/next links.                                                                                                                                                                        |
-| `#/about`               | **About:** longer narrative, contact card (email, phone, location, profiles), and Volunteering & Open Source.                                                                                                                                                                                                 |
-| `#/senec`, `#/uio`, ... | Legacy URLs from the old site. They redirect to `#/experience/...` (`legacyRoutes` in `App.tsx`). Anything else redirects home.                                                                                                                                                                               |
+| Route                   | Page                                                                                                                                                                                                                                                                                                                                |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `#/`                    | **Home**, four sections (a full-screen hero, then sections of at least 85% screen height). **Hero:** portrait, headline, "Hi, I'm Steinn." and a two-paragraph professional summary, CTAs, and the key-figure band (`highlights`). **01 Experience:** tiles linking to each role. **02 Skills & Certifications.** **03 Education.** |
+| `#/experience/:slug`    | One page per experience (`experiences[]`): logo, company, every position with dates and bullets, technology tags, and prev/next links.                                                                                                                                                                                              |
+| `#/about`               | **About:** longer narrative, contact card (email, phone, location, profiles), and Volunteering & Open Source.                                                                                                                                                                                                                       |
+| `#/senec`, `#/uio`, ... | Legacy URLs from the old site. They redirect to `#/experience/...` (`legacyRoutes` in `App.tsx`). Anything else redirects home.                                                                                                                                                                                                     |
 
 Every page shares the frosted top nav (Home, About Me, GitHub, LinkedIn,
 Stack Overflow) and a footer with contact links.
 
 ## Stack
 
-- Node 24 LTS (`.nvmrc`). Vite 8, React 19 and TypeScript 6 (stays on 6.x
-  until typescript-eslint supports 7). react-router 8. styled-components 6.
+- Node 24 LTS (`.nvmrc`). Vite 8, TypeScript 6 (stays on 6.x until
+  typescript-eslint supports 7), react-router 8, styled-components 6.
+- **Preact 11 instead of React** (about 60 KB smaller). Code is written
+  and typed as React (`@types/react`); `vite.config.ts` aliases every
+  `react`/`react-dom` import, including inside dependencies, to
+  `preact/compat`. `src/compat/react.js` adds a pass-through
+  `useOptimistic` (missing from preact/compat; react-router imports it only
+  for data routers, which this site doesn't use). `src/compat/compat.test.ts`
+  fails if the aliasing breaks. Use `@testing-library/preact`, not
+  `@testing-library/react`. A new dependency that needs a React feature
+  Preact lacks must be checked first.
 - Prettier, ESLint 10 (typescript-eslint, react-hooks, react-refresh), and
-  Vitest with Testing Library and jsdom.
+  Vitest with Testing Library (Preact) and jsdom.
 - Fonts: Poppins (text and headings) and JetBrains Mono (eyebrows, tags,
   figures), from Google Fonts in `index.html`.
 - `Makefile` for all tasks. Every Node command goes through
@@ -155,8 +168,9 @@ owner:
     devices with hover), so they combine with `reveal()`'s inline transform.
 - **Portfolio conventions:** monospace headline, key-figure band, numbered
   section labels ("01 / experience"), monospace tags and year ranges.
-  Headings are bold Poppins ending in a gold full stop ("Welcome.",
-  "About me.").
+  Headings are bold Poppins ending in a gold full stop ("Hi, I'm Steinn.",
+  "About me."). The hero has three actions: View experience (primary), Get
+  in touch, and Download CV; the About contact card also offers the CV.
 
 ## Content rules
 
@@ -196,7 +210,7 @@ owner:
   (`core.sshCommand`), and GPG-signs commits and tags with key
   `F3B9E1AA2D4C4419`, which GitHub verifies. The owner's global git config
   is for work; don't change it.
-- Versions: `v1.0.0` tags the old static site. The React site is `2.x`
+- Versions: `v1.0.0` tags the old static site. The current site (React-style code on Preact) is `2.x`
   (`package.json`).
 
 ## Status
@@ -236,6 +250,12 @@ _Last updated: 2026-10-13_
   section via router state), gold bullet markers, a labelled tag group and
   prev/next pills, typography tuning (`text-wrap`, softer body text), and
   a tighter About narrative.
+- Hero heading "Hi, I'm Steinn." with an intro that now reads as a full
+  sentence; "Download CV" buttons (hero and About; PDF in `public/cv/`);
+  lower sections at least 85% of the screen tall; expanded ENT3R tutoring
+  description.
+- Moved from React to Preact: JavaScript 111.8 → 52.3 KB gzipped.
+- Dismissed the stale Dependabot alert #5 (jQuery file deleted in 2021).
 - Build size: images re-encoded to WebP at their displayed size (558 KB →
   184 KB, with 800px backdrops on phones), an unused font weight dropped,
   and an image budget test added. `dist/` is about 600 KB in total.
@@ -243,7 +263,7 @@ _Last updated: 2026-10-13_
   rebuilt every render; slide-ins that never ran; sections taller than the
   viewport never appearing; accessibility gaps.
 - Tooling: latest dependencies (`npm audit`: 0), Prettier, ESLint, Vitest
-  (43 tests), pre-commit, CI with deploy, Dependabot, Makefile.
+  (48 tests), pre-commit, CI with deploy, Dependabot, Makefile.
 
 ### Open / next steps
 
@@ -252,15 +272,7 @@ _Last updated: 2026-10-13_
   could not be reproduced in headless Chrome against the dev server or the
   production preview (four round trips, no failed requests). Waiting on
   browser, URL and DevTools Network details from the owner.
-- Dismiss the stale Dependabot alert #5. Its jQuery file was deleted in 2021
-  and `master` no longer loads jQuery.
-- Optional "Download CV" button: add the PDF to `public/cv/` and link it
-  from the hero and About.
 - In Settings → Branches, consider requiring the CI checks before merging
   into `master`.
 - Move to TypeScript 7 when typescript-eslint supports it.
-- JavaScript is about 112 KB gzipped, two-thirds of it React itself.
-  Switching to Preact (`preact/compat`) would save about 60 KB but needs
-  checking against react-router 8 and Testing Library; only do it if the
-  owner wants it.
 - Consider an Open Graph preview image and a full favicon set.

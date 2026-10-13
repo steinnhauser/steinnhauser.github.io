@@ -73,7 +73,7 @@ function Layout({ children }: { children: ReactNode }) {
             </ExternalLink>
           ))}
         </nav>
-        Made using Vite + React + TypeScript.
+        Made using Vite + Preact + TypeScript.
         <br />
         {profile.name} {new Date().getFullYear()}.
       </Footer>
