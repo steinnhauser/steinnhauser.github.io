@@ -54,7 +54,7 @@ const LanguageList = styled.dl`
 
 function SkillsSection() {
   return (
-    <Section curves={5} aurora="tide" dividerColor={colors.tint}>
+    <Section curves={5} aurora="tide" slant compact>
       {(visible) => (
         <>
           <div style={reveal(visible)}>

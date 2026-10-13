@@ -165,7 +165,7 @@ function Hero() {
               ))}
               <Actions>
                 <PillLink as="button" $primary onClick={scrollToExperience}>
-                  My experience ↓
+                  View experience ↓
                 </PillLink>
                 <PillLink as={Link} to="/about">
                   Get in touch

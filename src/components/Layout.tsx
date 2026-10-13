@@ -2,7 +2,7 @@ import { type ReactNode, useEffect } from "react";
 import { useLocation } from "react-router";
 import styled from "styled-components";
 import { profile, socials } from "../content";
-import { colors, fonts } from "../theme";
+import { colors, fonts, SLANT, slantTop } from "../theme";
 import TopNav from "./TopNav";
 import ExternalLink from "./ExternalLink";
 
@@ -28,12 +28,14 @@ const Body = styled.div`
   }
 `;
 
+// Slants over the last section, like the sections do over each other.
 const Footer = styled.footer`
-  padding: 40px 16px;
+  ${slantTop}
+  background: ${colors.primary};
+  padding: calc(${SLANT} + 40px) 16px 40px;
   text-align: center;
   font-size: 0.85rem;
   color: ${colors.muted};
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
 
   nav {
     display: flex;
@@ -47,12 +49,16 @@ const Footer = styled.footer`
 `;
 
 function Layout({ children }: { children: ReactNode }) {
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
+  const section = (state as { section?: string } | null)?.section;
 
-  // HashRouter keeps the scroll position between pages; start each at the top.
+  // HashRouter keeps the scroll position between pages: start each page at
+  // the top, or at the section a link asked for (`state={{ section }}`).
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    const target = section && document.getElementById(section);
+    if (target) target.scrollIntoView();
+    else window.scrollTo(0, 0);
+  }, [pathname, section]);
 
   return (
     <Body>

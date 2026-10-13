@@ -39,6 +39,22 @@ button {
   font: inherit;
 }
 
+/* Typography: balanced headings, no single-word last lines in paragraphs,
+   and body text a touch softer than headings for clearer hierarchy. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+  letter-spacing: -0.01em;
+}
+p,
+li {
+  text-wrap: pretty;
+}
+p {
+  color: rgba(255, 255, 255, 0.86);
+}
+
 :focus-visible {
   outline: 2px solid #8fa8dc;
   outline-offset: 4px;
