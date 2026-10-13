@@ -1,27 +1,38 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./index.css";
-import { HashRouter, Route, Routes } from "react-router-dom";
-import About from "./About";
-import App from "./App";
+import Layout from "./components/Layout";
+import About from "./pages/About";
+import Experience from "./pages/Experience";
+import Home from "./pages/Home";
 
-import SENECAbout from "./components/professions/Senec";
-import FutureReadyAbout from "./components/professions/FutureReady";
-import SINTEFAbout from "./components/professions/Sintef";
-import UiOAbout from "./components/professions/UiO";
+// Experience pages used to live at the top level; keep old links working.
+const legacyRoutes = {
+  senec: "senec-software-developer",
+  "future-ready": "future-ready",
+  sintef: "sintef",
+  uio: "uio",
+};
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <HashRouter>
-      <Routes>
-        <Route path={"/"} element={<App />} />
-        <Route path={"/about"} element={<About />} />
-
-        <Route path={"/senec"} element={<SENECAbout />} />
-        <Route path={"/future-ready"} element={<FutureReadyAbout />} />
-        <Route path={"/sintef"} element={<SINTEFAbout />} />
-        <Route path={"/uio"} element={<UiOAbout />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/experience/:slug" element={<Experience />} />
+          {Object.entries(legacyRoutes).map(([from, to]) => (
+            <Route
+              key={from}
+              path={`/${from}`}
+              element={<Navigate to={`/experience/${to}`} replace />}
+            />
+          ))}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Layout>
     </HashRouter>
   </React.StrictMode>
 );
