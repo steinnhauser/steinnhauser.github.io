@@ -1,5 +1,6 @@
 import { Link, Navigate, useParams } from "react-router";
 import styled from "styled-components";
+import { reveal } from "../components/reveal";
 import Section from "../components/Section";
 import { Eyebrow, GlassCard, Muted, Tag, TagList } from "../components/ui";
 import { experiences } from "../content";
@@ -82,7 +83,7 @@ function Experience() {
   return (
     <Section curves={exp.curves} tinted>
       {(visible) => (
-        <Card>
+        <Card style={reveal(visible)}>
           <Header>
             <img src={exp.logo} alt={`${exp.company} logo`} />
             <Muted>{exp.company}</Muted>

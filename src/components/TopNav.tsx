@@ -47,7 +47,7 @@ const PageLink = styled(NavLink)`
     bottom: -4px;
     height: 2px;
     border-radius: 2px;
-    background: ${colors.accent};
+    background: ${colors.sun};
     transform: scaleX(0);
     transition: transform 300ms ease;
   }

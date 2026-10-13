@@ -1,6 +1,15 @@
 import styled from "styled-components";
+import coastSunset from "../assets/photos/coast-sunset.webp";
+import { reveal } from "../components/reveal";
 import Section from "../components/Section";
-import { Eyebrow, GlassCard, Muted, SectionTitle } from "../components/ui";
+import {
+  Dot,
+  Eyebrow,
+  GlassCard,
+  Muted,
+  SectionLabel,
+  SectionTitle,
+} from "../components/ui";
 import { profile, socials, volunteering } from "../content";
 import { breakpoints, colors } from "../theme";
 
@@ -66,19 +75,24 @@ const VolunteerGrid = styled.div`
 function About() {
   return (
     <>
-      <Section curves={4}>
+      <Section curves={4} photo={coastSunset}>
         {(visible) => (
           <Intro
             className={
               visible ? "flex-faded-in-reduced" : "flex-faded-out-reduced"
             }
           >
-            <h1>About me.</h1>
-            {profile.about.map((p) => (
-              <p key={p.slice(0, 32)}>{p}</p>
+            <Eyebrow style={reveal(visible, 0)}>{profile.headline}</Eyebrow>
+            <h1 style={reveal(visible, 0)}>
+              About me<Dot>.</Dot>
+            </h1>
+            {profile.about.map((p, i) => (
+              <p key={p.slice(0, 32)} style={reveal(visible, 1 + i)}>
+                {p}
+              </p>
             ))}
 
-            <Contact as="section">
+            <Contact as="section" style={reveal(visible, 3)}>
               <h2>For project inquiries feel free to contact me</h2>
               <dl style={{ display: "contents" }}>
                 <dt>Email</dt>
@@ -117,16 +131,13 @@ function About() {
       <Section curves={6} tinted dividerColor={colors.primary}>
         {(visible) => (
           <>
-            <SectionTitle>Volunteering &amp; Open Source</SectionTitle>
+            <div style={reveal(visible)}>
+              <SectionLabel>open source</SectionLabel>
+              <SectionTitle>Volunteering &amp; Open Source</SectionTitle>
+            </div>
             <VolunteerGrid>
               {volunteering.map((v, i) => (
-                <GlassCard
-                  key={v.title}
-                  style={{
-                    transform: visible ? "none" : "translateY(14px)",
-                    transition: `transform ${600 + 150 * i}ms ease-in-out`,
-                  }}
-                >
+                <GlassCard key={v.title} style={reveal(visible, i + 1)}>
                   <Eyebrow>{v.period}</Eyebrow>
                   <h3>{v.title}</h3>
                   <Muted>{v.organization}</Muted>
