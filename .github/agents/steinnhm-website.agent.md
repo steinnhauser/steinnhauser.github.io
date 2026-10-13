@@ -1,6 +1,6 @@
 ---
 name: steinnhm-website
-description: Maintains steinnhm.com, Steinn Hauser Magnússon's personal portfolio site (Vite + React + TypeScript, deployed to GitHub Pages via the gh-pages branch). Knows the site's purpose, its page structure, the CV it must reflect, the design language, how to verify changes, and the current project status.
+description: Maintains steinnhm.com, Steinn Hauser Magnússon's personal portfolio site (Vite + Preact (React-compatible) + TypeScript, deployed to GitHub Pages via the gh-pages branch). Knows the site's purpose, its page structure, the CV it must reflect, the design language, how to verify changes, and the current project status.
 ---
 
 # steinnhm.com website agent
@@ -31,8 +31,10 @@ within seconds and wants to read further.
 
 - `docs/cv/cv.md` is a Markdown transcription of the owner's CV. Agents read
   it, and git shows changes to it as reviewable diffs.
-- **Workflow when the CV changes:** update `docs/cv/cv.md` first, then
-  `src/content.ts`, then run `make validate`.
+- **Workflow when the CV changes:** update `docs/cv/cv.md` first, replace
+  the downloadable PDF at `public/cv/Steinn-Hauser-Magnusson-CV.pdf` (the
+  owner's master copy is `~/personal/projects/cv_steinnhm.pdf`), then update
+  `src/content.ts` and run `make validate`.
 - `src/cv.test.ts` fails the build if the site shows a role title, date
   range, certification, language, degree, volunteer role, publication link
   or key figure that isn't in the CV.
@@ -42,7 +44,9 @@ within seconds and wants to read further.
 - Deliberate exceptions (owner's decisions): SINTEF Energi (summer 2020)
   stays on the site although it is no longer on the CV (`NOT_ON_CV` in
   `cv.test.ts`). The "GitHub Actions" skill and the USIT bullet under UiO
-  come from the original site.
+  come from the original site. The ENT3R tutoring description (students
+  aged 16 to 18, final exams in advanced maths and sciences) was provided
+  by the owner; the CV lists only the title and dates.
 - The repository is **public**: everything in `docs/cv/` is published with
   it.
 
@@ -50,53 +54,70 @@ within seconds and wants to read further.
 
 `HashRouter`, so every URL looks like `https://steinnhm.com/#/...`.
 
-| Route                   | Page                                                                                                                                                                                                                                                                   |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `#/`                    | **Home**, four full-height sections. **Hero:** portrait, headline, "Welcome." and a two-paragraph professional summary, CTAs, and the key-figure band (`highlights`). **01 Experience:** tiles linking to each role. **02 Skills & Certifications.** **03 Education.** |
-| `#/experience/:slug`    | One page per experience (`experiences[]`): logo, company, every position with dates and bullets, technology tags, and prev/next links.                                                                                                                                 |
-| `#/about`               | **About:** longer narrative, contact card (email, phone, location, profiles), and Volunteering & Open Source.                                                                                                                                                          |
-| `#/senec`, `#/uio`, ... | Legacy URLs from the old site. They redirect to `#/experience/...` (`legacyRoutes` in `App.tsx`). Anything else redirects home.                                                                                                                                        |
+| Route                   | Page                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `#/`                    | **Home**, four sections (a full-screen hero, then sections of at least 85% screen height). **Hero:** portrait, headline, "I'm Steinn," (the first paragraph continues the sentence) and a two-paragraph professional summary, CTAs, and the key-figure band (`highlights`). **01 Experience:** muted logo tiles linking to each role. **02 Selected Work:** project cards (`projects`), the featured one with a flow diagram. **03 Skills & Certifications.** **04 Education.** |
+| `#/experience/:slug`    | One page per experience (`experiences[]`): logo, company, every position with dates and bullets, technology tags, and prev/next links.                                                                                                                                                                                                                                                                                                                                          |
+| `#/about`               | **About:** longer narrative, contact card (email, phone, location, profiles), and Volunteering & Open Source.                                                                                                                                                                                                                                                                                                                                                                   |
+| `#/senec`, `#/uio`, ... | Legacy URLs from the old site. They redirect to `#/experience/...` (`legacyRoutes` in `App.tsx`). Anything else redirects home.                                                                                                                                                                                                                                                                                                                                                 |
 
 Every page shares the frosted top nav (Home, About Me, GitHub, LinkedIn,
 Stack Overflow) and a footer with contact links.
 
 ## Stack
 
-- Node 24 LTS (`.nvmrc`). Vite 8, React 19 and TypeScript 6 (stays on 6.x
-  until typescript-eslint supports 7). react-router 8. styled-components 6.
+- Node 24 LTS (`.nvmrc`). Vite 8, TypeScript 6 (stays on 6.x until
+  typescript-eslint supports 7), react-router 8, styled-components 6.
+- **Preact 11 instead of React** (about 60 KB smaller). Code is written
+  and typed as React (`@types/react`); `vite.config.ts` aliases every
+  `react`/`react-dom` import, including inside dependencies, to
+  `preact/compat`. `src/compat/react.js` adds a pass-through
+  `useOptimistic` (missing from preact/compat; react-router imports it only
+  for data routers, which this site doesn't use). `src/compat/compat.test.ts`
+  fails if the aliasing breaks. Use `@testing-library/preact`, not
+  `@testing-library/react`. A new dependency that needs a React feature
+  Preact lacks must be checked first.
 - Prettier, ESLint 10 (typescript-eslint, react-hooks, react-refresh), and
-  Vitest with Testing Library and jsdom.
-- Fonts: Poppins (text and headings) and JetBrains Mono (eyebrows, tags,
-  figures), from Google Fonts in `index.html`.
+  Vitest with Testing Library (Preact) and jsdom.
+- Fonts, self-hosted (no Google Fonts; faster and GDPR-safe):
+  **Space Grotesk** for headings and nav, **Inter** for body text,
+  **JetBrains Mono** for eyebrows, tags and figures (`fonts` in `theme.ts`).
+  `src/fonts.css` declares only the latin and latin-ext subsets of the
+  `@fontsource-variable` packages; `assets.test.ts` checks it.
+- Brand assets in `public/`: `favicon.svg` (gold stroke "S" monogram on a
+  dark tile, also the `Monogram` component in the nav), `favicon-32.png`,
+  `apple-touch-icon.png`, and `og-image.jpg` (1200×630 link preview; the
+  `og:image`/`twitter:card` tags are in `index.html`). Re-render the PNG
+  and JPEG files if the monogram, portrait or title change.
 - `Makefile` for all tasks. Every Node command goes through
   `scripts/node-env.sh`, which switches to the `.nvmrc` Node via nvm. The
   owner's shell defaults to Node 22.9, and the tests crash on that version.
 
 ## Project map
 
-| Path                                      | Purpose                                                                                                                                               |
-| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `docs/cv/cv.md`                           | The CV, the source of truth for content.                                                                                                              |
-| `src/content.ts`                          | **All site text and data**: profile, intro, highlights, experiences, skills, certifications, languages, education, volunteering.                      |
-| `src/theme.ts`                            | Colour tokens (incl. the `sun` accent), fonts, breakpoint, nav height, and the `glass` mixin.                                                         |
-| `src/main.tsx` / `src/App.tsx`            | Entry point (`HashRouter`); layout and routes, including legacy redirects.                                                                            |
-| `src/pages/Home.tsx`                      | Composes the home sections from `src/pages/home/` (`Hero`, `ExperienceSection`, `SkillsSection`, `EducationSection`).                                 |
-| `src/pages/Experience.tsx`                | One template for every experience page.                                                                                                               |
-| `src/pages/About.tsx`                     | About page.                                                                                                                                           |
-| `src/components/Section.tsx`              | Full-height section: background curves, optional photo backdrop (`{ large, small }`), aurora, tint, slanted divider. Children are `(visible) => ...`. |
-| `src/components/Aurora.tsx`               | Drifting colour glows behind the glass: `dusk` (About), `tide` (Skills, Volunteering, experience pages). None on the hero.                            |
-| `src/components/reveal.ts`                | `reveal(visible, index, offset)`: per-element scroll-reveal styles.                                                                                   |
-| `src/components/ui.tsx`                   | Styled primitives: `GlassCard`, `LiquidPanel`, `SectionTitle`, `SectionLabel`, `Dot`, `Eyebrow`, `Muted`, `Tag`/`TagList`, `PillLink`, `TwoColumn`.   |
-| `src/components/ExternalLink.tsx`         | Use for every link to another site (new tab, `rel="noopener noreferrer"`).                                                                            |
-| `src/components/Layout.tsx`, `TopNav.tsx` | Page shell (nav, footer, grain overlay, scroll-to-top) and the top navigation.                                                                        |
-| `src/components/Curves.tsx`, `Icons.tsx`  | The eight background curve variants; social icons and the section divider.                                                                            |
-| `src/hooks/useElementOnScreen.ts`         | IntersectionObserver hook that drives all scroll animation.                                                                                           |
-| `src/assets/photos/`, `src/assets/logos/` | WebP portrait, landscape backdrops (large + 800px variants) and company logos. Raw originals are git-ignored.                                         |
-| `src/*.test.ts(x)`, `src/test/`           | `content.test.ts` (data integrity), `cv.test.ts` (site matches CV), `assets.test.ts` (image budget), `App.test.tsx` (pages and routing).              |
-| `Makefile`, `scripts/node-env.sh`         | Task runner and Node-version wrapper (also used by the pre-commit hooks).                                                                             |
-| `.pre-commit-config.yaml`                 | Hygiene, Prettier, ESLint, `tsc` and Vitest hooks, identical to CI.                                                                                   |
-| `.github/workflows/ci.yml`                | PR checks (pre-commit hooks), build, and deploy to `gh-pages` on `master`.                                                                            |
-| `.github/dependabot.yml`                  | Weekly npm and GitHub Actions update PRs.                                                                                                             |
+| Path                                      | Purpose                                                                                                                                                                                   |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `docs/cv/cv.md`                           | The CV, the source of truth for content.                                                                                                                                                  |
+| `src/content.ts`                          | **All site text and data**: profile, intro, highlights, experiences, skills, certifications, languages, education, volunteering.                                                          |
+| `src/theme.ts`                            | Colour tokens (incl. the `sun` accent), fonts, breakpoint, nav height, and the `glass` mixin.                                                                                             |
+| `src/main.tsx` / `src/App.tsx`            | Entry point (`HashRouter`); layout and routes, including legacy redirects.                                                                                                                |
+| `src/pages/Home.tsx`                      | Composes the home sections from `src/pages/home/` (`Hero`, `ExperienceSection`, `SkillsSection`, `EducationSection`).                                                                     |
+| `src/pages/Experience.tsx`                | One template for every experience page.                                                                                                                                                   |
+| `src/pages/About.tsx`                     | About page.                                                                                                                                                                               |
+| `src/components/Section.tsx`              | Page section: background curves, optional photo backdrop (`{ large, small }`), aurora, tint; `slant` (diagonal top edge) and `compact` (content height). Children are `(visible) => ...`. |
+| `src/components/Aurora.tsx`               | Drifting colour glows behind the glass: `dusk` (About), `tide` (Skills, Volunteering, experience pages). None on the hero.                                                                |
+| `src/components/reveal.ts`                | `reveal(visible, index, offset)`: per-element scroll-reveal styles.                                                                                                                       |
+| `src/components/ui.tsx`                   | Styled primitives: `GlassCard`, `LiquidPanel`, `SectionTitle`, `SectionLabel`, `Dot`, `Eyebrow`, `Muted`, `Tag`/`TagList`, `PillLink`, `TwoColumn`.                                       |
+| `src/components/ExternalLink.tsx`         | Use for every link to another site (new tab, `rel="noopener noreferrer"`).                                                                                                                |
+| `src/components/Layout.tsx`, `TopNav.tsx` | Page shell (nav, footer, grain overlay, scroll-to-top) and the top navigation.                                                                                                            |
+| `src/components/Curves.tsx`, `Icons.tsx`  | The eight background curve variants; social icons.                                                                                                                                        |
+| `src/hooks/useElementOnScreen.ts`         | IntersectionObserver hook that drives all scroll animation.                                                                                                                               |
+| `src/assets/photos/`, `src/assets/logos/` | WebP portrait, landscape backdrops (large + 800px variants) and company logos. Raw originals are git-ignored.                                                                             |
+| `src/*.test.ts(x)`, `src/test/`           | `content.test.ts` (data integrity), `cv.test.ts` (site matches CV), `assets.test.ts` (image budget), `App.test.tsx` (pages and routing).                                                  |
+| `Makefile`, `scripts/node-env.sh`         | Task runner and Node-version wrapper (also used by the pre-commit hooks).                                                                                                                 |
+| `.pre-commit-config.yaml`                 | Hygiene, Prettier, ESLint, `tsc` and Vitest hooks, identical to CI.                                                                                                                       |
+| `.github/workflows/ci.yml`                | PR checks (pre-commit hooks), build, and deploy to `gh-pages` on `master`.                                                                                                                |
+| `.github/dependabot.yml`                  | Weekly npm and GitHub Actions update PRs.                                                                                                                                                 |
 
 ## Design language (preserve it)
 
@@ -111,6 +132,17 @@ owner:
 - **Background curves:** thin blue SVG curves that draw themselves in
   (`.draw`) when a section reaches the middle of the viewport, and fade out
   when it leaves. Each section and experience page has its own variant.
+- **Diagonal section edges** (`slant`, and the footer): each block overlaps
+  the one above by `SLANT` and is clipped along a diagonal (`slantTop` in
+  `theme.ts`), so the wedge shows the previous section's real background
+  (photo, aurora, curves) and the pages appear to slide over each other.
+  Sections therefore have opaque backgrounds. Never go back to drawing a
+  flat-coloured triangle; it can't match photo or aurora backgrounds.
+- **Section rhythm:** the first section of a page fills the screen; every
+  later one is `compact` (content height, generous padding), so there are
+  no empty bands. All section headings are left-aligned. Sections use
+  `overflow: clip` (not `hidden`) so `position: sticky` works inside them;
+  the Education title sticks while its cards scroll.
 - **Photography:** the owner's own photos. A lava/snow field sits behind the
   home hero and a coastal sunset behind the About intro, both darkened and
   vignetted so they read as texture (`Section photo={...}`), and fainter on
@@ -133,6 +165,12 @@ owner:
   caustic sheen, 26px radius), used for reading panels: the hero intro, the
   About story and contact cards, and experience pages. A panel that contains
   glass buttons reveals as one piece (its children don't fade separately).
+  **Cursor light:** glass surfaces carry `data-light` (built into
+  `GlassCard`, `LiquidPanel`, `PillLink` and the tiles); `usePointerLight`
+  sets `--lx/--ly` on the surface under the pointer and its glass
+  ancestors, and `pointerLight()` draws the highlight. Fine pointers only,
+  off for reduced motion. (A viewport-`fixed` gradient was tried and does
+  not render inside these clipped, blurred surfaces.)
   Rules:
   - **Never put `opacity` or `filter` (or a transition of them) on an
     ancestor of a glass element.** Browsers skip the backdrop blur while it
@@ -144,8 +182,16 @@ owner:
     devices with hover), so they combine with `reveal()`'s inline transform.
 - **Portfolio conventions:** monospace headline, key-figure band, numbered
   section labels ("01 / experience"), monospace tags and year ranges.
-  Headings are bold Poppins ending in a gold full stop ("Welcome.",
-  "About me.").
+  Headings are bold Space Grotesk ending in gold punctuation ("I'm Steinn,",
+  whose sentence the intro continues in lowercase, and "About me."). The hero has three actions: View experience (primary), Get
+  in touch, and Download CV; the About contact card also offers the CV.
+- **Muted logos:** experience tiles show logos as a slate-blue duotone
+  (greyscale plus a `mix-blend-mode: color` wash) and reveal full colour on
+  hover or focus, so brand colours don't compete with the palette.
+- **Scroll-driven details** (CSS `animation-timeline`, progressive
+  enhancement, no JavaScript): a gold reading-progress line under the nav,
+  and parallax on the curves and aurora (`.parallax`, `--parallax`). Both
+  are off for reduced motion.
 
 ## Content rules
 
@@ -185,7 +231,7 @@ owner:
   (`core.sshCommand`), and GPG-signs commits and tags with key
   `F3B9E1AA2D4C4419`, which GitHub verifies. The owner's global git config
   is for work; don't change it.
-- Versions: `v1.0.0` tags the old static site. The React site is `2.x`
+- Versions: `v1.0.0` tags the old static site. The current site (React-style code on Preact) is `2.x`
   (`package.json`).
 
 ## Status
@@ -218,6 +264,23 @@ _Last updated: 2026-10-13_
   aurora was removed, the portrait was re-cut at native resolution (sharp
   instead of upscaled), and the contact card lost its icon chips in favour
   of plain hairline rows.
+- Refinement pass: real diagonal section edges replacing the flat
+  triangles (and a slanted footer), compact sections, a left-aligned
+  Experience header with an even tile grid, a sticky Education title,
+  experience pages with an "All roles" link (returns to the Experience
+  section via router state), gold bullet markers, a labelled tag group and
+  prev/next pills, typography tuning (`text-wrap`, softer body text), and
+  a tighter About narrative.
+- Hero heading "I'm Steinn," continued by the intro ("a cloud operator
+  and software engineer based in Berlin..."); "Download CV" buttons (hero and About; PDF in `public/cv/`);
+  lower sections at least 85% of the screen tall; expanded ENT3R tutoring
+  description.
+- Moved from React to Preact: JavaScript 111.8 → 52.3 KB gzipped.
+- Dismissed the stale Dependabot alert #5 (jQuery file deleted in 2021).
+- Sophistication pass: self-hosted Space Grotesk / Inter / JetBrains Mono,
+  "S" monogram favicon set and nav mark, link-preview image, muted duotone
+  logos, Selected Work section (CV facts only), cursor light on glass,
+  scroll progress line and parallax.
 - Build size: images re-encoded to WebP at their displayed size (558 KB →
   184 KB, with 800px backdrops on phones), an unused font weight dropped,
   and an image budget test added. `dist/` is about 600 KB in total.
@@ -225,7 +288,7 @@ _Last updated: 2026-10-13_
   rebuilt every render; slide-ins that never ran; sections taller than the
   viewport never appearing; accessibility gaps.
 - Tooling: latest dependencies (`npm audit`: 0), Prettier, ESLint, Vitest
-  (42 tests), pre-commit, CI with deploy, Dependabot, Makefile.
+  (53 tests), pre-commit, CI with deploy, Dependabot, Makefile.
 
 ### Open / next steps
 
@@ -234,15 +297,9 @@ _Last updated: 2026-10-13_
   could not be reproduced in headless Chrome against the dev server or the
   production preview (four round trips, no failed requests). Waiting on
   browser, URL and DevTools Network details from the owner.
-- Dismiss the stale Dependabot alert #5. Its jQuery file was deleted in 2021
-  and `master` no longer loads jQuery.
-- Optional "Download CV" button: add the PDF to `public/cv/` and link it
-  from the hero and About.
 - In Settings → Branches, consider requiring the CI checks before merging
   into `master`.
 - Move to TypeScript 7 when typescript-eslint supports it.
-- JavaScript is about 112 KB gzipped, two-thirds of it React itself.
-  Switching to Preact (`preact/compat`) would save about 60 KB but needs
-  checking against react-router 8 and Testing Library; only do it if the
-  owner wants it.
-- Consider an Open Graph preview image and a full favicon set.
+- Selected Work: add measured outcomes (from the owner) to `projects`.
+- Certifications: link the AZ-104 and ITIL 4 verification pages (owner to
+  provide the links) and give the core stack more visual weight.

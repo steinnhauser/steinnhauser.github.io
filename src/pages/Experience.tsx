@@ -2,9 +2,16 @@ import { Link, Navigate, useParams } from "react-router";
 import styled from "styled-components";
 import { reveal } from "../components/reveal";
 import Section from "../components/Section";
-import { Eyebrow, LiquidPanel, Muted, Tag, TagList } from "../components/ui";
+import {
+  Eyebrow,
+  LiquidPanel,
+  Muted,
+  PillLink,
+  Tag,
+  TagList,
+} from "../components/ui";
 import { experiences } from "../content";
-import { breakpoints, colors } from "../theme";
+import { breakpoints, colors, fonts } from "../theme";
 
 const Card = styled(LiquidPanel)`
   max-width: 820px;
@@ -14,17 +21,39 @@ const Card = styled(LiquidPanel)`
 
 const Header = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 20px;
-  margin-bottom: 8px;
+  gap: 18px;
+  margin-bottom: 22px;
 
   img {
     width: 64px;
     height: 64px;
     object-fit: cover;
     border-radius: 12px;
-    border: 1px solid ${colors.secondary};
+    border: 1px solid rgba(255, 255, 255, 0.14);
     flex-shrink: 0;
+  }
+`;
+
+const BackLink = styled(Link)`
+  margin-left: auto;
+  font-family: ${fonts.mono};
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: ${colors.muted};
+  white-space: nowrap;
+
+  &:hover {
+    color: ${colors.sun};
+  }
+
+  /* Phones: on its own line above the logo. */
+  @media (max-width: ${breakpoints.mobile}) {
+    order: -1;
+    flex-basis: 100%;
+    margin: 0 0 4px;
   }
 `;
 
@@ -42,34 +71,57 @@ const Position = styled.div`
     margin: 0 0 4px;
   }
   ul {
-    margin: 16px 0 0;
-    padding-left: 1.2em;
+    margin: 18px 0 0;
+    padding-left: 1.15em;
   }
   li {
-    line-height: 1.65;
-    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.86);
+    line-height: 1.7;
+    margin-bottom: 12px;
+    padding-left: 4px;
+  }
+  li::marker {
+    content: "▸";
+    color: ${colors.sun};
   }
 `;
 
+const TagsLabel = styled.div`
+  margin: 32px 0 12px;
+  font-family: ${fonts.mono};
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: ${colors.muted};
+`;
+
+// Previous / next role, as glass pills.
 const Footer = styled.nav`
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   font-size: 0.9rem;
+
+  > :only-child {
+    margin-left: auto;
+  }
 
   @media (max-width: ${breakpoints.mobile}) {
     flex-direction: column;
+
+    > * {
+      justify-content: center;
+    }
   }
 `;
 
-const NavLink = styled(Link)`
-  color: ${colors.accent};
-
-  &:hover {
-    color: ${colors.text};
-  }
-`;
+// Link back to the Experience section of the home page.
+const toExperience = { pathname: "/" } as const;
+const experienceState = { section: "experience" };
 
 function Experience() {
   const { slug } = useParams();
@@ -87,6 +139,9 @@ function Experience() {
           <Header>
             <img src={exp.logo} alt={`${exp.company} logo`} />
             <Muted>{exp.company}</Muted>
+            <BackLink to={toExperience} state={experienceState}>
+              ← All roles
+            </BackLink>
           </Header>
 
           {exp.positions.map((pos, p) => {
@@ -112,24 +167,23 @@ function Experience() {
             );
           })}
 
-          <TagList style={{ marginTop: 28 }} aria-label="Technologies">
+          <TagsLabel id="technologies">Technologies</TagsLabel>
+          <TagList aria-labelledby="technologies">
             {exp.tags.map((t) => (
               <Tag key={t}>{t}</Tag>
             ))}
           </TagList>
 
           <Footer aria-label="Other experience">
-            {prev ? (
-              <NavLink to={`/experience/${prev.slug}`}>
-                ← {prev.tileTitle}, {prev.company}
-              </NavLink>
-            ) : (
-              <NavLink to="/">← Home</NavLink>
+            {prev && (
+              <PillLink as={Link} to={`/experience/${prev.slug}`}>
+                ← {prev.tileTitle}
+              </PillLink>
             )}
             {next && (
-              <NavLink to={`/experience/${next.slug}`}>
-                {next.tileTitle}, {next.company} →
-              </NavLink>
+              <PillLink as={Link} to={`/experience/${next.slug}`}>
+                {next.tileTitle} →
+              </PillLink>
             )}
           </Footer>
         </Card>

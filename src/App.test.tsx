@@ -1,10 +1,11 @@
-import { screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { fireEvent, screen, within } from "@testing-library/preact";
+import { describe, expect, it, vi } from "vitest";
 import {
   certifications,
   experiences,
   highlights,
   profile,
+  projects,
   skillGroups,
 } from "./content";
 import { renderAt } from "./test/renderAt";
@@ -13,7 +14,7 @@ describe("home page", () => {
   it("renders the welcome section", () => {
     renderAt("/");
     expect(
-      screen.getByRole("heading", { level: 1, name: "Welcome." }),
+      screen.getByRole("heading", { level: 1, name: `${profile.greeting},` }),
     ).toBeInTheDocument();
     expect(screen.getByAltText(`Portrait of ${profile.name}`)).toBeVisible();
   });
@@ -35,6 +36,18 @@ describe("home page", () => {
       expect(link, exp.slug).toBeDefined();
       expect(link).toHaveTextContent(exp.tileTitle);
     }
+  });
+
+  it("shows every selected-work project", () => {
+    renderAt("/");
+    for (const p of projects) {
+      expect(
+        screen.getByRole("heading", { name: p.title }),
+      ).toBeInTheDocument();
+    }
+    expect(
+      screen.getByRole("list", { name: "How it fits together" }),
+    ).toBeInTheDocument();
   });
 
   it("shows every skill group and certification", () => {
@@ -70,6 +83,16 @@ describe("experience pages", () => {
     },
   );
 
+  it("links back to the experience section of the home page", () => {
+    renderAt("/experience/sintef");
+    vi.mocked(Element.prototype.scrollIntoView).mockClear();
+    fireEvent.click(screen.getByRole("link", { name: /all roles/i }));
+    expect(
+      screen.getByRole("heading", { level: 1, name: `${profile.greeting},` }),
+    ).toBeInTheDocument();
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalled();
+  });
+
   it("redirects old top-level URLs to the new experience pages", () => {
     renderAt("/senec");
     expect(
@@ -80,7 +103,7 @@ describe("experience pages", () => {
   it("redirects unknown experiences to the home page", () => {
     renderAt("/experience/does-not-exist");
     expect(
-      screen.getByRole("heading", { level: 1, name: "Welcome." }),
+      screen.getByRole("heading", { level: 1, name: `${profile.greeting},` }),
     ).toBeInTheDocument();
   });
 });
@@ -98,6 +121,26 @@ describe("about page", () => {
       "href",
       "tel:+491796047257",
     );
+  });
+});
+
+describe("CV download", () => {
+  // The PDF the buttons point at must exist in public/.
+  const pdfs = import.meta.glob("../public/cv/*.pdf", {
+    query: "?url",
+    import: "default",
+  });
+
+  it("ships the CV PDF that the buttons link to", () => {
+    const file = profile.cvUrl.split("/").pop();
+    expect(Object.keys(pdfs).map((p) => p.split("/").pop())).toContain(file);
+  });
+
+  it.each(["/", "/about"])("offers a Download CV link on %s", (path) => {
+    renderAt(path);
+    const link = screen.getByRole("link", { name: /download cv/i });
+    expect(link).toHaveAttribute("href", profile.cvUrl);
+    expect(link).toHaveAttribute("download");
   });
 });
 

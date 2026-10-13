@@ -9,6 +9,7 @@ import {
   experiences,
   highlights,
   languages,
+  projects,
   volunteering,
 } from "./content";
 
@@ -48,10 +49,17 @@ describe("site content matches the CV", () => {
   });
 
   it("links the publication and open-source work cited in the CV", () => {
-    const links = [...academics, ...volunteering].flatMap((x) =>
+    const links = [...academics, ...volunteering, ...projects].flatMap((x) =>
       x.link ? [x.link.href] : [],
     );
     for (const href of links) expect(onCv(href), href).toBe(true);
+  });
+
+  it("describes selected work with the CV's own technologies", () => {
+    const platform = projects.find((p) => p.featured);
+    expect(platform).toBeDefined();
+    for (const term of ["aptly", "mTLS", "golang", "API gateway", "WireGuard"])
+      expect(onCv(term), term).toBe(true);
   });
 
   it("lists the CV's volunteer roles with their dates", () => {

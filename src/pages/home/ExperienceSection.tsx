@@ -4,86 +4,118 @@ import { reveal } from "../../components/reveal";
 import Section from "../../components/Section";
 import { Eyebrow, SectionLabel, SectionTitle } from "../../components/ui";
 import { experiences, experienceYears } from "../../content";
-import { colors, glass } from "../../theme";
+import { breakpoints, colors, glass } from "../../theme";
 
+// One even row of tiles spanning the content width, aligned with the title.
 const Tiles = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: clamp(16px, 2vw, 32px);
+  display: grid;
+  grid-template-columns: repeat(${experiences.length}, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 28px);
   list-style: none;
   padding: 0;
   margin: 0;
+
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  @media (max-width: ${breakpoints.mobile}) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 `;
 
 const Tile = styled(Link)`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  width: clamp(120px, 14vw, 170px);
+  gap: 14px;
   color: ${colors.text};
-  text-align: center;
 
   &:hover {
     color: ${colors.text};
   }
 `;
 
-const TileImage = styled.div`
+// Logos are muted to one slate-blue duotone so the five brand colours don't
+// fight the dark glass; each returns to full colour on hover or focus.
+const TileImage = styled.div.attrs<{ "data-light"?: string }>({
+  "data-light": "",
+})`
   ${glass}
   width: 100%;
   aspect-ratio: 1;
   overflow: hidden;
   transition:
     transform 400ms ease,
-    border-color 400ms ease,
     box-shadow 400ms ease;
 
   img {
+    position: relative;
+    z-index: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.8;
-    transition: opacity 400ms ease;
+    filter: grayscale(1) contrast(1.05) brightness(0.78);
+    transition: filter 500ms ease;
+  }
+
+  /* Slate-blue wash over the greyscale logo (the duotone). */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: ${colors.secondary};
+    mix-blend-mode: color;
+    opacity: 0.85;
+    transition: opacity 500ms ease;
+    pointer-events: none;
+  }
+  /* Keep the glass rim above the logo. */
+  &::before {
+    z-index: 2;
   }
 
   ${Tile}:hover &,
   ${Tile}:focus-visible & {
-    transform: scale(1.08);
-    border-color: ${colors.sun}cc;
-    box-shadow: 0 12px 40px ${colors.sun}26;
+    transform: scale(1.04);
+    box-shadow:
+      0 14px 44px ${colors.sun}26,
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
-  ${Tile}:hover & img {
-    opacity: 1;
+  ${Tile}:hover & img,
+  ${Tile}:focus-visible & img {
+    filter: none;
+  }
+  ${Tile}:hover &::after,
+  ${Tile}:focus-visible &::after {
+    opacity: 0;
   }
 `;
 
 const Caption = styled.div`
-  font-size: 0.9rem;
+  font-size: 0.98rem;
+  font-weight: 500;
   line-height: 1.3;
 
   small {
     display: block;
-    margin-top: 2px;
-    font-size: 0.75rem;
+    margin-top: 3px;
+    font-size: 0.8rem;
+    font-weight: 400;
     color: ${colors.muted};
   }
   ${Eyebrow} {
-    margin-top: 6px;
+    margin-top: 8px;
     font-size: 0.7rem;
   }
 `;
 
 function ExperienceSection() {
   return (
-    <Section id="experience" curves={2} tinted dividerColor={colors.primary}>
+    <Section id="experience" curves={2} tinted slant compact>
       {(visible) => (
         <>
-          <div style={{ ...reveal(visible), textAlign: "center" }}>
-            <SectionLabel style={{ justifyContent: "center" }}>
-              01 / experience
-            </SectionLabel>
+          <div style={reveal(visible)}>
+            <SectionLabel>01 / experience</SectionLabel>
             <SectionTitle>My Professional Experience</SectionTitle>
           </div>
           <Tiles>
@@ -102,7 +134,7 @@ function ExperienceSection() {
                   </TileImage>
                   <Caption>
                     {exp.tileTitle}
-                    <small>{exp.company}</small>
+                    <small>{exp.shortCompany ?? exp.company}</small>
                     <Eyebrow>{experienceYears(exp)}</Eyebrow>
                   </Caption>
                 </Tile>

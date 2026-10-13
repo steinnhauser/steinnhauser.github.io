@@ -1,8 +1,8 @@
 import { NavLink } from "react-router";
 import styled from "styled-components";
 import { socials } from "../content";
-import { breakpoints, colors, NAV_HEIGHT } from "../theme";
-import { GithubIcon, LinkedInIcon, StackOverflowIcon } from "./Icons";
+import { breakpoints, colors, fonts, NAV_HEIGHT } from "../theme";
+import { GithubIcon, LinkedInIcon, Monogram, StackOverflowIcon } from "./Icons";
 import ExternalLink from "./ExternalLink";
 
 const icons = {
@@ -46,6 +46,40 @@ const Bar = styled.header`
   }
 `;
 
+const Brand = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  svg {
+    width: 20px;
+    height: 26px;
+    flex-shrink: 0;
+    transition: transform 400ms ease;
+  }
+  a:hover & svg {
+    transform: rotate(-8deg);
+  }
+`;
+
+// Thin gold line along the bottom of the bar showing how far down the page
+// you are. Pure CSS (scroll-driven animation); hidden where unsupported.
+const Progress = styled.div`
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: linear-gradient(90deg, ${colors.sun}, ${colors.sun}66);
+  transform-origin: left;
+  transform: scaleX(0);
+  display: none;
+
+  @supports (animation-timeline: scroll()) {
+    display: block;
+    animation: nav-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+`;
+
 const Links = styled.nav`
   display: flex;
   align-items: center;
@@ -56,7 +90,9 @@ const PageLink = styled(NavLink)`
   position: relative;
   color: ${colors.text};
   font-size: clamp(1.05rem, 2vw, 1.5rem);
+  font-family: ${fonts.display};
   font-weight: 700;
+  letter-spacing: -0.02em;
 
   &::after {
     content: "";
@@ -103,7 +139,10 @@ function TopNav() {
   return (
     <Bar>
       <PageLink to="/" end>
-        Home
+        <Brand>
+          <Monogram />
+          Home
+        </Brand>
       </PageLink>
       <Links>
         <PageLink to="/about">About Me</PageLink>
@@ -116,6 +155,7 @@ function TopNav() {
           );
         })}
       </Links>
+      <Progress aria-hidden="true" />
     </Bar>
   );
 }
