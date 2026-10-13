@@ -1,0 +1,54 @@
+# Local git hooks. CI runs exactly the same hooks (`pre-commit run
+# --all-files` in .github/workflows/ci.yml), so a commit that passes here
+# passes the PR checks too.
+#
+# Setup:   pip install pre-commit && pre-commit install
+# Run all: pre-commit run --all-files
+#
+# The local hooks call the npm scripts in package.json, so run `npm ci`
+# first. Tool versions come from package-lock.json.
+default_install_hook_types: [pre-commit]
+fail_fast: false
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+
+  - repo: local
+    hooks:
+      - id: prettier
+        name: format (prettier)
+        entry: npx --no-install prettier --write --ignore-unknown
+        language: system
+        types_or: [javascript, ts, tsx, json, yaml, markdown, css, html]
+
+      - id: eslint
+        name: lint (eslint)
+        entry: npx --no-install eslint --max-warnings=0
+        language: system
+        types_or: [javascript, ts, tsx]
+
+      - id: typecheck
+        name: typecheck (tsc)
+        entry: npm run typecheck
+        language: system
+        types_or: [ts, tsx, json]
+        pass_filenames: false
+
+      - id: test
+        name: test (vitest)
+        entry: npm test
+        language: system
+        types_or: [javascript, ts, tsx, json]
+        pass_filenames: false
