@@ -34,6 +34,19 @@ export const breakpoints = {
 
 export const NAV_HEIGHT = "72px";
 
+// Rise of the diagonal edge between stacked blocks, from left to right.
+export const SLANT = "clamp(28px, 3.2vw, 56px)";
+
+// Diagonal top edge: overlap the block above by SLANT and clip along a
+// diagonal, so the wedge shows that block's real background (photo, aurora,
+// curves) rather than a flat colour. The block needs an opaque background,
+// and later blocks paint on top of earlier ones.
+export const slantTop = css`
+  position: relative;
+  margin-top: calc(-1 * ${SLANT});
+  clip-path: polygon(0 0, 100% ${SLANT}, 100% 100%, 0 100%);
+`;
+
 // Liquid-glass surface: a strongly blurred and saturated view of whatever is
 // behind it (curves, photos, aurora), a soft sheen from the top-left, and a
 // specular rim drawn by ::before that is bright at the top-left and picks up

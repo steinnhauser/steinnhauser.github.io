@@ -4,26 +4,30 @@ import { reveal } from "../../components/reveal";
 import Section from "../../components/Section";
 import { Eyebrow, SectionLabel, SectionTitle } from "../../components/ui";
 import { experiences, experienceYears } from "../../content";
-import { colors, glass } from "../../theme";
+import { breakpoints, colors, glass } from "../../theme";
 
+// One even row of tiles spanning the content width, aligned with the title.
 const Tiles = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: clamp(16px, 2vw, 32px);
+  display: grid;
+  grid-template-columns: repeat(${experiences.length}, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 28px);
   list-style: none;
   padding: 0;
   margin: 0;
+
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  @media (max-width: ${breakpoints.mobile}) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 `;
 
 const Tile = styled(Link)`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  width: clamp(120px, 14vw, 170px);
+  gap: 14px;
   color: ${colors.text};
-  text-align: center;
 
   &:hover {
     color: ${colors.text};
@@ -50,7 +54,7 @@ const TileImage = styled.div`
 
   ${Tile}:hover &,
   ${Tile}:focus-visible & {
-    transform: scale(1.08);
+    transform: scale(1.04);
     border-color: ${colors.sun}cc;
     box-shadow: 0 12px 40px ${colors.sun}26;
   }
@@ -60,30 +64,30 @@ const TileImage = styled.div`
 `;
 
 const Caption = styled.div`
-  font-size: 0.9rem;
+  font-size: 0.98rem;
+  font-weight: 500;
   line-height: 1.3;
 
   small {
     display: block;
-    margin-top: 2px;
-    font-size: 0.75rem;
+    margin-top: 3px;
+    font-size: 0.8rem;
+    font-weight: 400;
     color: ${colors.muted};
   }
   ${Eyebrow} {
-    margin-top: 6px;
+    margin-top: 8px;
     font-size: 0.7rem;
   }
 `;
 
 function ExperienceSection() {
   return (
-    <Section id="experience" curves={2} tinted dividerColor={colors.primary}>
+    <Section id="experience" curves={2} tinted slant compact>
       {(visible) => (
         <>
-          <div style={{ ...reveal(visible), textAlign: "center" }}>
-            <SectionLabel style={{ justifyContent: "center" }}>
-              01 / experience
-            </SectionLabel>
+          <div style={reveal(visible)}>
+            <SectionLabel>01 / experience</SectionLabel>
             <SectionTitle>My Professional Experience</SectionTitle>
           </div>
           <Tiles>
@@ -102,7 +106,7 @@ function ExperienceSection() {
                   </TileImage>
                   <Caption>
                     {exp.tileTitle}
-                    <small>{exp.company}</small>
+                    <small>{exp.shortCompany ?? exp.company}</small>
                     <Eyebrow>{experienceYears(exp)}</Eyebrow>
                   </Caption>
                 </Tile>

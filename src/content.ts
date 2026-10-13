@@ -26,21 +26,19 @@ export const profile = {
       "neuroscience, and production machine-learning work. I work in four " +
       "languages: English, Icelandic, Norwegian and German.",
   ],
+  // About page narrative: what I do, how I work, and how I lead.
   about: [
-    "I enjoy building architectures from scratch and contributing to " +
-      "projects in early stages of development. Projects in this phase have " +
-      "a high level of creative freedom, and the dynamics allow for a lot of " +
-      "interesting possibilities. Once the architecture is mapped and a " +
-      "thorough round of R&D is completed, I find that proof-of-concept " +
-      "development becomes a path of little resistance. I also have " +
-      "experience leading and communicating with UX & design, frontend and " +
-      "backend teams, as well as onboarding and training new team members.",
-    "Day to day I work on platform operations: Kubernetes clusters managed " +
-      "through Terragrunt, Helm and ArgoCD, GitLab CI/CD pipelines, and " +
-      "observability with Prometheus, Grafana and Alertmanager. I care about " +
-      "modular, reusable infrastructure code, strict access policies and " +
-      "secure networking, and changes that are reviewed and promoted through " +
-      "environments before they reach production.",
+    "I work in platform operations: Kubernetes clusters managed with " +
+      "Terragrunt, Helm and ArgoCD, GitLab CI/CD pipelines, and " +
+      "observability with Prometheus, Grafana and Alertmanager.",
+    "I enjoy building architectures from scratch and joining projects " +
+      "early, while there is still room to shape them: map the problem, " +
+      "research the options, prove the idea, then build it properly. I care " +
+      "about modular, reusable infrastructure code, strict access policies " +
+      "and secure networking, and about changes that are reviewed and " +
+      "promoted through environments before they reach production.",
+    "I have led and worked closely with UX and design, frontend and backend " +
+      "teams, and I enjoy onboarding and training new team members.",
   ],
 };
 
@@ -69,6 +67,8 @@ export type Experience = {
   // Title shown on the home page tile.
   tileTitle: string;
   company: string;
+  // Shorter company name for the home page tile, if `company` is long.
+  shortCompany?: string;
   logo: string;
   curves: CurveVariant;
   positions: Position[];
@@ -201,6 +201,7 @@ export const experiences: Experience[] = [
     slug: "uio",
     tileTitle: "Cluster Project Manager",
     company: "University of Oslo, Physics Department",
+    shortCompany: "University of Oslo",
     logo: uioLogo,
     curves: 8,
     positions: [

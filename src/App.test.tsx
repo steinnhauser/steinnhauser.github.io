@@ -1,5 +1,5 @@
-import { screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { fireEvent, screen, within } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import {
   certifications,
   experiences,
@@ -69,6 +69,16 @@ describe("experience pages", () => {
       );
     },
   );
+
+  it("links back to the experience section of the home page", () => {
+    renderAt("/experience/sintef");
+    vi.mocked(Element.prototype.scrollIntoView).mockClear();
+    fireEvent.click(screen.getByRole("link", { name: /all roles/i }));
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Welcome." }),
+    ).toBeInTheDocument();
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalled();
+  });
 
   it("redirects old top-level URLs to the new experience pages", () => {
     renderAt("/senec");

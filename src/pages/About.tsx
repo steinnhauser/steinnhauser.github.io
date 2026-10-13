@@ -187,11 +187,11 @@ function About() {
         )}
       </Section>
 
-      <Section curves={6} tinted aurora="tide" dividerColor={colors.primary}>
+      <Section curves={6} tinted aurora="tide" slant compact>
         {(visible) => (
           <>
             <div style={reveal(visible)}>
-              <SectionLabel>open source</SectionLabel>
+              <SectionLabel>beyond work</SectionLabel>
               <SectionTitle>Volunteering &amp; Open Source</SectionTitle>
             </div>
             <VolunteerGrid>
