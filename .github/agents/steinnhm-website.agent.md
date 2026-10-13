@@ -84,12 +84,12 @@ Stack Overflow) and a footer with contact links.
 | `src/pages/Experience.tsx`                | One template for every experience page.                                                                                                               |
 | `src/pages/About.tsx`                     | About page.                                                                                                                                           |
 | `src/components/Section.tsx`              | Full-height section: background curves, optional photo backdrop (`{ large, small }`), aurora, tint, slanted divider. Children are `(visible) => ...`. |
-| `src/components/Aurora.tsx`               | Drifting colour glows behind the glass: `dusk` (About), `tide` (Skills, Volunteering, experience pages), `ember` (hero).                              |
+| `src/components/Aurora.tsx`               | Drifting colour glows behind the glass: `dusk` (About), `tide` (Skills, Volunteering, experience pages). None on the hero.                            |
 | `src/components/reveal.ts`                | `reveal(visible, index, offset)`: per-element scroll-reveal styles.                                                                                   |
 | `src/components/ui.tsx`                   | Styled primitives: `GlassCard`, `LiquidPanel`, `SectionTitle`, `SectionLabel`, `Dot`, `Eyebrow`, `Muted`, `Tag`/`TagList`, `PillLink`, `TwoColumn`.   |
 | `src/components/ExternalLink.tsx`         | Use for every link to another site (new tab, `rel="noopener noreferrer"`).                                                                            |
 | `src/components/Layout.tsx`, `TopNav.tsx` | Page shell (nav, footer, grain overlay, scroll-to-top) and the top navigation.                                                                        |
-| `src/components/Curves.tsx`, `Icons.tsx`  | The eight background curve variants; social and contact icons and the section divider.                                                                |
+| `src/components/Curves.tsx`, `Icons.tsx`  | The eight background curve variants; social icons and the section divider.                                                                            |
 | `src/hooks/useElementOnScreen.ts`         | IntersectionObserver hook that drives all scroll animation.                                                                                           |
 | `src/assets/photos/`, `src/assets/logos/` | WebP portrait, landscape backdrops (large + 800px variants) and company logos. Raw originals are git-ignored.                                         |
 | `src/*.test.ts(x)`, `src/test/`           | `content.test.ts` (data integrity), `cv.test.ts` (site matches CV), `assets.test.ts` (image budget), `App.test.tsx` (pages and routing).              |
@@ -120,7 +120,8 @@ owner:
   dark mode: soft peach, rose, lavender and blue glows (`aurora` in
   `theme.ts`) that drift slowly behind the glass, so the panels pick up
   colour. `dusk` on About is the strongest and is the showpiece; keep the
-  others subtler.
+  others subtler. The home hero has **no** aurora (owner's call: it looked
+  out of place on the cover); the lava photo carries it.
 - **Motion:** every title, card and tile reveals itself with `reveal()` (a
   short fade and a longer staggered slide). Flex gaps "breathe" and list
   items slide in. Everything replays on scrolling back, and
@@ -129,8 +130,10 @@ owner:
   and key figures: strong blur and saturation, a soft sheen, and a specular
   rim (`::before`) that is bright at the top-left and picks up blue and gold
   at the bottom-right. `LiquidPanel` is the richest variant (deeper blur,
-  caustic sheen, 26px radius), used for reading panels (About, experience
-  pages). Rules:
+  caustic sheen, 26px radius), used for reading panels: the hero intro, the
+  About story and contact cards, and experience pages. A panel that contains
+  glass buttons reveals as one piece (its children don't fade separately).
+  Rules:
   - **Never put `opacity` or `filter` (or a transition of them) on an
     ancestor of a glass element.** Browsers skip the backdrop blur while it
     runs, which leaves sharp curves showing through the cards. Fade the
@@ -172,11 +175,16 @@ owner:
   centre long paragraphs) and buttons go full width.
 - **Images** must stay compact (`assets.test.ts`): WebP only, at most 100 KB
   each and 250 KB in total. Encode at the displayed size: logos 340px,
-  portrait 560px, backdrops 1280px plus an 800px variant for phones (pass
+  portrait 480px (native pixels from the original, never upscaled, lightly sharpened), backdrops 1280px plus an 800px variant for phones (pass
   both via `photo={{ large, small }}`). Never commit camera originals.
 - Deployment: the `CI` workflow publishes `dist/` to the `gh-pages` branch on
   every push to `master` (or a manual run), once checks and build pass.
   GitHub Pages serves it at the domain in `public/CNAME`.
+- Git: this repository has a local identity (`steinnhauser
+<hausersteinn@gmail.com>`), pushes over SSH with `~/.ssh/github_personal`
+  (`core.sshCommand`), and GPG-signs commits and tags with key
+  `F3B9E1AA2D4C4419`, which GitHub verifies. The owner's global git config
+  is for work; don't change it.
 - Versions: `v1.0.0` tags the old static site. The React site is `2.x`
   (`package.json`).
 
@@ -203,9 +211,13 @@ _Last updated: 2026-10-13_
   accent, JetBrains Mono, sand grain, responsive layout.
 - Liquid-glass and aurora pass (October 2026): new `glass` with a specular
   rim, `LiquidPanel`, drifting `Aurora` glows, a liquid nav bar, and a
-  redesigned About page (story panel, contact card with icons and social
-  buttons) as the showpiece. Phone portrait readability (left-aligned hero,
-  full-width buttons) with landscape unchanged.
+  redesigned About page (story panel, contact card with social buttons) as
+  the showpiece. Phone portrait readability (left-aligned hero, full-width
+  buttons) with landscape unchanged.
+- Cover refinements: the hero intro sits on a `LiquidPanel`, the hero
+  aurora was removed, the portrait was re-cut at native resolution (sharp
+  instead of upscaled), and the contact card lost its icon chips in favour
+  of plain hairline rows.
 - Build size: images re-encoded to WebP at their displayed size (558 KB →
   184 KB, with 800px backdrops on phones), an unused font weight dropped,
   and an image budget test added. `dist/` is about 600 KB in total.

@@ -5,7 +5,7 @@ import lavaSmall from "../../assets/photos/lava-field-800.webp";
 import portrait from "../../assets/photos/portrait.webp";
 import { reveal } from "../../components/reveal";
 import Section from "../../components/Section";
-import { Dot, Eyebrow, PillLink } from "../../components/ui";
+import { Dot, Eyebrow, LiquidPanel, PillLink } from "../../components/ui";
 import { highlights, profile } from "../../content";
 import { breakpoints, colors, fonts, glass, hoverLift } from "../../theme";
 
@@ -55,8 +55,11 @@ const PortraitFrame = styled.div`
   }
 `;
 
-const Text = styled.div`
-  max-width: 640px;
+// The introduction sits on a liquid-glass panel, which lifts it off the
+// lava photo and ties the cover to the glass used across the site.
+const Text = styled(LiquidPanel)`
+  max-width: 660px;
+  padding: clamp(24px, 3.2vw, 40px);
 
   h1 {
     font-size: clamp(2.6rem, 6vw, 4rem);
@@ -142,28 +145,25 @@ function Hero() {
       ?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <Section
-      curves={1}
-      photo={{ large: lavaLarge, small: lavaSmall }}
-      aurora="ember"
-    >
+    <Section curves={1} photo={{ large: lavaLarge, small: lavaSmall }}>
       {(visible) => (
         <>
           <Intro className={visible ? "flex-faded-in" : "flex-faded-out"}>
             <PortraitFrame style={reveal(visible, 2, "scale(0.96)")}>
               <img src={portrait} alt={`Portrait of ${profile.name}`} />
             </PortraitFrame>
-            <Text>
-              <Eyebrow style={reveal(visible, 0)}>{profile.headline}</Eyebrow>
-              <h1 style={reveal(visible, 0)}>
+            {/* The panel reveals as one piece; its contents don't fade on
+                their own (a fading ancestor would switch off the pills'
+                glass blur). */}
+            <Text style={reveal(visible, 0)}>
+              <Eyebrow>{profile.headline}</Eyebrow>
+              <h1>
                 Welcome<Dot>.</Dot>
               </h1>
-              {profile.welcome.map((paragraph, i) => (
-                <p key={paragraph.slice(0, 24)} style={reveal(visible, 1 + i)}>
-                  {paragraph}
-                </p>
+              {profile.welcome.map((paragraph) => (
+                <p key={paragraph.slice(0, 24)}>{paragraph}</p>
               ))}
-              <Actions style={reveal(visible, 3)}>
+              <Actions>
                 <PillLink as="button" $primary onClick={scrollToExperience}>
                   My experience ↓
                 </PillLink>

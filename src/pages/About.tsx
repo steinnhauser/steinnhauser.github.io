@@ -5,9 +5,6 @@ import ExternalLink from "../components/ExternalLink";
 import {
   GithubIcon,
   LinkedInIcon,
-  MailIcon,
-  PhoneIcon,
-  PinIcon,
   StackOverflowIcon,
 } from "../components/Icons";
 import { reveal } from "../components/reveal";
@@ -73,55 +70,27 @@ const Contact = styled(LiquidPanel)`
   }
 `;
 
-const ContactList = styled.ul`
-  list-style: none;
+// Plain label/value rows separated by hairlines.
+const ContactList = styled.dl`
   margin: 0 0 24px;
-  padding: 0;
-  display: grid;
-  gap: 14px;
 
-  li {
-    display: grid;
-    grid-template-columns: 42px minmax(0, 1fr);
-    align-items: center;
-    gap: 14px;
+  div {
+    padding: 12px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
-  small {
-    display: block;
+  div:last-child {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  dt {
     font-family: ${fonts.mono};
     font-size: 0.7rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: ${colors.muted};
   }
-  span,
-  a {
+  dd {
+    margin: 2px 0 0;
     overflow-wrap: anywhere;
-  }
-`;
-
-// Round glass chip holding a contact icon.
-const IconChip = styled.span`
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  color: ${colors.sun};
-  background:
-    radial-gradient(
-      circle at 30% 25%,
-      rgba(255, 255, 255, 0.18),
-      transparent 60%
-    ),
-    rgba(255, 255, 255, 0.05);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-
-  svg {
-    width: 20px;
-    height: 20px;
   }
 `;
 
@@ -185,33 +154,22 @@ function About() {
                 <Muted>For project inquiries, feel free to reach out.</Muted>
               </p>
               <ContactList>
-                <li>
-                  <IconChip>
-                    <MailIcon />
-                  </IconChip>
-                  <div>
-                    <small>Email</small>
+                <div>
+                  <dt>Email</dt>
+                  <dd>
                     <a href={`mailto:${profile.email}`}>{profile.email}</a>
-                  </div>
-                </li>
-                <li>
-                  <IconChip>
-                    <PhoneIcon />
-                  </IconChip>
-                  <div>
-                    <small>Phone</small>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Phone</dt>
+                  <dd>
                     <a href={`tel:${tel}`}>{profile.phone}</a>
-                  </div>
-                </li>
-                <li>
-                  <IconChip>
-                    <PinIcon />
-                  </IconChip>
-                  <div>
-                    <small>Location</small>
-                    <span>{profile.location}</span>
-                  </div>
-                </li>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Location</dt>
+                  <dd>{profile.location}</dd>
+                </div>
               </ContactList>
               <Actions>
                 {socials.map(({ label, href, icon }) => {
