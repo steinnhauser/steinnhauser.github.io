@@ -9,27 +9,35 @@ TypeScript and styled-components, and deployed to GitHub Pages from the
 
 ## Getting started
 
-Requires Node 24 (see `.nvmrc`).
+Requires [nvm](https://github.com/nvm-sh/nvm) (or Node 24 from `.nvmrc`)
+and `make`.
 
 ```sh
-nvm use
-npm ci
-npm run dev        # http://localhost:5173
+make install    # installs Node 24 via nvm, then npm dependencies
+make run        # http://localhost:5173 with hot reload
+make validate   # format, lint, typecheck, test and build
 ```
 
-## Scripts
+`make` alone lists every target. All Node commands run through
+`scripts/node-env.sh`, which switches to the `.nvmrc` Node version, so they
+work even when your shell defaults to an older Node.
 
-| Command                | What it does                                                    |
-| ---------------------- | --------------------------------------------------------------- |
-| `npm run dev`          | Start the dev server with hot reload.                           |
-| `npm run build`        | Type-check and build the production site into `dist/`.          |
-| `npm run preview`      | Serve the production build locally.                             |
-| `npm run format`       | Format everything with Prettier.                                |
-| `npm run format:check` | Check formatting without changing files.                        |
-| `npm run lint`         | Lint with ESLint (no warnings allowed).                         |
-| `npm run typecheck`    | Type-check with `tsc`.                                          |
-| `npm test`             | Run the Vitest test suite once (`npm run test:watch` to watch). |
-| `npm run check`        | Format check, lint, typecheck and tests: everything CI runs.    |
+## Make targets
+
+| Command          | What it does                                                    |
+| ---------------- | --------------------------------------------------------------- |
+| `make install`   | Install the `.nvmrc` Node version (via nvm) and npm deps.       |
+| `make run`       | Dev server with hot reload (`make run PORT=3000` to change it). |
+| `make validate`  | Format check, lint, typecheck, tests, then a production build.  |
+| `make fix`       | Auto-fix formatting and lint issues.                            |
+| `make build`     | Type-check and build the production site into `dist/`.          |
+| `make preview`   | Build, then serve the production site on port 4173.             |
+| `make precommit` | Run every pre-commit hook on all files, exactly as CI does.     |
+| `make clean`     | Remove build output and tool caches.                            |
+
+The same tasks exist as npm scripts (`npm run dev`, `build`, `preview`,
+`format`, `format:check`, `lint`, `lint:fix`, `typecheck`, `test`,
+`test:watch`, `check`) if you prefer to call them directly on Node 24.
 
 ## Pre-commit hooks
 
@@ -44,14 +52,16 @@ pre-commit run --all-files    # run them on the whole repo
 
 The hooks cover file hygiene (trailing whitespace, final newlines, valid
 YAML/JSON, merge markers, large files), Prettier, ESLint, `tsc` and Vitest.
-The local hooks use the tools from `node_modules`, so run `npm ci` first.
+The local hooks use the tools from `node_modules`, so run `make install`
+first.
 
 ## Project structure
 
 ```text
 src/
   content.ts          All site content (the CV is the source of truth)
-  theme.ts            Colours, breakpoints, frosted-glass mixin
+  theme.ts            Colours, fonts, breakpoints, frosted-glass mixin
+  assets/photos/      Portrait and landscape backgrounds (web-optimized)
   App.tsx             Layout and routes
   main.tsx            Entry point (HashRouter)
   components/         Layout, TopNav, Section, Curves, Icons, UI primitives
@@ -63,6 +73,10 @@ src/
 
 To update the site's content (roles, skills, education and so on), edit
 `src/content.ts`. The pages and tests pick the changes up automatically.
+
+Photos in `src/assets/photos/` are resized copies of the originals. Keep the
+raw camera files out of git (see `.gitignore`); they are several MB each and
+the large-file hook rejects anything over 1 MB.
 
 ## CI and deployment
 

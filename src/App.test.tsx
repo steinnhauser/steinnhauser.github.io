@@ -1,6 +1,12 @@
 import { screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { certifications, experiences, profile, skillGroups } from "./content";
+import {
+  certifications,
+  experiences,
+  highlights,
+  profile,
+  skillGroups,
+} from "./content";
 import { renderAt } from "./test/renderAt";
 
 describe("home page", () => {
@@ -10,6 +16,14 @@ describe("home page", () => {
       screen.getByRole("heading", { level: 1, name: "Welcome." }),
     ).toBeInTheDocument();
     expect(screen.getByAltText(`Portrait of ${profile.name}`)).toBeVisible();
+  });
+
+  it("shows the headline and key figures", () => {
+    renderAt("/");
+    expect(screen.getAllByText(profile.headline)[0]).toBeInTheDocument();
+    for (const h of highlights) {
+      expect(screen.getByText(h.label)).toBeInTheDocument();
+    }
   });
 
   it("links a tile to every experience page", () => {
@@ -74,10 +88,12 @@ describe("experience pages", () => {
 describe("about page", () => {
   it("shows contact details as links", () => {
     renderAt("/about");
-    expect(screen.getByRole("link", { name: profile.email })).toHaveAttribute(
-      "href",
-      `mailto:${profile.email}`,
-    );
+    const emails = screen.getAllByRole("link", { name: profile.email });
+    // Contact card plus the site footer.
+    expect(emails).toHaveLength(2);
+    for (const link of emails) {
+      expect(link).toHaveAttribute("href", `mailto:${profile.email}`);
+    }
     expect(screen.getByRole("link", { name: profile.phone })).toHaveAttribute(
       "href",
       "tel:+491796047257",

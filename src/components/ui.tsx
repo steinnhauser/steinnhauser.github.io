@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { breakpoints, colors, glass } from "../theme";
+import styled, { css } from "styled-components";
+import { breakpoints, colors, fonts, glass } from "../theme";
 
 export const GlassCard = styled.div`
   ${glass}
@@ -12,15 +12,37 @@ export const SectionTitle = styled.h2`
   margin: 0 0 32px;
 `;
 
+// The full stop in "Welcome." / "About me.", lit like the low sun.
+export const Dot = styled.span`
+  color: ${colors.sun};
+`;
+
 export const Muted = styled.span`
   color: ${colors.muted};
 `;
 
+// Small monospace label above titles: dates, roles, section numbers.
 export const Eyebrow = styled.div`
-  color: ${colors.accent};
-  font-size: 0.8rem;
-  letter-spacing: 0.06em;
+  font-family: ${fonts.mono};
+  color: ${colors.sun};
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+`;
+
+// "01 / experience" style section marker, with a short rule after it.
+export const SectionLabel = styled(Eyebrow)`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  &::after {
+    content: "";
+    width: 48px;
+    height: 1px;
+    background: ${colors.sun}99;
+  }
 `;
 
 export const TagList = styled.ul`
@@ -33,15 +55,16 @@ export const TagList = styled.ul`
 `;
 
 export const Tag = styled.li`
-  font-size: 0.82rem;
-  padding: 4px 12px;
+  font-family: ${fonts.mono};
+  font-size: 0.76rem;
+  padding: 4px 11px;
   border-radius: 999px;
   border: 1px solid ${colors.secondary};
   background: ${colors.secondary}2e;
   white-space: nowrap;
 `;
 
-export const PillLink = styled.a`
+export const PillLink = styled.a<{ $primary?: boolean }>`
   ${glass}
   display: inline-flex;
   align-items: center;
@@ -53,6 +76,7 @@ export const PillLink = styled.a`
   cursor: pointer;
   transition:
     border-color 250ms ease,
+    background-color 250ms ease,
     transform 250ms ease;
 
   &:hover {
@@ -60,6 +84,18 @@ export const PillLink = styled.a`
     border-color: ${colors.accent};
     transform: translateY(-2px);
   }
+
+  ${(p) =>
+    p.$primary &&
+    css`
+      border-color: ${colors.sun}b3;
+      background: ${colors.sun}1f;
+
+      &:hover {
+        border-color: ${colors.sun};
+        background: ${colors.sun}33;
+      }
+    `}
 `;
 
 export const TwoColumn = styled.div`

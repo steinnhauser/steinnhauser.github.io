@@ -14,6 +14,7 @@ export const profile = {
   location: "Berlin, DE",
   email: "hausersteinn@gmail.com",
   phone: "+49 179 6047 257",
+  headline: "Cloud Operator @ SENEC · Berlin",
   welcome:
     "I'm Steinn - a cloud operator and software engineer based in Berlin. " +
     "I run large-scale Kubernetes platforms and build the automation, " +
@@ -38,6 +39,14 @@ export const profile = {
       "environments before they reach production.",
   ],
 };
+
+// Key figures for the home page. Keep every number backed by the CV.
+export const highlights = [
+  { value: "6+", label: "years in industry" },
+  { value: "50+", label: "servers operated" },
+  { value: "10+", label: "custom Helm charts" },
+  { value: "2", label: "certifications" },
+];
 
 export const socials = [
   { label: "GitHub", href: "https://github.com/steinnhauser/", icon: "github" },
@@ -212,6 +221,15 @@ export const experiences: Experience[] = [
     tags: ["HPC", "ROCKS", "Linux", "Networking"],
   },
 ];
+
+// "2020 - 2021" / "2026 - now" for a tile, from its positions' periods.
+export function experienceYears(exp: Experience): string {
+  const periods = exp.positions.map((p) => p.period).join(" ");
+  const years = (periods.match(/\d{4}/g) ?? []).map(Number);
+  const end = /present/i.test(periods) ? "now" : String(Math.max(...years));
+  const start = String(Math.min(...years));
+  return start === end ? start : `${start} - ${end}`;
+}
 
 export const skillGroups = [
   {
