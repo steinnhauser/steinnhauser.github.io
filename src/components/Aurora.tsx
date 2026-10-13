@@ -7,7 +7,7 @@ import { aurora as a } from "../theme";
 // animated, which stays cheap on the GPU; reduced-motion users get a
 // still image (see index.css).
 
-export type AuroraVariant = "dusk" | "tide" | "ember";
+export type AuroraVariant = "dusk" | "tide";
 
 // Each variant is two layers of radial gradients that drift in opposite
 // directions, so the colours slowly shift against each other.
@@ -28,12 +28,6 @@ const VARIANTS: Record<AuroraVariant, [string, string]> = {
      radial-gradient(34% 40% at 84% 22%, ${a.lavender}73, transparent 70%)`,
     `radial-gradient(26% 30% at 62% 92%, ${a.rose}4d, transparent 70%),
      radial-gradient(22% 26% at 30% 14%, ${a.peach}40, transparent 70%)`,
-  ],
-  // A low warm glow for photo-backed sections.
-  ember: [
-    `radial-gradient(34% 40% at 14% 96%, ${a.peach}4d, transparent 70%),
-     radial-gradient(28% 34% at 40% 104%, ${a.rose}40, transparent 70%)`,
-    `radial-gradient(26% 30% at 92% 12%, ${a.lavender}2e, transparent 70%)`,
   ],
 };
 
