@@ -74,28 +74,29 @@ Stack Overflow) and a footer with contact links.
 
 ## Project map
 
-| Path                                      | Purpose                                                                                                                              |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `docs/cv/cv.md`                           | The CV, the source of truth for content.                                                                                             |
-| `src/content.ts`                          | **All site text and data**: profile, intro, highlights, experiences, skills, certifications, languages, education, volunteering.     |
-| `src/theme.ts`                            | Colour tokens (incl. the `sun` accent), fonts, breakpoint, nav height, and the `glass` mixin.                                        |
-| `src/main.tsx` / `src/App.tsx`            | Entry point (`HashRouter`); layout and routes, including legacy redirects.                                                           |
-| `src/pages/Home.tsx`                      | Composes the home sections from `src/pages/home/` (`Hero`, `ExperienceSection`, `SkillsSection`, `EducationSection`).                |
-| `src/pages/Experience.tsx`                | One template for every experience page.                                                                                              |
-| `src/pages/About.tsx`                     | About page.                                                                                                                          |
-| `src/components/Section.tsx`              | Full-height section: background curves, optional photo backdrop, tint, slanted divider. Children are `(visible) => ...`.             |
-| `src/components/reveal.ts`                | `reveal(visible, index, offset)`: per-element scroll-reveal styles.                                                                  |
-| `src/components/ui.tsx`                   | Styled primitives: `GlassCard`, `SectionTitle`, `SectionLabel`, `Dot`, `Eyebrow`, `Muted`, `Tag`/`TagList`, `PillLink`, `TwoColumn`. |
-| `src/components/ExternalLink.tsx`         | Use for every link to another site (new tab, `rel="noopener noreferrer"`).                                                           |
-| `src/components/Layout.tsx`, `TopNav.tsx` | Page shell (nav, footer, grain overlay, scroll-to-top) and the top navigation.                                                       |
-| `src/components/Curves.tsx`, `Icons.tsx`  | The eight background curve variants; social icons and the section divider.                                                           |
-| `src/hooks/useElementOnScreen.ts`         | IntersectionObserver hook that drives all scroll animation.                                                                          |
-| `src/assets/photos/`                      | Web-optimized portrait and landscape backdrops. Raw originals are git-ignored.                                                       |
-| `src/*.test.ts(x)`, `src/test/`           | `content.test.ts` (data integrity), `cv.test.ts` (site matches CV), `App.test.tsx` (pages and routing); test setup and helpers.      |
-| `Makefile`, `scripts/node-env.sh`         | Task runner and Node-version wrapper (also used by the pre-commit hooks).                                                            |
-| `.pre-commit-config.yaml`                 | Hygiene, Prettier, ESLint, `tsc` and Vitest hooks, identical to CI.                                                                  |
-| `.github/workflows/ci.yml`                | PR checks (pre-commit hooks), build, and deploy to `gh-pages` on `master`.                                                           |
-| `.github/dependabot.yml`                  | Weekly npm and GitHub Actions update PRs.                                                                                            |
+| Path                                      | Purpose                                                                                                                                               |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `docs/cv/cv.md`                           | The CV, the source of truth for content.                                                                                                              |
+| `src/content.ts`                          | **All site text and data**: profile, intro, highlights, experiences, skills, certifications, languages, education, volunteering.                      |
+| `src/theme.ts`                            | Colour tokens (incl. the `sun` accent), fonts, breakpoint, nav height, and the `glass` mixin.                                                         |
+| `src/main.tsx` / `src/App.tsx`            | Entry point (`HashRouter`); layout and routes, including legacy redirects.                                                                            |
+| `src/pages/Home.tsx`                      | Composes the home sections from `src/pages/home/` (`Hero`, `ExperienceSection`, `SkillsSection`, `EducationSection`).                                 |
+| `src/pages/Experience.tsx`                | One template for every experience page.                                                                                                               |
+| `src/pages/About.tsx`                     | About page.                                                                                                                                           |
+| `src/components/Section.tsx`              | Full-height section: background curves, optional photo backdrop (`{ large, small }`), aurora, tint, slanted divider. Children are `(visible) => ...`. |
+| `src/components/Aurora.tsx`               | Drifting colour glows behind the glass: `dusk` (About), `tide` (Skills, Volunteering, experience pages), `ember` (hero).                              |
+| `src/components/reveal.ts`                | `reveal(visible, index, offset)`: per-element scroll-reveal styles.                                                                                   |
+| `src/components/ui.tsx`                   | Styled primitives: `GlassCard`, `LiquidPanel`, `SectionTitle`, `SectionLabel`, `Dot`, `Eyebrow`, `Muted`, `Tag`/`TagList`, `PillLink`, `TwoColumn`.   |
+| `src/components/ExternalLink.tsx`         | Use for every link to another site (new tab, `rel="noopener noreferrer"`).                                                                            |
+| `src/components/Layout.tsx`, `TopNav.tsx` | Page shell (nav, footer, grain overlay, scroll-to-top) and the top navigation.                                                                        |
+| `src/components/Curves.tsx`, `Icons.tsx`  | The eight background curve variants; social and contact icons and the section divider.                                                                |
+| `src/hooks/useElementOnScreen.ts`         | IntersectionObserver hook that drives all scroll animation.                                                                                           |
+| `src/assets/photos/`, `src/assets/logos/` | WebP portrait, landscape backdrops (large + 800px variants) and company logos. Raw originals are git-ignored.                                         |
+| `src/*.test.ts(x)`, `src/test/`           | `content.test.ts` (data integrity), `cv.test.ts` (site matches CV), `assets.test.ts` (image budget), `App.test.tsx` (pages and routing).              |
+| `Makefile`, `scripts/node-env.sh`         | Task runner and Node-version wrapper (also used by the pre-commit hooks).                                                                             |
+| `.pre-commit-config.yaml`                 | Hygiene, Prettier, ESLint, `tsc` and Vitest hooks, identical to CI.                                                                                   |
+| `.github/workflows/ci.yml`                | PR checks (pre-commit hooks), build, and deploy to `gh-pages` on `master`.                                                                            |
+| `.github/dependabot.yml`                  | Weekly npm and GitHub Actions update PRs.                                                                                                             |
 
 ## Design language (preserve it)
 
@@ -112,17 +113,32 @@ owner:
   when it leaves. Each section and experience page has its own variant.
 - **Photography:** the owner's own photos. A lava/snow field sits behind the
   home hero and a coastal sunset behind the About intro, both darkened and
-  vignetted so they read as texture (`Section photo={...}`). A fixed SVG
-  sand grain covers the page. The portrait sits in a sun-to-blue ring.
+  vignetted so they read as texture (`Section photo={...}`), and fainter on
+  phones. A fixed SVG sand grain covers the page. The portrait sits in a
+  sun-to-blue ring.
+- **Aurora** (`Section aurora=...`), inspired by GitLab's sign-in page but in
+  dark mode: soft peach, rose, lavender and blue glows (`aurora` in
+  `theme.ts`) that drift slowly behind the glass, so the panels pick up
+  colour. `dusk` on About is the strongest and is the showpiece; keep the
+  others subtler.
 - **Motion:** every title, card and tile reveals itself with `reveal()` (a
   short fade and a longer staggered slide). Flex gaps "breathe" and list
   items slide in. Everything replays on scrolling back, and
   `prefers-reduced-motion` turns it off.
-- **Frosted glass** (`glass`) on the nav, cards, tiles, pills and key
-  figures. **Never put `opacity` or `filter` (or a transition of them) on an
-  ancestor of a glass element.** Browsers skip the backdrop blur while it
-  runs, which leaves sharp curves showing through the cards. Fade the glass
-  element itself.
+- **Liquid glass** (`glass` in `theme.ts`) on the nav, cards, tiles, pills
+  and key figures: strong blur and saturation, a soft sheen, and a specular
+  rim (`::before`) that is bright at the top-left and picks up blue and gold
+  at the bottom-right. `LiquidPanel` is the richest variant (deeper blur,
+  caustic sheen, 26px radius), used for reading panels (About, experience
+  pages). Rules:
+  - **Never put `opacity` or `filter` (or a transition of them) on an
+    ancestor of a glass element.** Browsers skip the backdrop blur while it
+    runs, which leaves sharp curves showing through the cards. Fade the
+    glass element itself with `reveal()`.
+  - `::before` is the rim. Components built on `glass` decorate with
+    `::after`.
+  - Hover lifts use `hoverLift` (the `translate` property, and only on
+    devices with hover), so they combine with `reveal()`'s inline transform.
 - **Portfolio conventions:** monospace headline, key-figure band, numbered
   section labels ("01 / experience"), monospace tags and year ranges.
   Headings are bold Poppins ending in a gold full stop ("Welcome.",
@@ -147,12 +163,17 @@ owner:
   tests, build). The pre-commit hooks run the same checks; install them once
   with `pre-commit install`. CI runs exactly these hooks.
 - Add or extend tests for new behaviour. Check that a new test can fail.
-- Check desktop (~1440px) and mobile (~390px) in a real browser: no
-  horizontal scroll, the curves draw, and the curves are blurred behind cards
-  mid-transition.
-- New photos: export a resized copy (at most about 1920px, WebP for
-  backgrounds) into `src/assets/photos/`. Never commit camera originals (the
-  large-file hook rejects anything over 1 MB).
+- Check desktop (~1440px), phone portrait (390px and 360px) and phone
+  landscape (844×390) in a real browser: no horizontal scroll, the curves
+  draw, and the curves are blurred behind cards mid-transition.
+- **Mobile:** the `breakpoints.mobile` (760px) rules are for phones in
+  portrait. Phone landscape (~844px wide) deliberately keeps the desktop
+  layout; don't break it. In portrait, body text is left-aligned (never
+  centre long paragraphs) and buttons go full width.
+- **Images** must stay compact (`assets.test.ts`): WebP only, at most 100 KB
+  each and 250 KB in total. Encode at the displayed size: logos 340px,
+  portrait 560px, backdrops 1280px plus an 800px variant for phones (pass
+  both via `photo={{ large, small }}`). Never commit camera originals.
 - Deployment: the `CI` workflow publishes `dist/` to the `gh-pages` branch on
   every push to `master` (or a manual run), once checks and build pass.
   GitHub Pages serves it at the domain in `public/CNAME`.
@@ -179,13 +200,20 @@ _Last updated: 2026-10-13_
   McGill, BSc projects), About with contact card and Volunteering & Open
   Source.
 - Photography-led redesign: new portrait, lava and sunset backdrops, sun-gold
-  accent, JetBrains Mono, sand grain, frosted glass, responsive layout.
+  accent, JetBrains Mono, sand grain, responsive layout.
+- Liquid-glass and aurora pass (October 2026): new `glass` with a specular
+  rim, `LiquidPanel`, drifting `Aurora` glows, a liquid nav bar, and a
+  redesigned About page (story panel, contact card with icons and social
+  buttons) as the showpiece. Phone portrait readability (left-aligned hero,
+  full-width buttons) with landscape unchanged.
+- Build size: images re-encoded to WebP at their displayed size (558 KB →
+  184 KB, with 800px backdrops on phones), an unused font weight dropped,
+  and an image budget test added. `dist/` is about 600 KB in total.
 - Fixed: the glass blur dropping out during reveals; the observer being
   rebuilt every render; slide-ins that never ran; sections taller than the
   viewport never appearing; accessibility gaps.
 - Tooling: latest dependencies (`npm audit`: 0), Prettier, ESLint, Vitest
-  (31 tests), pre-commit, CI with deploy, Dependabot, Makefile. `knip` finds
-  no unused files, exports or dependencies.
+  (42 tests), pre-commit, CI with deploy, Dependabot, Makefile.
 
 ### Open / next steps
 
@@ -201,5 +229,8 @@ _Last updated: 2026-10-13_
 - In Settings → Branches, consider requiring the CI checks before merging
   into `master`.
 - Move to TypeScript 7 when typescript-eslint supports it.
-- Consider code-splitting the experience and about pages (the JS bundle is
-  about 105 KB gzipped), an Open Graph preview image, and a full favicon set.
+- JavaScript is about 112 KB gzipped, two-thirds of it React itself.
+  Switching to Preact (`preact/compat`) would save about 60 KB but needs
+  checking against react-router 8 and Testing Library; only do it if the
+  owner wants it.
+- Consider an Open Graph preview image and a full favicon set.
