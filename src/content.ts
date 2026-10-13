@@ -14,13 +14,17 @@ export const profile = {
   email: "hausersteinn@gmail.com",
   phone: "+49 179 6047 257",
   headline: "Cloud Operator @ SENEC · Berlin",
+  // Home page heading (the gold full stop is added by the page).
+  greeting: "Hi, I'm Steinn",
+  // The CV as a PDF, served from public/cv/.
+  cvUrl: `${import.meta.env.BASE_URL}cv/Steinn-Hauser-Magnusson-CV.pdf`,
   // Home page introduction. Written as a professional summary: role and
   // scope first, then the background that sets it apart.
   welcome: [
-    "Cloud operator and software engineer based in Berlin. At SENEC I run " +
-      "large-scale Kubernetes platforms and build the infrastructure as " +
-      "code, GitOps delivery and automation that keep them secure, " +
-      "observable and up to date.",
+    "As a cloud operator and software engineer in Berlin, I run " +
+      "large-scale Kubernetes platforms at SENEC and build the " +
+      "infrastructure as code, GitOps delivery and automation that keep " +
+      "them secure, observable and up to date.",
     "My background is in computational physics and data science: an MSc " +
       "from the University of Oslo, peer-reviewed research in computational " +
       "neuroscience, and production machine-learning work. I work in four " +
@@ -360,6 +364,10 @@ export const volunteering = [
     period: "January 2017 - June 2020",
     title: "Mathematics Tutor",
     organization: "ENT3R",
-    description: "",
+    // Provided by the owner; the CV lists only the title and dates.
+    description:
+      "Alongside my own university classes, I tutored students aged 16 to 18, " +
+      "helping them prepare for their final exams in advanced mathematics " +
+      "and the sciences.",
   },
 ];

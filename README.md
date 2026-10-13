@@ -3,8 +3,9 @@
 Personal portfolio website of Steinn Hauser Magnússon, served at
 <https://steinnhm.com>.
 
-Built with [Vite](https://vite.dev), [React](https://react.dev),
-TypeScript and styled-components, and deployed to GitHub Pages from the
+Built with [Vite](https://vite.dev), TypeScript and styled-components,
+written as React code that runs on [Preact](https://preactjs.com) (about
+60 KB smaller; see `vite.config.ts`), and deployed to GitHub Pages from the
 `gh-pages` branch.
 
 ## What the site is for
@@ -89,7 +90,8 @@ src/
 
 To change the site's content:
 
-1. Update [`docs/cv/cv.md`](docs/cv/cv.md) if the facts changed.
+1. Update [`docs/cv/cv.md`](docs/cv/cv.md) if the facts changed, and
+   replace the downloadable PDF in `public/cv/`.
 2. Update `src/content.ts`. The pages pick the changes up automatically.
 3. Run `make validate`. `src/cv.test.ts` fails if a title, date,
    certification, language, degree or key figure on the site isn't in the

@@ -3,6 +3,7 @@ import sunsetLarge from "../assets/photos/coast-sunset.webp";
 import sunsetSmall from "../assets/photos/coast-sunset-800.webp";
 import ExternalLink from "../components/ExternalLink";
 import {
+  DownloadIcon,
   GithubIcon,
   LinkedInIcon,
   StackOverflowIcon,
@@ -172,6 +173,10 @@ function About() {
                 </div>
               </ContactList>
               <Actions>
+                <PillLink $primary href={profile.cvUrl} download>
+                  <DownloadIcon />
+                  Download CV
+                </PillLink>
                 {socials.map(({ label, href, icon }) => {
                   const Icon = socialIcons[icon];
                   return (
