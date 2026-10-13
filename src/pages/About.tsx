@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import coastSunset from "../assets/photos/coast-sunset.webp";
+import ExternalLink from "../components/ExternalLink";
 import { reveal } from "../components/reveal";
 import Section from "../components/Section";
 import {
@@ -112,13 +113,7 @@ function About() {
                   {socials.map((s, i) => (
                     <span key={s.label}>
                       {i > 0 && " · "}
-                      <a
-                        href={s.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {s.label}
-                      </a>
+                      <ExternalLink href={s.href}>{s.label}</ExternalLink>
                     </span>
                   ))}
                 </dd>
@@ -144,13 +139,9 @@ function About() {
                   {v.description && <p>{v.description}</p>}
                   {v.link && (
                     <p>
-                      <a
-                        href={v.link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      <ExternalLink href={v.link.href}>
                         {v.link.label} ↗
-                      </a>
+                      </ExternalLink>
                     </p>
                   )}
                 </GlassCard>

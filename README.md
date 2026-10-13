@@ -7,6 +7,21 @@ Built with [Vite](https://vite.dev), [React](https://react.dev),
 TypeScript and styled-components, and deployed to GitHub Pages from the
 `gh-pages` branch.
 
+## What the site is for
+
+The site is the web version of my CV: the same facts, presented for
+recruiters, hiring managers and engineers. It shows a cloud operator and
+software engineer running production Kubernetes platforms, with a
+background in computational physics, research and data science. The CV in
+[`docs/cv/cv.md`](docs/cv/cv.md) is the source of truth, and a test fails if
+the site shows anything that isn't in it.
+
+| Page                               | Contents                                                                                                       |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Home (`#/`)                        | Portrait and professional summary, key figures, then Experience tiles, Skills & Certifications, and Education. |
+| Experience (`#/experience/<role>`) | One page per role: positions, dates, responsibilities and technologies.                                        |
+| About (`#/about`)                  | Longer narrative, contact details, and volunteering & open-source work.                                        |
+
 ## Getting started
 
 Requires [nvm](https://github.com/nvm-sh/nvm) (or Node 24 from `.nvmrc`)
@@ -58,21 +73,27 @@ first.
 ## Project structure
 
 ```text
+docs/cv/cv.md         The CV: source of truth for all content
 src/
-  content.ts          All site content (the CV is the source of truth)
+  content.ts          All site text and data, derived from the CV
   theme.ts            Colours, fonts, breakpoints, frosted-glass mixin
-  assets/photos/      Portrait and landscape backgrounds (web-optimized)
-  App.tsx             Layout and routes
-  main.tsx            Entry point (HashRouter)
-  components/         Layout, TopNav, Section, Curves, Icons, UI primitives
-  pages/              Home, About, Experience (one template for all roles)
+  App.tsx, main.tsx   Routes (incl. legacy redirects) and entry point
+  pages/              Home, Experience (one template for all roles), About
+  pages/home/         Home sections: Hero, Experience, Skills, Education
+  components/         Layout, TopNav, Section, reveal, Curves, Icons,
+                      ExternalLink, shared UI primitives
   hooks/              useElementOnScreen (drives the scroll animations)
-  test/               Vitest setup and helpers
-  *.test.ts(x)        Tests
+  assets/photos/      Portrait and landscape backgrounds (web-optimized)
+  *.test.ts(x), test/ Tests: content integrity, site-vs-CV, pages/routing
 ```
 
-To update the site's content (roles, skills, education and so on), edit
-`src/content.ts`. The pages and tests pick the changes up automatically.
+To change the site's content:
+
+1. Update [`docs/cv/cv.md`](docs/cv/cv.md) if the facts changed.
+2. Update `src/content.ts`. The pages pick the changes up automatically.
+3. Run `make validate`. `src/cv.test.ts` fails if a title, date,
+   certification, language, degree or key figure on the site isn't in the
+   CV.
 
 Photos in `src/assets/photos/` are resized copies of the originals. Keep the
 raw camera files out of git (see `.gitignore`); they are several MB each and

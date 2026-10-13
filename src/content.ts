@@ -10,18 +10,22 @@ import uioLogo from "./assets/uio_logo.png";
 
 export const profile = {
   name: "Steinn Hauser Magnússon",
-  shortName: "Steinn",
   location: "Berlin, DE",
   email: "hausersteinn@gmail.com",
   phone: "+49 179 6047 257",
   headline: "Cloud Operator @ SENEC · Berlin",
-  welcome:
-    "I'm Steinn - a cloud operator and software engineer based in Berlin. " +
-    "I run large-scale Kubernetes platforms and build the automation, " +
-    "pipelines and infrastructure-as-code around them, with a background in " +
-    "computational physics, data science and machine learning. This webpage " +
-    "highlights my professional experience and academic accomplishments. " +
-    'Feel free to contact me using the information in the "About Me" section.',
+  // Home page introduction. Written as a professional summary: role and
+  // scope first, then the background that sets it apart.
+  welcome: [
+    "Cloud operator and software engineer based in Berlin. At SENEC I run " +
+      "large-scale Kubernetes platforms and build the infrastructure as " +
+      "code, GitOps delivery and automation that keep them secure, " +
+      "observable and up to date.",
+    "My background is in computational physics and data science: an MSc " +
+      "from the University of Oslo, peer-reviewed research in computational " +
+      "neuroscience, and production machine-learning work. I work in four " +
+      "languages: English, Icelandic, Norwegian and German.",
+  ],
   about: [
     "I enjoy building architectures from scratch and contributing to " +
       "projects in early stages of development. Projects in this phase have " +
@@ -40,14 +44,6 @@ export const profile = {
   ],
 };
 
-// Key figures for the home page. Keep every number backed by the CV.
-export const highlights = [
-  { value: "6+", label: "years in industry" },
-  { value: "50+", label: "servers operated" },
-  { value: "10+", label: "custom Helm charts" },
-  { value: "2", label: "certifications" },
-];
-
 export const socials = [
   { label: "GitHub", href: "https://github.com/steinnhauser/", icon: "github" },
   {
@@ -62,7 +58,7 @@ export const socials = [
   },
 ] as const;
 
-export type Position = {
+type Position = {
   title: string;
   period: string;
   bullets: string[];
@@ -269,12 +265,16 @@ export const skillGroups = [
 
 export const certifications = [
   {
+    code: "AZ-104",
     title: "Azure Administrator Associate",
-    issuer: "Microsoft · AZ-104",
+    issuer: "Microsoft",
+    caption: "Microsoft Certified Azure Administrator Associate",
   },
   {
+    code: "ITIL 4",
     title: "ITIL 4 Foundation",
     issuer: "PeopleCert · IT Service Management",
+    caption: "Foundation in IT Service Management · PeopleCert",
   },
 ];
 
@@ -283,6 +283,16 @@ export const languages = [
   { language: "Icelandic", level: "Native" },
   { language: "Norwegian", level: "Fluent" },
   { language: "German", level: "Working proficiency" },
+];
+
+// Key figures for the home page hero. Every figure must be backed by the CV
+// (docs/cv/cv.md); the certification figures come straight from the list
+// above so the two never drift apart.
+export const highlights: { value: string; label: string }[] = [
+  { value: "6+", label: "years across cloud, software and data roles" },
+  { value: "50+", label: "production servers automated with Ansible" },
+  { value: "MSc", label: "Computational Science: Physics · Grade A" },
+  ...certifications.map((c) => ({ value: c.code, label: c.caption })),
 ];
 
 export type AcademicEntry = {
@@ -316,7 +326,7 @@ export const academics: AcademicEntry[] = [
     ],
   },
   {
-    period: "Spring 2019",
+    period: "Spring Semester 2019",
     title: "Theoretical Physics (exchange)",
     institution: "McGill University, Montréal, Canada",
     details: [],
