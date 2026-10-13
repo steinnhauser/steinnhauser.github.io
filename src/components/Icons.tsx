@@ -46,7 +46,13 @@ export function SectionDivider({ color }: { color: string }) {
       preserveAspectRatio="none"
       fill={color}
       aria-hidden="true"
-      style={{ position: "absolute", top: 0, left: 0, width: "100%", zIndex: 1 }}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        zIndex: 1,
+      }}
     >
       <path d="M1200 25L0 0 0 0 1200 0 1200 25z" />
     </svg>

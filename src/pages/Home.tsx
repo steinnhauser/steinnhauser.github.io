@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import styled from "styled-components";
 import selfImg from "../assets/bio_img.jpg";
 import Section from "../components/Section";
@@ -42,7 +42,9 @@ const Portrait = styled.img`
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 50%;
-  box-shadow: 0 0 0 1px ${colors.secondary}99, 0 20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 0 0 1px ${colors.secondary}99,
+    0 20px 60px rgba(0, 0, 0, 0.5);
 `;
 
 const WelcomeText = styled.div`
@@ -101,7 +103,9 @@ const TileImage = styled.div`
   aspect-ratio: 1;
   overflow: hidden;
   padding: 0;
-  transition: transform 400ms ease, border-color 400ms ease;
+  transition:
+    transform 400ms ease,
+    border-color 400ms ease;
 
   img {
     width: 100%;
@@ -226,12 +230,7 @@ function Home() {
         )}
       </Section>
 
-      <Section
-        id="experience"
-        curves={2}
-        tinted
-        dividerColor={colors.primary}
-      >
+      <Section id="experience" curves={2} tinted dividerColor={colors.primary}>
         {(visible) => (
           <>
             <SectionTitle style={{ textAlign: "center" }}>
@@ -244,7 +243,7 @@ function Home() {
                   style={enter(
                     visible,
                     experiences.length - i,
-                    `translateX(${-14 - 2 * i}px)`
+                    `translateX(${-14 - 2 * i}px)`,
                   )}
                 >
                   <Tile to={`/experience/${exp.slug}`}>
@@ -325,7 +324,11 @@ function Home() {
                   ))}
                   {a.link && (
                     <p>
-                      <a href={a.link.href} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={a.link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         {a.link.label} ↗
                       </a>
                     </p>

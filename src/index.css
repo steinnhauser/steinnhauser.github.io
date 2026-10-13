@@ -50,13 +50,17 @@ button {
 .scroll-shown {
   filter: none;
   opacity: 1;
-  transition: opacity 1s ease, filter 1s ease;
+  transition:
+    opacity 1s ease,
+    filter 1s ease;
 }
 
 .scroll-hidden {
   filter: blur(1px);
   opacity: 0;
-  transition: opacity 1s ease, filter 1s ease;
+  transition:
+    opacity 1s ease,
+    filter 1s ease;
 }
 
 /* Gap "breathes" in as a section appears. */

@@ -24,6 +24,7 @@ export const glass = css`
   -webkit-backdrop-filter: blur(14px) saturate(140%);
   border: 1px solid ${colors.secondary}99;
   border-radius: 14px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35),
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 `;

@@ -51,7 +51,9 @@ export const PillLink = styled.a`
   color: ${colors.text};
   font-weight: 400;
   cursor: pointer;
-  transition: border-color 250ms ease, transform 250ms ease;
+  transition:
+    border-color 250ms ease,
+    transform 250ms ease;
 
   &:hover {
     color: ${colors.text};

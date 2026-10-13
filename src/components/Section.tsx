@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import styled from "styled-components";
 import useElementOnScreen from "../hooks/useElementOnScreen";
 import { colors, NAV_HEIGHT } from "../theme";
-import Curves, { CurveVariant } from "./Curves";
+import Curves, { type CurveVariant } from "./Curves";
 import { SectionDivider } from "./Icons";
 
 const Wrapper = styled.section<{ $tinted: boolean }>`
@@ -59,7 +59,13 @@ type Props = {
   children: (visible: boolean) => ReactNode;
 };
 
-function Section({ curves, tinted = false, dividerColor, id, children }: Props) {
+function Section({
+  curves,
+  tinted = false,
+  dividerColor,
+  id,
+  children,
+}: Props) {
   const [ref, visible] = useElementOnScreen<HTMLElement>();
   return (
     <Wrapper ref={ref} $tinted={tinted} id={id}>

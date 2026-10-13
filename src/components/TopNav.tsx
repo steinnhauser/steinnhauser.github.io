@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import styled from "styled-components";
 import { socials } from "../content";
 import { breakpoints, colors, NAV_HEIGHT } from "../theme";
@@ -65,7 +65,9 @@ const IconLink = styled.a`
   width: 32px;
   height: 32px;
   color: ${colors.text};
-  transition: color 250ms ease, transform 250ms ease;
+  transition:
+    color 250ms ease,
+    transform 250ms ease;
 
   &:hover {
     color: ${colors.accent};
