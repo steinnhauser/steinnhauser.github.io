@@ -5,6 +5,7 @@ import {
   experiences,
   highlights,
   profile,
+  projects,
   skillGroups,
 } from "./content";
 import { renderAt } from "./test/renderAt";
@@ -13,7 +14,7 @@ describe("home page", () => {
   it("renders the welcome section", () => {
     renderAt("/");
     expect(
-      screen.getByRole("heading", { level: 1, name: `${profile.greeting}.` }),
+      screen.getByRole("heading", { level: 1, name: `${profile.greeting},` }),
     ).toBeInTheDocument();
     expect(screen.getByAltText(`Portrait of ${profile.name}`)).toBeVisible();
   });
@@ -35,6 +36,18 @@ describe("home page", () => {
       expect(link, exp.slug).toBeDefined();
       expect(link).toHaveTextContent(exp.tileTitle);
     }
+  });
+
+  it("shows every selected-work project", () => {
+    renderAt("/");
+    for (const p of projects) {
+      expect(
+        screen.getByRole("heading", { name: p.title }),
+      ).toBeInTheDocument();
+    }
+    expect(
+      screen.getByRole("list", { name: "How it fits together" }),
+    ).toBeInTheDocument();
   });
 
   it("shows every skill group and certification", () => {
@@ -75,7 +88,7 @@ describe("experience pages", () => {
     vi.mocked(Element.prototype.scrollIntoView).mockClear();
     fireEvent.click(screen.getByRole("link", { name: /all roles/i }));
     expect(
-      screen.getByRole("heading", { level: 1, name: `${profile.greeting}.` }),
+      screen.getByRole("heading", { level: 1, name: `${profile.greeting},` }),
     ).toBeInTheDocument();
     expect(Element.prototype.scrollIntoView).toHaveBeenCalled();
   });
@@ -90,7 +103,7 @@ describe("experience pages", () => {
   it("redirects unknown experiences to the home page", () => {
     renderAt("/experience/does-not-exist");
     expect(
-      screen.getByRole("heading", { level: 1, name: `${profile.greeting}.` }),
+      screen.getByRole("heading", { level: 1, name: `${profile.greeting},` }),
     ).toBeInTheDocument();
   });
 });

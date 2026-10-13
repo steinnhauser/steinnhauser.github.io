@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import styled, { keyframes } from "styled-components";
 import { aurora as a } from "../theme";
 
@@ -38,7 +39,7 @@ const drift = keyframes`
 
 const Wrapper = styled.div<{ $visible: boolean }>`
   position: absolute;
-  inset: 0;
+  inset: -100px 0; /* room for the parallax shift */
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
@@ -64,7 +65,12 @@ function Aurora({
 }) {
   const [front, back] = VARIANTS[variant];
   return (
-    <Wrapper $visible={visible} aria-hidden="true">
+    <Wrapper
+      $visible={visible}
+      aria-hidden="true"
+      className="parallax"
+      style={{ "--parallax": "80px" } as CSSProperties}
+    >
       <Layer $background={back} $reverse />
       <Layer $background={front} />
     </Wrapper>

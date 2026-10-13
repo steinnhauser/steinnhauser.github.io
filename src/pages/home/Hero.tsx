@@ -160,7 +160,7 @@ function Hero() {
               <Eyebrow>{profile.headline}</Eyebrow>
               <h1>
                 {profile.greeting}
-                <Dot>.</Dot>
+                <Dot>,</Dot>
               </h1>
               {profile.welcome.map((paragraph) => (
                 <p key={paragraph.slice(0, 24)}>{paragraph}</p>
@@ -182,7 +182,7 @@ function Hero() {
 
           <Highlights aria-label="Key figures">
             {highlights.map((h, i) => (
-              <div key={h.value} style={reveal(visible, 3 + i)}>
+              <div key={h.value} data-light style={reveal(visible, 3 + i)}>
                 <dt>{h.value}</dt>
                 <dd>{h.label}</dd>
               </div>

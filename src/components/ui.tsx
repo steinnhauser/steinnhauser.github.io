@@ -1,7 +1,19 @@
 import styled, { css } from "styled-components";
-import { aurora, breakpoints, colors, fonts, glass, hoverLift } from "../theme";
+import {
+  aurora,
+  breakpoints,
+  colors,
+  fonts,
+  glass,
+  hoverLift,
+  pointerLight,
+} from "../theme";
 
-export const GlassCard = styled.div`
+// `data-light` opts a surface into the cursor light (usePointerLight).
+type LightProps = { "data-light"?: string };
+const lightAttrs: LightProps = { "data-light": "" };
+
+export const GlassCard = styled.div.attrs<LightProps>(lightAttrs)`
   ${glass}
   ${hoverLift}
   padding: 20px 24px;
@@ -10,11 +22,12 @@ export const GlassCard = styled.div`
 // The most refined glass in the project, for large reading panels: deeper
 // blur, a larger radius, and a soft caustic sheen across the top-left as if
 // light were bending through a thick pane.
-export const LiquidPanel = styled.div`
+export const LiquidPanel = styled.div.attrs<LightProps>(lightAttrs)`
   ${glass}
   border-radius: 26px;
   padding: clamp(24px, 4vw, 44px);
   background:
+    ${pointerLight(520, 0.11)},
     radial-gradient(
       120% 70% at 0% 0%,
       rgba(255, 255, 255, 0.13),
@@ -47,7 +60,7 @@ export const SectionTitle = styled.h2`
   margin: 0 0 32px;
 `;
 
-// The full stop in "Hi, I'm Steinn." / "About me.", lit like the low sun.
+// The gold punctuation in "I'm Steinn," / "About me.", lit like the low sun.
 export const Dot = styled.span`
   color: ${colors.sun};
 `;
@@ -100,7 +113,9 @@ export const Tag = styled.li`
 `;
 
 // Glass pill button/link. `$primary` tints it with sunset colours.
-export const PillLink = styled.a<{ $primary?: boolean }>`
+export const PillLink = styled.a.attrs<LightProps>(lightAttrs)<{
+  $primary?: boolean;
+}>`
   ${glass}
   ${hoverLift}
   display: inline-flex;
@@ -125,6 +140,7 @@ export const PillLink = styled.a<{ $primary?: boolean }>`
     p.$primary &&
     css`
       background:
+        ${pointerLight(200, 0.18)},
         linear-gradient(120deg, ${colors.sun}40, ${aurora.rose}33),
         rgba(19, 19, 22, 0.3);
       box-shadow:

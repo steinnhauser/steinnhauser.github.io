@@ -43,11 +43,11 @@ const Card = styled(GlassCard)`
 
 function EducationSection() {
   return (
-    <Section curves={3} tinted slant compact>
+    <Section curves={3} aurora="tide" slant compact>
       {(visible) => (
         <TwoColumn>
           <Heading style={reveal(visible)}>
-            <SectionLabel>03 / education</SectionLabel>
+            <SectionLabel>04 / education</SectionLabel>
             <SectionTitle>
               My Academic <br /> Background
             </SectionTitle>

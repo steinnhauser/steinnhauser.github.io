@@ -2,6 +2,7 @@ import { type ReactNode, useEffect } from "react";
 import { useLocation } from "react-router";
 import styled from "styled-components";
 import { profile, socials } from "../content";
+import usePointerLight from "../hooks/usePointerLight";
 import { colors, fonts, SLANT, slantTop } from "../theme";
 import TopNav from "./TopNav";
 import ExternalLink from "./ExternalLink";
@@ -15,6 +16,7 @@ const Body = styled.div`
   background-color: ${colors.primary};
   color: ${colors.text};
   font-family: ${fonts.body};
+  line-height: 1.6;
 
   &::after {
     content: "";
@@ -50,6 +52,7 @@ const Footer = styled.footer`
 
 function Layout({ children }: { children: ReactNode }) {
   const { pathname, state } = useLocation();
+  usePointerLight();
   const section = (state as { section?: string } | null)?.section;
 
   // HashRouter keeps the scroll position between pages: start each page at

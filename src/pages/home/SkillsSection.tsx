@@ -54,11 +54,11 @@ const LanguageList = styled.dl`
 
 function SkillsSection() {
   return (
-    <Section curves={5} aurora="tide" slant compact>
+    <Section curves={5} tinted slant compact>
       {(visible) => (
         <>
           <div style={reveal(visible)}>
-            <SectionLabel>02 / skills</SectionLabel>
+            <SectionLabel>03 / skills</SectionLabel>
             <SectionTitle>Skills &amp; Certifications</SectionTitle>
           </div>
           <Grid>

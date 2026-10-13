@@ -77,13 +77,17 @@ first.
 docs/cv/cv.md         The CV: source of truth for all content
 src/
   content.ts          All site text and data, derived from the CV
-  theme.ts            Colours, fonts, breakpoints, frosted-glass mixin
+  theme.ts            Colours, fonts, breakpoints, glass and light mixins
+  fonts.css           Self-hosted fonts (latin subsets)
+  compat/             react → Preact shim (see vite.config.ts)
   App.tsx, main.tsx   Routes (incl. legacy redirects) and entry point
   pages/              Home, Experience (one template for all roles), About
-  pages/home/         Home sections: Hero, Experience, Skills, Education
+  pages/home/         Home sections: Hero, Experience, Selected Work,
+                      Skills, Education
   components/         Layout, TopNav, Section, reveal, Curves, Icons,
                       ExternalLink, shared UI primitives
-  hooks/              useElementOnScreen (drives the scroll animations)
+  hooks/              useElementOnScreen (scroll reveals), usePointerLight
+                      (cursor light on glass)
   assets/photos/      Portrait and landscape backgrounds (web-optimized)
   *.test.ts(x), test/ Tests: content integrity, site-vs-CV, pages/routing
 ```
