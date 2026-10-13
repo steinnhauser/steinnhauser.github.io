@@ -3,7 +3,9 @@ import {
   academics,
   certifications,
   experiences,
+  experienceYears,
   languages,
+  profile,
   skillGroups,
   socials,
   volunteering,
@@ -60,5 +62,19 @@ describe("content", () => {
       ...volunteering.flatMap((v) => (v.link ? [v.link.href] : [])),
     ];
     for (const href of hrefs) expect(href).toMatch(/^https:\/\//);
+  });
+
+  it("formats experience year ranges", () => {
+    const bySlug = Object.fromEntries(experiences.map((e) => [e.slug, e]));
+    expect(experienceYears(bySlug["senec-cloud-operator"])).toBe("2026 - now");
+    expect(experienceYears(bySlug["future-ready"])).toBe("2020 - 2023");
+    expect(experienceYears(bySlug["sintef"])).toBe("2020");
+  });
+
+  it("names every language in the introduction", () => {
+    const intro = profile.welcome.join(" ");
+    expect(intro).toContain("four languages");
+    expect(languages).toHaveLength(4);
+    for (const l of languages) expect(intro).toContain(l.language);
   });
 });
