@@ -7,29 +7,52 @@ Built with [Vite](https://vite.dev), [React](https://react.dev),
 TypeScript and styled-components, and deployed to GitHub Pages from the
 `gh-pages` branch.
 
+## What the site is for
+
+The site is the web version of my CV: the same facts, presented for
+recruiters, hiring managers and engineers. It shows a cloud operator and
+software engineer running production Kubernetes platforms, with a
+background in computational physics, research and data science. The CV in
+[`docs/cv/cv.md`](docs/cv/cv.md) is the source of truth, and a test fails if
+the site shows anything that isn't in it.
+
+| Page                               | Contents                                                                                                       |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Home (`#/`)                        | Portrait and professional summary, key figures, then Experience tiles, Skills & Certifications, and Education. |
+| Experience (`#/experience/<role>`) | One page per role: positions, dates, responsibilities and technologies.                                        |
+| About (`#/about`)                  | Longer narrative, contact details, and volunteering & open-source work.                                        |
+
 ## Getting started
 
-Requires Node 24 (see `.nvmrc`).
+Requires [nvm](https://github.com/nvm-sh/nvm) (or Node 24 from `.nvmrc`)
+and `make`.
 
 ```sh
-nvm use
-npm ci
-npm run dev        # http://localhost:5173
+make install    # installs Node 24 via nvm, then npm dependencies
+make run        # http://localhost:5173 with hot reload
+make validate   # format, lint, typecheck, test and build
 ```
 
-## Scripts
+`make` alone lists every target. All Node commands run through
+`scripts/node-env.sh`, which switches to the `.nvmrc` Node version, so they
+work even when your shell defaults to an older Node.
 
-| Command                | What it does                                                    |
-| ---------------------- | --------------------------------------------------------------- |
-| `npm run dev`          | Start the dev server with hot reload.                           |
-| `npm run build`        | Type-check and build the production site into `dist/`.          |
-| `npm run preview`      | Serve the production build locally.                             |
-| `npm run format`       | Format everything with Prettier.                                |
-| `npm run format:check` | Check formatting without changing files.                        |
-| `npm run lint`         | Lint with ESLint (no warnings allowed).                         |
-| `npm run typecheck`    | Type-check with `tsc`.                                          |
-| `npm test`             | Run the Vitest test suite once (`npm run test:watch` to watch). |
-| `npm run check`        | Format check, lint, typecheck and tests: everything CI runs.    |
+## Make targets
+
+| Command          | What it does                                                    |
+| ---------------- | --------------------------------------------------------------- |
+| `make install`   | Install the `.nvmrc` Node version (via nvm) and npm deps.       |
+| `make run`       | Dev server with hot reload (`make run PORT=3000` to change it). |
+| `make validate`  | Format check, lint, typecheck, tests, then a production build.  |
+| `make fix`       | Auto-fix formatting and lint issues.                            |
+| `make build`     | Type-check and build the production site into `dist/`.          |
+| `make preview`   | Build, then serve the production site on port 4173.             |
+| `make precommit` | Run every pre-commit hook on all files, exactly as CI does.     |
+| `make clean`     | Remove build output and tool caches.                            |
+
+The same tasks exist as npm scripts (`npm run dev`, `build`, `preview`,
+`format`, `format:check`, `lint`, `lint:fix`, `typecheck`, `test`,
+`test:watch`, `check`) if you prefer to call them directly on Node 24.
 
 ## Pre-commit hooks
 
@@ -44,25 +67,41 @@ pre-commit run --all-files    # run them on the whole repo
 
 The hooks cover file hygiene (trailing whitespace, final newlines, valid
 YAML/JSON, merge markers, large files), Prettier, ESLint, `tsc` and Vitest.
-The local hooks use the tools from `node_modules`, so run `npm ci` first.
+The local hooks use the tools from `node_modules`, so run `make install`
+first.
 
 ## Project structure
 
 ```text
+docs/cv/cv.md         The CV: source of truth for all content
 src/
-  content.ts          All site content (the CV is the source of truth)
-  theme.ts            Colours, breakpoints, frosted-glass mixin
-  App.tsx             Layout and routes
-  main.tsx            Entry point (HashRouter)
-  components/         Layout, TopNav, Section, Curves, Icons, UI primitives
-  pages/              Home, About, Experience (one template for all roles)
+  content.ts          All site text and data, derived from the CV
+  theme.ts            Colours, fonts, breakpoints, frosted-glass mixin
+  App.tsx, main.tsx   Routes (incl. legacy redirects) and entry point
+  pages/              Home, Experience (one template for all roles), About
+  pages/home/         Home sections: Hero, Experience, Skills, Education
+  components/         Layout, TopNav, Section, reveal, Curves, Icons,
+                      ExternalLink, shared UI primitives
   hooks/              useElementOnScreen (drives the scroll animations)
-  test/               Vitest setup and helpers
-  *.test.ts(x)        Tests
+  assets/photos/      Portrait and landscape backgrounds (web-optimized)
+  *.test.ts(x), test/ Tests: content integrity, site-vs-CV, pages/routing
 ```
 
-To update the site's content (roles, skills, education and so on), edit
-`src/content.ts`. The pages and tests pick the changes up automatically.
+To change the site's content:
+
+1. Update [`docs/cv/cv.md`](docs/cv/cv.md) if the facts changed.
+2. Update `src/content.ts`. The pages pick the changes up automatically.
+3. Run `make validate`. `src/cv.test.ts` fails if a title, date,
+   certification, language, degree or key figure on the site isn't in the
+   CV.
+
+### Images
+
+Images in `src/assets/photos/` and `src/assets/logos/` are WebP copies of
+the originals, encoded at the size they're displayed (logos 340px, portrait
+560px, backdrops 1280px plus an 800px variant for phones). `src/assets.test.ts`
+enforces the budget: WebP only, at most 100 KB per image and 250 KB in total.
+Keep the raw camera files out of git (see `.gitignore`).
 
 ## CI and deployment
 

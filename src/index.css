@@ -45,23 +45,7 @@ button {
   border-radius: 4px;
 }
 
-/* ---------- Section fade ---------- */
-
-.scroll-shown {
-  filter: none;
-  opacity: 1;
-  transition:
-    opacity 1s ease,
-    filter 1s ease;
-}
-
-.scroll-hidden {
-  filter: blur(1px);
-  opacity: 0;
-  transition:
-    opacity 1s ease,
-    filter 1s ease;
-}
+/* ---------- Section motion ---------- */
 
 /* Gap "breathes" in as a section appears. */
 .flex-faded-in {
@@ -130,6 +114,8 @@ button {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    /* Infinite animations (the aurora drift) would otherwise flicker. */
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

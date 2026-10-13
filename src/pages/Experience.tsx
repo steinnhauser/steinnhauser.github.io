@@ -1,11 +1,12 @@
 import { Link, Navigate, useParams } from "react-router";
 import styled from "styled-components";
+import { reveal } from "../components/reveal";
 import Section from "../components/Section";
-import { Eyebrow, GlassCard, Muted, Tag, TagList } from "../components/ui";
+import { Eyebrow, LiquidPanel, Muted, Tag, TagList } from "../components/ui";
 import { experiences } from "../content";
 import { breakpoints, colors } from "../theme";
 
-const Card = styled(GlassCard)`
+const Card = styled(LiquidPanel)`
   max-width: 820px;
   margin: 0 auto;
   padding: clamp(24px, 4vw, 48px);
@@ -80,9 +81,9 @@ function Experience() {
   const next = experiences[index + 1];
 
   return (
-    <Section curves={exp.curves} tinted>
+    <Section curves={exp.curves} tinted aurora="tide">
       {(visible) => (
-        <Card>
+        <Card style={reveal(visible)}>
           <Header>
             <img src={exp.logo} alt={`${exp.company} logo`} />
             <Muted>{exp.company}</Muted>

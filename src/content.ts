@@ -3,24 +3,29 @@
 
 import type { CurveVariant } from "./components/Curves";
 
-import senecLogo from "./assets/senec_logo.png";
-import futureReadyLogo from "./assets/fricon_fill.png";
-import sintefLogo from "./assets/sintef_logo.jpg";
-import uioLogo from "./assets/uio_logo.png";
+import futureReadyLogo from "./assets/logos/future-ready.webp";
+import senecLogo from "./assets/logos/senec.webp";
+import sintefLogo from "./assets/logos/sintef.webp";
+import uioLogo from "./assets/logos/uio.webp";
 
 export const profile = {
   name: "Steinn Hauser Magnússon",
-  shortName: "Steinn",
   location: "Berlin, DE",
   email: "hausersteinn@gmail.com",
   phone: "+49 179 6047 257",
-  welcome:
-    "I'm Steinn - a cloud operator and software engineer based in Berlin. " +
-    "I run large-scale Kubernetes platforms and build the automation, " +
-    "pipelines and infrastructure-as-code around them, with a background in " +
-    "computational physics, data science and machine learning. This webpage " +
-    "highlights my professional experience and academic accomplishments. " +
-    'Feel free to contact me using the information in the "About Me" section.',
+  headline: "Cloud Operator @ SENEC · Berlin",
+  // Home page introduction. Written as a professional summary: role and
+  // scope first, then the background that sets it apart.
+  welcome: [
+    "Cloud operator and software engineer based in Berlin. At SENEC I run " +
+      "large-scale Kubernetes platforms and build the infrastructure as " +
+      "code, GitOps delivery and automation that keep them secure, " +
+      "observable and up to date.",
+    "My background is in computational physics and data science: an MSc " +
+      "from the University of Oslo, peer-reviewed research in computational " +
+      "neuroscience, and production machine-learning work. I work in four " +
+      "languages: English, Icelandic, Norwegian and German.",
+  ],
   about: [
     "I enjoy building architectures from scratch and contributing to " +
       "projects in early stages of development. Projects in this phase have " +
@@ -53,7 +58,7 @@ export const socials = [
   },
 ] as const;
 
-export type Position = {
+type Position = {
   title: string;
   period: string;
   bullets: string[];
@@ -213,6 +218,15 @@ export const experiences: Experience[] = [
   },
 ];
 
+// "2020 - 2021" / "2026 - now" for a tile, from its positions' periods.
+export function experienceYears(exp: Experience): string {
+  const periods = exp.positions.map((p) => p.period).join(" ");
+  const years = (periods.match(/\d{4}/g) ?? []).map(Number);
+  const end = /present/i.test(periods) ? "now" : String(Math.max(...years));
+  const start = String(Math.min(...years));
+  return start === end ? start : `${start} - ${end}`;
+}
+
 export const skillGroups = [
   {
     title: "Cloud & Infrastructure as Code",
@@ -251,12 +265,16 @@ export const skillGroups = [
 
 export const certifications = [
   {
+    code: "AZ-104",
     title: "Azure Administrator Associate",
-    issuer: "Microsoft · AZ-104",
+    issuer: "Microsoft",
+    caption: "Microsoft Certified Azure Administrator Associate",
   },
   {
+    code: "ITIL 4",
     title: "ITIL 4 Foundation",
     issuer: "PeopleCert · IT Service Management",
+    caption: "Foundation in IT Service Management · PeopleCert",
   },
 ];
 
@@ -265,6 +283,16 @@ export const languages = [
   { language: "Icelandic", level: "Native" },
   { language: "Norwegian", level: "Fluent" },
   { language: "German", level: "Working proficiency" },
+];
+
+// Key figures for the home page hero. Every figure must be backed by the CV
+// (docs/cv/cv.md); the certification figures come straight from the list
+// above so the two never drift apart.
+export const highlights: { value: string; label: string }[] = [
+  { value: "6+", label: "years across cloud, software and data roles" },
+  { value: "50+", label: "production servers automated with Ansible" },
+  { value: "MSc", label: "Computational Science: Physics · Grade A" },
+  ...certifications.map((c) => ({ value: c.code, label: c.caption })),
 ];
 
 export type AcademicEntry = {
@@ -298,7 +326,7 @@ export const academics: AcademicEntry[] = [
     ],
   },
   {
-    period: "Spring 2019",
+    period: "Spring Semester 2019",
     title: "Theoretical Physics (exchange)",
     institution: "McGill University, Montréal, Canada",
     details: [],

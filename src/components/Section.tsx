@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 import styled from "styled-components";
 import useElementOnScreen from "../hooks/useElementOnScreen";
-import { colors, NAV_HEIGHT } from "../theme";
+import { breakpoints, colors, NAV_HEIGHT } from "../theme";
+import Aurora, { type AuroraVariant } from "./Aurora";
 import Curves, { type CurveVariant } from "./Curves";
 import { SectionDivider } from "./Icons";
 
@@ -15,9 +16,8 @@ const Wrapper = styled.section<{ $tinted: boolean }>`
   scroll-margin-top: ${NAV_HEIGHT};
 `;
 
-// Fades in/out as a whole. The curves live inside this element so that
-// frosted-glass cards (backdrop-filter) can still blur them: an ancestor
-// with `filter` becomes the backdrop root.
+// No opacity/filter here or on any ancestor of the content: the glass cards
+// need an unfaded backdrop to blur. Content reveals itself via `reveal()`.
 const Inner = styled.div`
   position: relative;
   display: grid;
@@ -25,10 +25,38 @@ const Inner = styled.div`
   padding: calc(${NAV_HEIGHT} + 40px) clamp(16px, 4vw, 48px) 72px;
 `;
 
-const CurveLayer = styled.div`
+// A background photo: a large source plus a small one for narrow screens
+// (the browser only downloads the one its media query matches).
+export type SectionPhoto = { large: string; small: string };
+
+// One of the owner's landscape photos, darkened and partly desaturated so it
+// reads as texture behind the curves rather than as a picture. Fainter on
+// phones, where text sits directly on top of it.
+const Photo = styled.div<{ $photo: SectionPhoto; $visible: boolean }>`
   position: absolute;
   inset: 0;
   z-index: 0;
+  background: url(${(p) => p.$photo.large}) center / cover no-repeat;
+  filter: grayscale(0.25) brightness(0.6) contrast(1.05);
+  opacity: ${(p) => (p.$visible ? 0.27 : 0)};
+
+  @media (max-width: ${breakpoints.mobile}) {
+    background-image: url(${(p) => p.$photo.small});
+    opacity: ${(p) => (p.$visible ? 0.2 : 0)};
+  }
+  transition: opacity 1.2s ease;
+  mask-image: radial-gradient(
+    ellipse 85% 80% at 50% 50%,
+    #000 35%,
+    transparent 100%
+  );
+  pointer-events: none;
+`;
+
+const CurveLayer = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,6 +83,9 @@ type Props = {
   tinted?: boolean;
   // Colour of the section above, drawn as a slanted divider.
   dividerColor?: string;
+  photo?: SectionPhoto;
+  // Coloured glows behind the glass.
+  aurora?: AuroraVariant;
   id?: string;
   children: (visible: boolean) => ReactNode;
 };
@@ -63,6 +94,8 @@ function Section({
   curves,
   tinted = false,
   dividerColor,
+  photo,
+  aurora,
   id,
   children,
 }: Props) {
@@ -70,7 +103,11 @@ function Section({
   return (
     <Wrapper ref={ref} $tinted={tinted} id={id}>
       {dividerColor && <SectionDivider color={dividerColor} />}
-      <Inner className={visible ? "scroll-shown" : "scroll-hidden"}>
+      <Inner>
+        {photo && (
+          <Photo $photo={photo} $visible={visible} aria-hidden="true" />
+        )}
+        {aurora && <Aurora variant={aurora} visible={visible} />}
         <CurveLayer>
           <Curves variant={curves} visible={visible} color={colors.secondary} />
         </CurveLayer>

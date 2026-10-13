@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Raw source photos (several MB each). The site uses the optimized copies
+# in src/assets/photos/; keep the originals locally only.
+src/assets/new_bio_img*.jpg
+src/assets/thematic_inspiration*.JPG
