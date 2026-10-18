@@ -30,7 +30,7 @@
     "styled-components": "^6.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.7",
+    "@babel/core": "^8.0.7",
     "@eslint/js": "^10.0.1",
     "@preact/preset-vite": "^2.10.6",
     "@testing-library/dom": "^10.4.2",
