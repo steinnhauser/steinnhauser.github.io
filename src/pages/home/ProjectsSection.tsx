@@ -162,6 +162,9 @@ function ProjectCard({
 }) {
   const { title, context, summary, flow, tags, links, featured, image } =
     project;
+  // The project's short name, so repeated link texts ("Code on GitHub")
+  // stay distinct for screen readers.
+  const name = title.split(":")[0];
   const more = project.page
     ? { to: `/project/${project.page.slug}`, label: "Read the full story" }
     : project.role
@@ -179,7 +182,11 @@ function ProjectCard({
           <Eyebrow>{context}</Eyebrow>
           <h3>{title}</h3>
           <p>{summary}</p>
-          {more && <More to={more.to}>{more.label} →</More>}
+          {more && (
+            <More to={more.to} aria-label={`${more.label}: ${name}`}>
+              {more.label} →
+            </More>
+          )}
         </div>
         {image && <Screenshot {...image} />}
       </Lead>
@@ -199,7 +206,11 @@ function ProjectCard({
       {links && (
         <Links>
           {links.map((l) => (
-            <ExternalLink key={l.href} href={l.href}>
+            <ExternalLink
+              key={l.href}
+              href={l.href}
+              aria-label={`${l.label}: ${name}`}
+            >
               {l.label} ↗
             </ExternalLink>
           ))}

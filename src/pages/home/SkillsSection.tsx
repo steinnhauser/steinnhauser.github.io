@@ -10,8 +10,14 @@ import {
   Tag,
   TagList,
 } from "../../components/ui";
-import { certifications, languages, skillGroups } from "../../content";
-import { colors } from "../../theme";
+import ExternalLink from "../../components/ExternalLink";
+import {
+  certifications,
+  coreSkills,
+  languages,
+  skillGroups,
+} from "../../content";
+import { colors, fonts } from "../../theme";
 
 const Grid = styled.div`
   display: grid;
@@ -22,6 +28,28 @@ const Grid = styled.div`
 const CardTitle = styled.h3`
   margin: 0 0 14px;
   font-size: 1.05rem;
+`;
+
+// Core skills lead their group (a stable sort keeps the rest in order).
+const coreFirst = (skills: string[]) =>
+  [...skills].sort(
+    (a, b) => Number(coreSkills.includes(b)) - Number(coreSkills.includes(a)),
+  );
+
+// Explains the gold-rimmed tags.
+const Legend = styled.p`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: -14px 0 24px;
+  font-family: ${fonts.mono};
+  font-size: 0.74rem;
+  letter-spacing: 0.03em;
+  color: ${colors.muted};
+
+  ${Tag} {
+    list-style: none;
+  }
 `;
 
 const CertList = styled.ul`
@@ -38,6 +66,10 @@ const CertList = styled.ul`
   small {
     color: ${colors.muted};
   }
+`;
+
+const VerifyLink = styled(ExternalLink)`
+  font-size: 0.86rem;
 `;
 
 const LanguageList = styled.dl`
@@ -60,14 +92,22 @@ function SkillsSection() {
           <div style={reveal(visible)}>
             <SectionLabel>03 / skills</SectionLabel>
             <SectionTitle>Skills &amp; Certifications</SectionTitle>
+            <Legend>
+              <Tag as="span" $core>
+                core
+              </Tag>
+              the core stack, used at an advanced level
+            </Legend>
           </div>
           <Grid>
             {skillGroups.map((group, i) => (
               <GlassCard key={group.title} style={reveal(visible, i)}>
                 <CardTitle>{group.title}</CardTitle>
                 <TagList>
-                  {group.skills.map((s) => (
-                    <Tag key={s}>{s}</Tag>
+                  {coreFirst(group.skills).map((s) => (
+                    <Tag key={s} $core={coreSkills.includes(s)}>
+                      {s}
+                    </Tag>
                   ))}
                 </TagList>
               </GlassCard>
@@ -80,6 +120,11 @@ function SkillsSection() {
                     <Eyebrow>{c.code}</Eyebrow>
                     {c.title}
                     <small>{c.issuer}</small>
+                    {c.verifyUrl && (
+                      <VerifyLink href={c.verifyUrl}>
+                        Verify credential ↗
+                      </VerifyLink>
+                    )}
                   </li>
                 ))}
               </CertList>

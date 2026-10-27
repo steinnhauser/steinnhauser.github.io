@@ -102,7 +102,8 @@ export const TagList = styled.ul`
   margin: 0;
 `;
 
-export const Tag = styled.li`
+// Monospace technology tag. `$core` marks the core stack with a sunlit rim.
+export const Tag = styled.li<{ $core?: boolean }>`
   font-family: ${fonts.mono};
   font-size: 0.76rem;
   padding: 4px 11px;
@@ -110,6 +111,15 @@ export const Tag = styled.li`
   border: 1px solid ${colors.secondary};
   background: ${colors.secondary}2e;
   white-space: nowrap;
+
+  ${(p) =>
+    p.$core &&
+    css`
+      border-color: ${colors.sun}b3;
+      background: ${colors.sun}1a;
+      color: ${colors.text};
+      font-weight: 500;
+    `}
 `;
 
 // Glass pill button/link. `$primary` tints it with sunset colours.

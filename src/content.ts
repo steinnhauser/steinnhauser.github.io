@@ -553,12 +553,34 @@ export const skillGroups = [
   },
 ];
 
-export const certifications = [
+// The core stack: the technologies the CV lists as "Advanced". The Skills
+// section highlights them.
+export const coreSkills = [
+  "Python",
+  "Terraform",
+  "Kubernetes",
+  "Docker",
+  "Linux",
+  "Azure",
+  "Git",
+  "AWS",
+];
+
+// `verifyUrl`: the issuer's public verification page, where one exists.
+export const certifications: {
+  code: string;
+  title: string;
+  issuer: string;
+  caption: string;
+  verifyUrl?: string;
+}[] = [
   {
     code: "AZ-104",
     title: "Azure Administrator Associate",
     issuer: "Microsoft",
     caption: "Microsoft Certified Azure Administrator Associate",
+    verifyUrl:
+      "https://learn.microsoft.com/en-us/users/steinnhausermagnusson-8948/credentials/e226b60f8028a1af",
   },
   {
     code: "ITIL 4",

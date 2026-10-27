@@ -3,6 +3,7 @@ import indexHtml from "../index.html?raw";
 import {
   academics,
   certifications,
+  coreSkills,
   experiences,
   experienceYears,
   languages,
@@ -63,6 +64,7 @@ describe("content", () => {
       ...academics.flatMap((a) => (a.link ? [a.link.href] : [])),
       ...volunteering.flatMap((v) => (v.link ? [v.link.href] : [])),
       ...projects.flatMap((p) => (p.links ?? []).map((l) => l.href)),
+      ...certifications.flatMap((c) => (c.verifyUrl ? [c.verifyUrl] : [])),
     ];
     for (const href of hrefs) expect(href).toMatch(/^https:\/\//);
   });
@@ -77,6 +79,11 @@ describe("content", () => {
     expect(person.sameAs).toEqual(socials.map((s) => s.href));
     expect(person.knowsLanguage).toEqual(languages.map((l) => l.language));
     expect(person.jobTitle).toBe(experiences[0].tileTitle);
+  });
+
+  it("shows every core skill in a skill group", () => {
+    const shown = skillGroups.flatMap((g) => g.skills);
+    for (const skill of coreSkills) expect(shown, skill).toContain(skill);
   });
 
   it("formats experience year ranges", () => {

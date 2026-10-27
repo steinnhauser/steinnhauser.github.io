@@ -70,6 +70,11 @@ p {
   color: rgba(255, 255, 255, 0.86);
 }
 
+/* <main> takes focus from "Skip to content" without drawing a frame. */
+main:focus {
+  outline: none;
+}
+
 :focus-visible {
   outline: 2px solid #8fa8dc;
   outline-offset: 4px;

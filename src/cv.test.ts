@@ -6,6 +6,7 @@ import cv from "../docs/cv/cv.md?raw";
 import {
   academics,
   certifications,
+  coreSkills,
   experiences,
   highlights,
   languages,
@@ -32,6 +33,14 @@ describe("site content matches the CV", () => {
 
   it("lists the CV's certifications", () => {
     for (const c of certifications) expect(onCv(c.title), c.title).toBe(true);
+  });
+
+  it("highlights exactly the CV's advanced technologies as core", () => {
+    const advanced = cv
+      .match(/Advanced:[ \t]*([^\n]*(?:\n[ \t]+[^\n]+)*)/)?.[1]
+      .split(",")
+      .map((t) => t.trim());
+    expect([...coreSkills].sort()).toEqual(advanced?.sort());
   });
 
   it("lists the CV's languages and levels", () => {

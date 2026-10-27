@@ -62,6 +62,10 @@ describe("home page", () => {
     for (const cert of certifications) {
       expect(screen.getByText(cert.title)).toBeInTheDocument();
     }
+    const verify = screen.getAllByRole("link", { name: /verify credential/i });
+    expect(verify.map((a) => a.getAttribute("href"))).toEqual(
+      certifications.flatMap((c) => (c.verifyUrl ? [c.verifyUrl] : [])),
+    );
   });
 });
 
@@ -156,6 +160,15 @@ describe("project pages", () => {
     }
   });
 
+  it("gives repeated card links distinct names", () => {
+    renderAt("/");
+    const work = document.getElementById("work")!;
+    const names = within(work)
+      .getAllByRole("link")
+      .map((a) => a.getAttribute("aria-label") ?? a.textContent);
+    expect(new Set(names).size).toBe(names.length);
+  });
+
   it("links back to the Selected Work section", () => {
     renderAt("/project/recipify");
     vi.mocked(Element.prototype.scrollIntoView).mockClear();
@@ -183,6 +196,34 @@ describe("top navigation", () => {
       screen.getByRole("heading", { name: "Selected Work" }),
     ).toBeVisible();
     expect(Element.prototype.scrollIntoView).toHaveBeenCalled();
+  });
+
+  it("marks the section in view as the current location", () => {
+    // The test IntersectionObserver reports every section as in view, so
+    // the last one observed (Work) wins.
+    renderAt("/");
+    expect(screen.getByRole("link", { name: "Work" })).toHaveAttribute(
+      "aria-current",
+      "location",
+    );
+    expect(screen.getByRole("link", { name: "Home" })).not.toHaveClass(
+      "active",
+    );
+  });
+
+  it("marks no section on other pages", () => {
+    renderAt("/about");
+    for (const name of ["Experience", "Work"]) {
+      expect(screen.getByRole("link", { name })).not.toHaveAttribute(
+        "aria-current",
+      );
+    }
+  });
+
+  it("skips to the main content", () => {
+    renderAt("/about");
+    fireEvent.click(screen.getByRole("link", { name: "Skip to content" }));
+    expect(document.activeElement).toBe(screen.getByRole("main"));
   });
 
   it("scrolls to a section when already home", () => {

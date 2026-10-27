@@ -148,7 +148,13 @@ function Hero() {
         <>
           <Intro className={visible ? "flex-faded-in" : "flex-faded-out"}>
             <PortraitFrame style={reveal(visible, 2, "scale(0.96)")}>
-              <img src={portrait} alt={`Portrait of ${profile.name}`} />
+              <img
+                src={portrait}
+                alt={`Portrait of ${profile.name}`}
+                width={480}
+                height={480}
+                fetchPriority="high"
+              />
             </PortraitFrame>
             {/* The panel reveals as one piece; its contents don't fade on
                 their own (a fading ancestor would switch off the pills'

@@ -5,6 +5,7 @@ import { socials } from "../content";
 import { breakpoints, colors, fonts, NAV_HEIGHT } from "../theme";
 import { GithubIcon, LinkedInIcon, Monogram, StackOverflowIcon } from "./Icons";
 import ExternalLink from "./ExternalLink";
+import useActiveSection from "../hooks/useActiveSection";
 import { scrollToSection } from "./scrollToSection";
 
 const icons = {
@@ -134,13 +135,22 @@ const PageLink = styled(NavLink)`
   ${linkStyle}
 `;
 
-const SectionLinkStyled = styled(Link)`
+// Home and section links set their "active" class themselves.
+const PlainLink = styled(Link)`
   ${linkStyle}
 `;
 
 // Link to a section of the home page: scrolls there when already home,
 // otherwise opens home at that section (Layout reads the state).
-function SectionLink({ id, children }: { id: string; children: string }) {
+function SectionLink({
+  id,
+  active,
+  children,
+}: {
+  id: string;
+  active: boolean;
+  children: string;
+}) {
   const { pathname } = useLocation();
   const onClick = (e: MouseEvent) => {
     if (pathname !== "/") return;
@@ -148,9 +158,15 @@ function SectionLink({ id, children }: { id: string; children: string }) {
     scrollToSection(id);
   };
   return (
-    <SectionLinkStyled to="/" state={{ section: id }} onClick={onClick}>
+    <PlainLink
+      to="/"
+      state={{ section: id }}
+      onClick={onClick}
+      className={active ? "active" : undefined}
+      aria-current={active ? "location" : undefined}
+    >
       {children}
-    </SectionLinkStyled>
+    </PlainLink>
   );
 }
 
@@ -174,18 +190,32 @@ const IconLink = styled(ExternalLink)`
   }
 `;
 
+// The home page sections the nav links to.
+const sections = ["experience", "work"] as const;
+
 function TopNav() {
+  const { pathname } = useLocation();
+  const active = useActiveSection(sections, pathname === "/");
   return (
     <Bar>
-      <PageLink to="/" end>
+      {/* Home is underlined on the home page unless a linked section is in
+          view. */}
+      <PlainLink
+        to="/"
+        className={pathname === "/" && !active ? "active" : undefined}
+      >
         <Brand>
           <Monogram />
           <span>Home</span>
         </Brand>
-      </PageLink>
+      </PlainLink>
       <Links>
-        <SectionLink id="experience">Experience</SectionLink>
-        <SectionLink id="work">Work</SectionLink>
+        <SectionLink id="experience" active={active === "experience"}>
+          Experience
+        </SectionLink>
+        <SectionLink id="work" active={active === "work"}>
+          Work
+        </SectionLink>
         <PageLink to="/about">About Me</PageLink>
         {socials.map(({ label, href, icon }) => {
           const Icon = icons[icon];

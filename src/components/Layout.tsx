@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect } from "react";
+import { type MouseEvent, type ReactNode, useEffect } from "react";
 import { useLocation } from "react-router";
 import styled from "styled-components";
 import { profile, socials } from "../content";
@@ -10,6 +10,31 @@ import ExternalLink from "./ExternalLink";
 // Fine sand-like grain over the whole page (inspired by the owner's photo of
 // beach ripples). Pure SVG noise, so it costs no image request.
 const GRAIN = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
+
+// "Skip to content" for keyboard users: hidden until focused. It focuses
+// <main> directly, since a "#content" href would change the HashRouter route.
+const SkipLink = styled.a`
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: ${colors.primary};
+  color: ${colors.text};
+  font-family: ${fonts.mono};
+  font-size: 0.82rem;
+  translate: 0 -200%;
+
+  &:focus-visible {
+    translate: 0;
+  }
+`;
+
+const skipToContent = (e: MouseEvent) => {
+  e.preventDefault();
+  document.querySelector("main")?.focus();
+};
 
 const Body = styled.div`
   min-height: 100vh;
@@ -65,8 +90,11 @@ function Layout({ children }: { children: ReactNode }) {
 
   return (
     <Body>
+      <SkipLink href="#content" onClick={skipToContent}>
+        Skip to content
+      </SkipLink>
       <TopNav />
-      <main>{children}</main>
+      <main tabIndex={-1}>{children}</main>
       <Footer>
         <nav aria-label="Contact">
           <a href={`mailto:${profile.email}`}>{profile.email}</a>
