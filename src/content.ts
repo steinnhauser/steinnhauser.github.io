@@ -571,14 +571,12 @@ export const certifications: {
   code: string;
   title: string;
   issuer: string;
-  caption: string;
   verifyUrl?: string;
 }[] = [
   {
     code: "AZ-104",
     title: "Azure Administrator Associate",
     issuer: "Microsoft",
-    caption: "Microsoft Certified Azure Administrator Associate",
     verifyUrl:
       "https://learn.microsoft.com/en-us/users/steinnhausermagnusson-8948/credentials/e226b60f8028a1af",
   },
@@ -586,7 +584,6 @@ export const certifications: {
     code: "ITIL 4",
     title: "ITIL 4 Foundation",
     issuer: "PeopleCert · IT Service Management",
-    caption: "Foundation in IT Service Management · PeopleCert",
   },
 ];
 
@@ -597,14 +594,54 @@ export const languages = [
   { language: "German", level: "Working proficiency" },
 ];
 
-// Key figures for the home page hero. Every figure must be backed by the CV
-// (docs/cv/cv.md); the certification figures come straight from the list
-// above so the two never drift apart.
-export const highlights: { value: string; label: string }[] = [
-  { value: "6+", label: "years across cloud, software and data roles" },
-  { value: "50+", label: "production servers automated with Ansible" },
-  { value: "MSc", label: "Computational Science: Physics · Grade A" },
-  ...certifications.map((c) => ({ value: c.code, label: c.caption })),
+// Key figures for the home page hero: only the strongest evidence for a
+// cloud or platform role, plus the research background that sets the owner
+// apart. Each lists the CV phrases that back it (`evidence`, checked by
+// cv.test.ts); `link` points at public proof.
+export type Highlight = {
+  value: string;
+  label: string;
+  evidence: string[];
+  link?: { href: string; label: string };
+};
+
+export const highlights: Highlight[] = [
+  {
+    value: "6+",
+    label: "years in cloud, software and data roles",
+    evidence: ["February 2020 - July 2020"],
+  },
+  {
+    value: "50+",
+    label: "production servers operated with Ansible",
+    evidence: ["Operation of 50+ Ansible-managed servers"],
+  },
+  {
+    value: "10+",
+    label: "custom Helm charts on large-scale Kubernetes",
+    evidence: [
+      "multiple large-scale Kubernetes clusters",
+      "Helm templating with 10+ custom charts",
+    ],
+  },
+  {
+    value: "AZ-104",
+    label: "Microsoft Certified: Azure Administrator Associate",
+    evidence: ["Azure Administrator Associate", "AZ104"],
+    link: {
+      href: certifications.find((c) => c.code === "AZ-104")!.verifyUrl!,
+      label: "Verify the AZ-104 credential on Microsoft Learn",
+    },
+  },
+  {
+    value: "MSc",
+    label: "computational physics, Grade A, peer-reviewed paper",
+    evidence: ["Computational Science: Physics", "Grade: A", "Magnusson SH"],
+    link: {
+      href: "https://doi.org/10.1371/journal.pcbi.1010353",
+      label: "Read the paper in PLOS Computational Biology",
+    },
+  },
 ];
 
 export type AcademicEntry = {

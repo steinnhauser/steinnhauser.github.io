@@ -3,6 +3,7 @@ import styled from "styled-components";
 import lavaLarge from "../../assets/photos/lava-field.webp";
 import lavaSmall from "../../assets/photos/lava-field-800.webp";
 import portrait from "../../assets/photos/portrait.webp";
+import ExternalLink from "../../components/ExternalLink";
 import { DownloadIcon } from "../../components/Icons";
 import { reveal } from "../../components/reveal";
 import RichText from "../../components/RichText";
@@ -121,6 +122,20 @@ const Highlights = styled.dl`
     line-height: 1.15;
     white-space: nowrap;
   }
+  dt a {
+    color: inherit;
+  }
+  /* Small arrow on figures that link to their proof. */
+  dt small {
+    margin-left: 6px;
+    font-size: 0.5em;
+    vertical-align: super;
+    color: ${colors.muted};
+    transition: color 250ms ease;
+  }
+  dt a:hover small {
+    color: ${colors.sun};
+  }
   dd {
     margin: 6px 0 0;
     font-size: 0.82rem;
@@ -128,12 +143,24 @@ const Highlights = styled.dl`
     line-height: 1.4;
   }
 
+  /* Tablets: three on the first row, the rest share the second. */
   @media (max-width: 1000px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+
+    div {
+      grid-column: span 2;
+    }
+    div:nth-child(n + 4) {
+      grid-column: span 3;
+    }
   }
   @media (max-width: ${breakpoints.mobile}) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
 
+    div,
+    div:nth-child(n + 4) {
+      grid-column: auto;
+    }
     /* An odd figure out spans the full row instead of sitting alone. */
     div:last-child:nth-child(odd) {
       grid-column: 1 / -1;
@@ -192,7 +219,20 @@ function Hero() {
           <Highlights aria-label="Key figures">
             {highlights.map((h, i) => (
               <div key={h.value} data-light style={reveal(visible, 3 + i)}>
-                <dt>{h.value}</dt>
+                <dt>
+                  {h.link ? (
+                    <ExternalLink
+                      href={h.link.href}
+                      aria-label={`${h.value}: ${h.link.label}`}
+                      title={h.link.label}
+                    >
+                      {h.value}
+                      <small aria-hidden="true">↗</small>
+                    </ExternalLink>
+                  ) : (
+                    h.value
+                  )}
+                </dt>
                 <dd>{h.label}</dd>
               </div>
             ))}

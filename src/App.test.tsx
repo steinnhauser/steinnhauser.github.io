@@ -24,6 +24,11 @@ describe("home page", () => {
     expect(screen.getAllByText(profile.headline)[0]).toBeInTheDocument();
     for (const h of highlights) {
       expect(screen.getByText(h.label)).toBeInTheDocument();
+      if (h.link) {
+        expect(
+          screen.getByRole("link", { name: `${h.value}: ${h.link.label}` }),
+        ).toHaveAttribute("href", h.link.href);
+      }
     }
   });
 

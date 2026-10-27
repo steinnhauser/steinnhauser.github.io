@@ -17,8 +17,10 @@ import {
 // On the site by the owner's choice, though no longer on the CV.
 const NOT_ON_CV = new Set(["sintef"]);
 
-const text = cv.toLowerCase();
-const onCv = (fact: string) => text.includes(fact.toLowerCase());
+// Lower case, with line breaks folded, so phrases may span wrapped lines.
+const text = cv.toLowerCase().replace(/\s+/g, " ");
+const onCv = (fact: string) =>
+  text.includes(fact.toLowerCase().replace(/\s+/g, " "));
 
 describe("site content matches the CV", () => {
   it.each(experiences.filter((e) => !NOT_ON_CV.has(e.slug)))(
@@ -96,11 +98,22 @@ describe("site content matches the CV", () => {
   });
 
   it("backs every key figure with the CV", () => {
-    const byValue = Object.fromEntries(highlights.map((h) => [h.value, h]));
+    for (const h of highlights) {
+      expect(h.evidence.length, h.value).toBeGreaterThan(0);
+      for (const phrase of h.evidence) {
+        expect(onCv(phrase), `${h.value}: ${phrase}`).toBe(true);
+      }
+    }
     // "6+ years": the first professional role on the CV started in 2020.
-    expect(onCv("February 2020")).toBe(true);
     expect(new Date().getFullYear() - 2020).toBeGreaterThanOrEqual(6);
-    expect(byValue["50+"] && onCv("50+ Ansible-managed servers")).toBe(true);
-    expect(byValue["MSc"] && onCv("Grade: A")).toBe(true);
+  });
+
+  it("links key figures only to the CV's own sources", () => {
+    for (const { value, link } of highlights) {
+      if (!link) continue;
+      const cited = onCv(link.href);
+      const verified = certifications.some((c) => c.verifyUrl === link.href);
+      expect(cited || verified, `${value}: ${link.href}`).toBe(true);
+    }
   });
 });
