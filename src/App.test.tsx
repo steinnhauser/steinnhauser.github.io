@@ -110,6 +110,91 @@ describe("experience pages", () => {
   });
 });
 
+describe("project pages", () => {
+  const withPages = projects.filter((p) => p.page);
+
+  it("gives Minnumst and recipify their own pages", () => {
+    expect(withPages.map((p) => p.page?.slug)).toEqual([
+      "minnumst",
+      "recipify",
+    ]);
+  });
+
+  it.each(withPages.map((p) => [p.page!.slug, p] as const))(
+    "renders %s with its figures, sections and links",
+    (slug, project) => {
+      renderAt(`/project/${slug}`);
+      expect(
+        screen.getByRole("heading", { level: 1, name: project.title }),
+      ).toBeInTheDocument();
+      for (const f of project.page!.figures) {
+        expect(screen.getByText(f.label)).toBeInTheDocument();
+      }
+      for (const part of project.page!.sections) {
+        expect(
+          screen.getByRole("heading", { level: 2, name: part.title }),
+        ).toBeInTheDocument();
+      }
+      for (const l of project.links ?? []) {
+        expect(
+          screen.getByRole("link", { name: `${l.label} ↗` }),
+        ).toHaveAttribute("href", l.href);
+      }
+      expect(screen.getByAltText(project.image!.alt)).toBeInTheDocument();
+    },
+  );
+
+  it("is linked from its card and from the hero", () => {
+    renderAt("/");
+    for (const p of withPages) {
+      const href = `/project/${p.page!.slug}`;
+      const links = screen
+        .getAllByRole("link")
+        .filter((a) => a.getAttribute("href") === href);
+      // "Read the full story" on the card, and the name in the hero intro.
+      expect(links.length, href).toBe(2);
+    }
+  });
+
+  it("links back to the Selected Work section", () => {
+    renderAt("/project/recipify");
+    vi.mocked(Element.prototype.scrollIntoView).mockClear();
+    fireEvent.click(screen.getByRole("link", { name: /selected work/i }));
+    expect(
+      screen.getByRole("heading", { name: "Selected Work" }),
+    ).toBeVisible();
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalled();
+  });
+
+  it("redirects unknown projects to the home page", () => {
+    renderAt("/project/does-not-exist");
+    expect(
+      screen.getByRole("heading", { level: 1, name: `${profile.greeting},` }),
+    ).toBeInTheDocument();
+  });
+});
+
+describe("top navigation", () => {
+  it("opens the home page at a section from another page", () => {
+    renderAt("/about");
+    vi.mocked(Element.prototype.scrollIntoView).mockClear();
+    fireEvent.click(screen.getByRole("link", { name: "Work" }));
+    expect(
+      screen.getByRole("heading", { name: "Selected Work" }),
+    ).toBeVisible();
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalled();
+  });
+
+  it("scrolls to a section when already home", () => {
+    renderAt("/");
+    vi.mocked(Element.prototype.scrollIntoView).mockClear();
+    fireEvent.click(screen.getByRole("link", { name: "Experience" }));
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith(
+      expect.objectContaining({ behavior: expect.any(String) }),
+    );
+  });
+});
+
 describe("about page", () => {
   it("shows contact details as links", () => {
     renderAt("/about");

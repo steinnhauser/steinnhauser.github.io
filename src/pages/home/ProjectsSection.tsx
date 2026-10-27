@@ -1,6 +1,8 @@
 import type { CSSProperties } from "react";
+import { Link } from "react-router";
 import styled from "styled-components";
 import ExternalLink from "../../components/ExternalLink";
+import Screenshot from "../../components/Screenshot";
 import { reveal } from "../../components/reveal";
 import Section from "../../components/Section";
 import {
@@ -35,6 +37,36 @@ const Links = styled.p`
   flex-wrap: wrap;
   gap: 4px 18px;
   font-size: 0.92rem;
+`;
+
+// The internal "read more" link, in gold like the site's other actions.
+const More = styled(Link)`
+  font-family: ${fonts.mono};
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  color: ${colors.sun};
+
+  &:hover {
+    color: ${colors.text};
+  }
+`;
+
+// Title and summary, with the screenshot beside them on wide screens.
+const Lead = styled.div<{ $image: boolean }>`
+  display: grid;
+  grid-template-columns: ${(p) =>
+    p.$image ? "minmax(0, 1.25fr) minmax(0, 1fr)" : "minmax(0, 1fr)"};
+  gap: 14px clamp(20px, 3vw, 36px);
+  align-items: start;
+
+  > div {
+    display: grid;
+    gap: 14px;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
 `;
 
 const Card = styled(LiquidPanel)<{ $featured: boolean }>`
@@ -128,7 +160,13 @@ function ProjectCard({
   index: number;
   visible: boolean;
 }) {
-  const { title, context, summary, flow, tags, links, featured } = project;
+  const { title, context, summary, flow, tags, links, featured, image } =
+    project;
+  const more = project.page
+    ? { to: `/project/${project.page.slug}`, label: "Read the full story" }
+    : project.role
+      ? { to: `/experience/${project.role}`, label: "More about the role" }
+      : undefined;
   return (
     <Card
       as="article"
@@ -136,9 +174,15 @@ function ProjectCard({
       data-featured={featured || undefined}
       style={reveal(visible, index)}
     >
-      <Eyebrow>{context}</Eyebrow>
-      <h3>{title}</h3>
-      <p>{summary}</p>
+      <Lead $image={!!image}>
+        <div>
+          <Eyebrow>{context}</Eyebrow>
+          <h3>{title}</h3>
+          <p>{summary}</p>
+          {more && <More to={more.to}>{more.label} →</More>}
+        </div>
+        {image && <Screenshot {...image} />}
+      </Lead>
       {flow && (
         <Flow
           aria-label={`${title}: how it fits together`}

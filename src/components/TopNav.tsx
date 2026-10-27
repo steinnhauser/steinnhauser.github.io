@@ -1,9 +1,11 @@
-import { NavLink } from "react-router";
-import styled from "styled-components";
+import type { MouseEvent } from "react";
+import { Link, NavLink, useLocation } from "react-router";
+import styled, { css } from "styled-components";
 import { socials } from "../content";
 import { breakpoints, colors, fonts, NAV_HEIGHT } from "../theme";
 import { GithubIcon, LinkedInIcon, Monogram, StackOverflowIcon } from "./Icons";
 import ExternalLink from "./ExternalLink";
+import { scrollToSection } from "./scrollToSection";
 
 const icons = {
   github: GithubIcon,
@@ -60,6 +62,19 @@ const Brand = styled.span`
   a:hover & svg {
     transform: rotate(-8deg);
   }
+
+  /* Phones: the monogram alone stands for Home, to make room for the
+     section links. */
+  @media (max-width: ${breakpoints.mobile}) {
+    span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
 `;
 
 // Thin gold line along the bottom of the bar showing how far down the page
@@ -86,10 +101,10 @@ const Links = styled.nav`
   gap: clamp(12px, 1.4vw, 20px);
 `;
 
-const PageLink = styled(NavLink)`
+const linkStyle = css`
   position: relative;
   color: ${colors.text};
-  font-size: clamp(1.05rem, 2vw, 1.5rem);
+  font-size: clamp(1rem, 1.7vw, 1.3rem);
   font-family: ${fonts.display};
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -115,6 +130,30 @@ const PageLink = styled(NavLink)`
   }
 `;
 
+const PageLink = styled(NavLink)`
+  ${linkStyle}
+`;
+
+const SectionLinkStyled = styled(Link)`
+  ${linkStyle}
+`;
+
+// Link to a section of the home page: scrolls there when already home,
+// otherwise opens home at that section (Layout reads the state).
+function SectionLink({ id, children }: { id: string; children: string }) {
+  const { pathname } = useLocation();
+  const onClick = (e: MouseEvent) => {
+    if (pathname !== "/") return;
+    e.preventDefault();
+    scrollToSection(id);
+  };
+  return (
+    <SectionLinkStyled to="/" state={{ section: id }} onClick={onClick}>
+      {children}
+    </SectionLinkStyled>
+  );
+}
+
 const IconLink = styled(ExternalLink)`
   display: block;
   width: 32px;
@@ -129,9 +168,9 @@ const IconLink = styled(ExternalLink)`
     transform: translateY(-2px);
   }
 
+  /* Phones: the profiles stay in the footer and the About contact card. */
   @media (max-width: ${breakpoints.mobile}) {
-    width: 24px;
-    height: 24px;
+    display: none;
   }
 `;
 
@@ -141,10 +180,12 @@ function TopNav() {
       <PageLink to="/" end>
         <Brand>
           <Monogram />
-          Home
+          <span>Home</span>
         </Brand>
       </PageLink>
       <Links>
+        <SectionLink id="experience">Experience</SectionLink>
+        <SectionLink id="work">Work</SectionLink>
         <PageLink to="/about">About Me</PageLink>
         {socials.map(({ label, href, icon }) => {
           const Icon = icons[icon];

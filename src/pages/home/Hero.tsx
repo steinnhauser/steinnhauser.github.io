@@ -5,6 +5,8 @@ import lavaSmall from "../../assets/photos/lava-field-800.webp";
 import portrait from "../../assets/photos/portrait.webp";
 import { DownloadIcon } from "../../components/Icons";
 import { reveal } from "../../components/reveal";
+import RichText from "../../components/RichText";
+import { scrollToSection } from "../../components/scrollToSection";
 import Section from "../../components/Section";
 import { Dot, Eyebrow, LiquidPanel, PillLink } from "../../components/ui";
 import { highlights, profile } from "../../content";
@@ -140,11 +142,6 @@ const Highlights = styled.dl`
 `;
 
 function Hero() {
-  const scrollToExperience = () =>
-    document
-      .getElementById("experience")
-      ?.scrollIntoView({ behavior: "smooth" });
-
   return (
     <Section curves={1} photo={{ large: lavaLarge, small: lavaSmall }}>
       {(visible) => (
@@ -163,10 +160,16 @@ function Hero() {
                 <Dot>,</Dot>
               </h1>
               {profile.welcome.map((paragraph) => (
-                <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+                <p key={paragraph.slice(0, 24)}>
+                  <RichText text={paragraph} />
+                </p>
               ))}
               <Actions>
-                <PillLink as="button" $primary onClick={scrollToExperience}>
+                <PillLink
+                  as="button"
+                  $primary
+                  onClick={() => scrollToSection("experience")}
+                >
                   View experience ↓
                 </PillLink>
                 <PillLink as={Link} to="/about">

@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 // Every bundled image, inlined as a data URL so its size can be measured.
 // The raw camera originals in src/assets/ are git-ignored and not bundled.
 const images = import.meta.glob<string>(
-  "./assets/{photos,logos}/**/*.{webp,png,jpg,jpeg,gif,svg}",
+  "./assets/{photos,logos,projects}/**/*.{webp,png,jpg,jpeg,gif,svg}",
   { query: "?inline", import: "default", eager: true },
 );
 

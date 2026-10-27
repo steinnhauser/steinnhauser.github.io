@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import indexHtml from "../index.html?raw";
 import {
   academics,
   certifications,
@@ -64,6 +65,18 @@ describe("content", () => {
       ...projects.flatMap((p) => (p.links ?? []).map((l) => l.href)),
     ];
     for (const href of hrefs) expect(href).toMatch(/^https:\/\//);
+  });
+
+  it("keeps the structured data in index.html in sync", () => {
+    const json = indexHtml.match(
+      /<script type="application\/ld\+json">([\s\S]*?)<\/script>/,
+    )?.[1];
+    expect(json).toBeDefined();
+    const person = JSON.parse(json!);
+    expect(person.name).toBe(profile.name);
+    expect(person.sameAs).toEqual(socials.map((s) => s.href));
+    expect(person.knowsLanguage).toEqual(languages.map((l) => l.language));
+    expect(person.jobTitle).toBe(experiences[0].tileTitle);
   });
 
   it("formats experience year ranges", () => {

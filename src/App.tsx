@@ -3,6 +3,7 @@ import Layout from "./components/Layout";
 import About from "./pages/About";
 import Experience from "./pages/Experience";
 import Home from "./pages/Home";
+import Project from "./pages/Project";
 
 // Experience pages used to live at the top level; keep old links working.
 const legacyRoutes: Record<string, string> = {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/experience/:slug" element={<Experience />} />
+        <Route path="/project/:slug" element={<Project />} />
         {Object.entries(legacyRoutes).map(([from, to]) => (
           <Route
             key={from}

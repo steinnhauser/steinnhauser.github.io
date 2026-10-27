@@ -1,5 +1,6 @@
 // All site content lives here. The CV is the source of truth: when it
-// changes, update this file and the pages follow.
+// changes, update this file and the pages follow. The owner's GitHub profile
+// is a second source: his open-source projects are highlighted here too.
 
 import type { CurveVariant } from "./components/Curves";
 
@@ -7,6 +8,8 @@ import futureReadyLogo from "./assets/logos/future-ready.webp";
 import senecLogo from "./assets/logos/senec.webp";
 import sintefLogo from "./assets/logos/sintef.webp";
 import uioLogo from "./assets/logos/uio.webp";
+import minnumstShot from "./assets/projects/minnumst.webp";
+import recipifyShot from "./assets/projects/recipify.webp";
 
 export const profile = {
   name: "Steinn Hauser Magnússon",
@@ -20,7 +23,8 @@ export const profile = {
   // The CV as a PDF, served from public/cv/.
   cvUrl: `${import.meta.env.BASE_URL}cv/Steinn-Hauser-Magnusson-CV.pdf`,
   // Home page introduction. Written as a professional summary: role and
-  // scope first, then the background that sets it apart.
+  // scope first, then the background that sets it apart. `[text](/path)`
+  // becomes a link to a page of the site.
   welcome: [
     "a cloud operator and software engineer based in Berlin. At SENEC I " +
       "run large-scale Kubernetes platforms and build the infrastructure " +
@@ -29,7 +33,8 @@ export const profile = {
     "My background is in computational physics and data science: an MSc " +
       "from the University of Oslo, peer-reviewed research in computational " +
       "neuroscience, and production machine-learning work. In my own time I " +
-      "build open-source projects end to end, like Minnumst and recipify. I " +
+      "build open-source projects end to end, like [Minnumst](/project/minnumst) " +
+      "and [recipify](/project/recipify). I " +
       "work in four languages: English, Icelandic, Norwegian and German.",
   ],
   // About page narrative: what I do, how I work, and how I lead.
@@ -250,6 +255,20 @@ export type Project = {
   links?: { label: string; href: string }[];
   featured?: boolean;
   personal?: boolean;
+  // Experience page that tells more (for work done in a role).
+  role?: string;
+  // A screenshot, shown on the card and the project's own page.
+  image?: { src: string; alt: string; width: number; height: number };
+  // Projects with a `page` get their own page at #/project/:slug.
+  page?: ProjectPage;
+};
+
+export type ProjectPage = {
+  slug: string;
+  curves: CurveVariant;
+  intro: string;
+  figures: { value: string; label: string }[];
+  sections: { title: string; points: string[] }[];
 };
 
 export const projects: Project[] = [
@@ -272,6 +291,7 @@ export const projects: Project[] = [
     ],
     tags: ["Go", "mTLS", "Ansible", "WireGuard", "aptly", "Linux"],
     featured: true,
+    role: "senec-cloud-operator",
   },
   {
     title: "Minnumst: a self-hosted family history archive",
@@ -301,12 +321,72 @@ export const projects: Project[] = [
     ],
     links: [
       {
-        label: "github.com/steinnhauser/minnumst",
+        label: "Code on GitHub",
         href: "https://github.com/steinnhauser/minnumst",
       },
     ],
     featured: true,
     personal: true,
+    image: {
+      src: minnumstShot,
+      width: 720,
+      height: 634,
+      alt: "Minnumst's public archive: a name search with a person's profile and story (fictional sample data)",
+    },
+    page: {
+      slug: "minnumst",
+      curves: 3,
+      intro:
+        'Minnumst (Icelandic: "let us remember") is a shared written ' +
+        "history of our ancestors: a public archive for reading stories, an " +
+        "editorial desk for writing them, and an API that keeps every story " +
+        "revision. I built it end to end, from the app to the hardened host " +
+        "it runs on, so that the only thing reachable from the internet is a " +
+        "TLS-terminating proxy and every write is authenticated before it " +
+        "reaches the application.",
+      figures: [
+        { value: "57 → 70", label: "Lynis hardening index, scored in CI" },
+        {
+          value: "254 → 0",
+          label: "Trivy findings, API image moved to Alpine",
+        },
+        { value: "1", label: "public entry point: Traefik" },
+      ],
+      sections: [
+        {
+          title: "Network and access",
+          points: [
+            "Only Traefik publishes ports. HTTP redirects to HTTPS with Let's Encrypt certificates and HSTS, and the API is rate-limited.",
+            "Authentik forward-auth, with TOTP MFA, guards the whole editorial desk and every write to the API; reads stay public and there is no in-app login to attack.",
+            "PostgreSQL sits alone with the API on an internal network with no route in or out. Traefik discovers services through a socket proxy that only lists containers.",
+          ],
+        },
+        {
+          title: "Host, provisioned as code",
+          points: [
+            "OpenTofu creates the Hetzner server, firewall and data volume, with state encrypted before it leaves the operator's machine.",
+            "Ansible hardens Ubuntu 24.04 to the CIS benchmark (Level 1, selected Level 2), with every setting citing its CIS section and NIST control: LUKS-encrypted data, unattended updates, key-only SSH, a default-deny nftables firewall and auditd.",
+            "Nightly database backups are encrypted with age to a key that never touches the server, and CI restores one into a fresh database on every change.",
+          ],
+        },
+        {
+          title: "Containers and supply chain",
+          points: [
+            "Every container runs as non-root, with a read-only root filesystem, no Linux capabilities and no-new-privileges, on Alpine images pinned by digest.",
+            "Dependencies are locked, every GitHub Action is pinned to a commit SHA, and CodeQL, Trivy and zizmor scan the code, images and workflow on every change.",
+            "Releases are multi-arch images published with build provenance and an SBOM.",
+          ],
+        },
+        {
+          title: "Verified, not just configured",
+          points: [
+            "A CI job applies the host hardening to a real Ubuntu 24.04 VM, requires a second run to change nothing, and reports the Lynis index before and after.",
+            "An end-to-end job runs the production Compose stack and checks the edge from outside: redirect, HSTS and CSP, refused unauthenticated writes, the rate limit and network isolation.",
+            "Playwright browser tests of both frontends fail on any Content Security Policy violation.",
+          ],
+        },
+      ],
+    },
   },
   {
     title: "recipify: a verified document pipeline",
@@ -326,10 +406,69 @@ export const projects: Project[] = [
     tags: ["Python", "pytest", "poppler", "python-docx", "GitHub Actions"],
     links: [
       { label: "Live demo", href: "https://steinnhm.com/recipify/demo/" },
-      { label: "Code", href: "https://github.com/steinnhauser/recipify" },
+      {
+        label: "Code on GitHub",
+        href: "https://github.com/steinnhauser/recipify",
+      },
     ],
     featured: true,
     personal: true,
+    image: {
+      src: recipifyShot,
+      width: 880,
+      height: 522,
+      alt: "The recipify viewer: a recipe scaled to 2x with one ingredient ticked off",
+    },
+    page: {
+      slug: "recipify",
+      curves: 6,
+      intro:
+        "recipify started from a real archive: about 1,900 files collected " +
+        "over many years by a professional kitchen, mostly in Icelandic. Word " +
+        "documents, PDFs laid out in two or three columns, scanned notebooks, " +
+        "photos, spreadsheets and many copies of the same files. It turns " +
+        "them into verified, structured recipes, publishes them as one " +
+        "offline HTML file that chefs can cook from, and holds back " +
+        "everything it can't check, with the reason.",
+      figures: [
+        { value: "1,916", label: "source files in the real archive" },
+        { value: "524", label: "recipes verified and published" },
+        { value: "100%", label: "test coverage, enforced in CI" },
+      ],
+      sections: [
+        {
+          title: "The pipeline",
+          points: [
+            "Inventory hashes every file, classifies it by content rather than extension, merges identical copies and triages recipes from books and reference material.",
+            "Extraction runs locally and for free: poppler in content-stream order (cross-checked against its layout rendering), Word XML including text boxes, and spreadsheets block by block.",
+            "Documents holding several recipes are split only in clear cases, and every decision, split or not, is stored with its reason. Deterministic rules then structure each recipe into components, ingredients and steps.",
+          ],
+        },
+        {
+          title: "Why it can be trusted",
+          points: [
+            "Nothing is rewritten: the structurer only decides what each source line is, never changes the text.",
+            "Every published recipe is checked word for word against its source (recall and precision of 1.0), and two extractors must agree on reading order.",
+            "Hard cases are named, not hidden: the report lists every document that isn't ready, and why.",
+          ],
+        },
+        {
+          title: "Cheap to re-run, easy to trace",
+          points: [
+            "Every artifact is keyed by the source's SHA-256 and the engine version, so re-runs skip finished work, renamed files keep their results and earlier results are never overwritten.",
+            "recipify trace follows a published recipe back to the file it came from and re-checks every link on the way.",
+          ],
+        },
+        {
+          title: "The viewer",
+          points: [
+            "One HTML file with no external requests: it works offline, can be emailed, and stays readable without JavaScript.",
+            "Built for cooking: scale from ½× to 4×, tick off ingredients and steps, search that ignores accents, and filters with live counts.",
+            "recipify lock encrypts the page with AES-256-GCM for public hosting; the key travels in the link's #fragment, which browsers never send to the server.",
+          ],
+        },
+      ],
+    },
   },
   {
     title: "Cardiac artefact removal for MNE-Python",
