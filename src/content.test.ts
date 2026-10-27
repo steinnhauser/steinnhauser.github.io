@@ -6,6 +6,7 @@ import {
   experienceYears,
   languages,
   profile,
+  projects,
   skillGroups,
   socials,
   volunteering,
@@ -60,6 +61,7 @@ describe("content", () => {
       ...socials.map((s) => s.href),
       ...academics.flatMap((a) => (a.link ? [a.link.href] : [])),
       ...volunteering.flatMap((v) => (v.link ? [v.link.href] : [])),
+      ...projects.flatMap((p) => (p.links ?? []).map((l) => l.href)),
     ];
     for (const href of hrefs) expect(href).toMatch(/^https:\/\//);
   });

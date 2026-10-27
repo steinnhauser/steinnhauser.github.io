@@ -33,9 +33,15 @@ export const profile = {
   ],
   // About page narrative: what I do, how I work, and how I lead.
   about: [
-    "I work in platform operations: Kubernetes clusters managed with " +
-      "Terragrunt, Helm and ArgoCD, GitLab CI/CD pipelines, and " +
-      "observability with Prometheus, Grafana and Alertmanager.",
+    "I'm a physicist turned platform engineer. My path started in " +
+      "computational neuroscience, where I modelled brain signals at the " +
+      "University of Oslo. From there I moved into data science and NLP, " +
+      "then into building Azure microservices, and now I work in cloud " +
+      "operations at SENEC.",
+    "Day to day that means Kubernetes clusters managed with Terragrunt, " +
+      "Helm and ArgoCD, GitLab CI/CD pipelines, and observability with " +
+      "Prometheus, Grafana and Alertmanager. I like systems that are secure " +
+      "by default, reproducible, and boring to run.",
     "I enjoy building architectures from scratch and joining projects " +
       "early, while there is still room to shape them: map the problem, " +
       "research the options, prove the idea, then build it properly. I care " +
@@ -44,6 +50,9 @@ export const profile = {
       "promoted through environments before they reach production.",
     "I have led and worked closely with UX and design, frontend and backend " +
       "teams, and I enjoy onboarding and training new team members.",
+    "Outside work I build open-source projects end to end, such as " +
+      "Minnumst, a self-hosted family history archive, from the app down to " +
+      "the hardened host it runs on.",
   ],
 };
 
@@ -224,9 +233,11 @@ export const experiences: Experience[] = [
   },
 ];
 
-// Selected work for the home page. Every statement must come from the CV
-// (docs/cv/cv.md); add measured outcomes here only when the owner provides
-// them.
+// Selected work for the home page. Work and research entries must come from
+// the CV (docs/cv/cv.md). `personal` entries are the owner's own open-source
+// projects, described as on his GitHub profile (github.com/steinnhauser);
+// they are not on the CV. Every link must be cited in the CV or point to
+// the owner's own GitHub or site (checked in cv.test.ts). Add measured outcomes only when the owner provides them.
 export type Project = {
   title: string;
   context: string;
@@ -234,8 +245,9 @@ export type Project = {
   // Optional "how it fits together" flow, rendered as a small diagram.
   flow?: { label: string; detail: string }[];
   tags: string[];
-  link?: { label: string; href: string };
+  links?: { label: string; href: string }[];
   featured?: boolean;
+  personal?: boolean;
 };
 
 export const projects: Project[] = [
@@ -260,6 +272,56 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    title: "Minnumst: a self-hosted family history archive",
+    context: "Open source · Personal project",
+    summary:
+      "A public archive, an editorial desk and an API that keeps every " +
+      "story revision, built end to end from the app to the hardened host " +
+      "it runs on. OpenTofu creates the Hetzner host, Ansible hardens it to " +
+      "the CIS benchmarks (scored with Lynis in CI), and Traefik with " +
+      "Authentik is the only way in. Releases are multi-arch images with an " +
+      "SBOM and build provenance.",
+    flow: [
+      { label: "OpenTofu", detail: "Hetzner host, firewall, encrypted state" },
+      { label: "Ansible", detail: "CIS-hardened host, scored with Lynis" },
+      { label: "Traefik + Authentik", detail: "TLS edge, auth on every write" },
+      { label: "The app", detail: "FastAPI, React and PostgreSQL" },
+    ],
+    tags: [
+      "OpenTofu",
+      "Ansible",
+      "Docker Compose",
+      "Traefik",
+      "Authentik",
+      "FastAPI",
+      "React",
+      "PostgreSQL",
+    ],
+    links: [
+      {
+        label: "github.com/steinnhauser/minnumst",
+        href: "https://github.com/steinnhauser/minnumst",
+      },
+    ],
+    featured: true,
+    personal: true,
+  },
+  {
+    title: "recipify: a verified document pipeline",
+    context: "Open source · Personal project",
+    summary:
+      "Turns about 1,900 mixed recipe files (Word, PDF, spreadsheets, " +
+      "scans) into 524 recipes, each checked word for word against its " +
+      "source and traceable back to it. 100% test coverage, with a live " +
+      "demo built by CI.",
+    tags: ["Python", "pytest", "poppler", "GitHub Actions"],
+    links: [
+      { label: "Live demo", href: "https://steinnhm.com/recipify/demo/" },
+      { label: "Code", href: "https://github.com/steinnhauser/recipify" },
+    ],
+    personal: true,
+  },
+  {
     title: "Cardiac artefact removal for MNE-Python",
     context: "Max Planck Institute · Guest Developer · 2024-2025",
     summary:
@@ -267,10 +329,12 @@ export const projects: Project[] = [
       "artefacts from spinal electrophysiology data, contributed to the " +
       "open-source MNE-Python library.",
     tags: ["Python", "MNE-Python", "Signal processing", "Open source"],
-    link: {
-      label: "Pull request #13037",
-      href: "https://github.com/mne-tools/mne-python/pull/13037",
-    },
+    links: [
+      {
+        label: "Pull request #13037",
+        href: "https://github.com/mne-tools/mne-python/pull/13037",
+      },
+    ],
   },
   {
     title: "Predicting brain signals from neuronal networks",
@@ -281,10 +345,16 @@ export const projects: Project[] = [
       "simulating neuronal networks in Python with LFPy. Published in PLOS " +
       "Computational Biology (2022).",
     tags: ["Python", "LFPy", "Computational neuroscience", "Simulation"],
-    link: {
-      label: "doi.org/10.1371/journal.pcbi.1010353",
-      href: "https://doi.org/10.1371/journal.pcbi.1010353",
-    },
+    links: [
+      {
+        label: "Paper",
+        href: "https://doi.org/10.1371/journal.pcbi.1010353",
+      },
+      {
+        label: "Thesis code",
+        href: "https://github.com/steinnhauser/msc-thesis-lfp",
+      },
+    ],
   },
 ];
 
@@ -300,7 +370,7 @@ export function experienceYears(exp: Experience): string {
 export const skillGroups = [
   {
     title: "Cloud & Infrastructure as Code",
-    skills: ["Azure", "AWS", "Terraform", "Terragrunt", "Linux"],
+    skills: ["Azure", "AWS", "Terraform", "Terragrunt", "OpenTofu", "Linux"],
   },
   {
     title: "Containers & GitOps",
@@ -323,6 +393,7 @@ export const skillGroups = [
     skills: [
       "Python",
       "Go",
+      "Bash",
       "TypeScript",
       "React",
       "PostgreSQL",

@@ -49,14 +49,31 @@ describe("site content matches the CV", () => {
   });
 
   it("links the publication and open-source work cited in the CV", () => {
-    const links = [...academics, ...volunteering, ...projects].flatMap((x) =>
+    const links = [...academics, ...volunteering].flatMap((x) =>
       x.link ? [x.link.href] : [],
     );
     for (const href of links) expect(onCv(href), href).toBe(true);
   });
 
+  // Personal projects aren't on the CV; they may only link to the owner's
+  // own repositories and site. Everything else must be cited in the CV.
+  it("links selected work to the CV or the owner's own repositories", () => {
+    const own = /^https:\/\/(github\.com\/steinnhauser\/|steinnhm\.com\/)/;
+    for (const p of projects) {
+      for (const { href } of p.links ?? []) {
+        expect(onCv(href) || own.test(href), `${p.title}: ${href}`).toBe(true);
+      }
+    }
+    for (const p of projects.filter((p) => !p.personal)) {
+      expect(
+        (p.links ?? []).some((l) => onCv(l.href)) || p.featured,
+        `${p.title} cites the CV`,
+      ).toBe(true);
+    }
+  });
+
   it("describes selected work with the CV's own technologies", () => {
-    const platform = projects.find((p) => p.featured);
+    const platform = projects.find((p) => p.featured && !p.personal);
     expect(platform).toBeDefined();
     for (const term of ["aptly", "mTLS", "golang", "API gateway", "WireGuard"])
       expect(onCv(term), term).toBe(true);

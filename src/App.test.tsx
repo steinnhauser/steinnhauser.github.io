@@ -45,9 +45,11 @@ describe("home page", () => {
         screen.getByRole("heading", { name: p.title }),
       ).toBeInTheDocument();
     }
-    expect(
-      screen.getByRole("list", { name: "How it fits together" }),
-    ).toBeInTheDocument();
+    for (const p of projects.filter((p) => p.flow)) {
+      expect(
+        screen.getByRole("list", { name: `${p.title}: how it fits together` }),
+      ).toBeInTheDocument();
+    }
   });
 
   it("shows every skill group and certification", () => {

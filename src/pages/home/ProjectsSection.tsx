@@ -14,14 +14,43 @@ import {
 import { projects, type Project } from "../../content";
 import { breakpoints, colors, fonts } from "../../theme";
 
+// Featured projects span the full width; the others sit three to a row,
+// two on tablets (an odd one out spans the row) and one on phones.
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 18px;
 
+  > * {
+    grid-column: span 2;
+  }
+  > [data-featured] {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 1000px) {
+    > * {
+      grid-column: span 3;
+    }
+    > :not([data-featured]):last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
   @media (max-width: ${breakpoints.mobile}) {
     grid-template-columns: minmax(0, 1fr);
+
+    > *,
+    > :not([data-featured]):last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
   }
+`;
+
+const Links = styled.p`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  font-size: 0.92rem;
 `;
 
 const Card = styled(LiquidPanel)<{ $featured: boolean }>`
@@ -29,7 +58,6 @@ const Card = styled(LiquidPanel)<{ $featured: boolean }>`
   flex-direction: column;
   gap: 14px;
   padding: clamp(22px, 3vw, 34px);
-  grid-column: ${(p) => (p.$featured ? "1 / -1" : "auto")};
 
   h3 {
     margin: 0;
@@ -42,9 +70,15 @@ const Card = styled(LiquidPanel)<{ $featured: boolean }>`
     line-height: 1.7;
     max-width: 72ch;
   }
-  ${TagList} {
+  /* Links and tags sit at the bottom, so cards in a row line up. */
+  ${Links}, ${TagList} {
     margin-top: auto;
+  }
+  ${TagList} {
     padding-top: 6px;
+  }
+  ${Links} + ${TagList} {
+    margin-top: 0;
   }
 `;
 
@@ -101,10 +135,6 @@ const Flow = styled.ol`
   }
 `;
 
-const LinkOut = styled(ExternalLink)`
-  font-size: 0.92rem;
-`;
-
 function ProjectCard({
   project,
   index,
@@ -114,15 +144,20 @@ function ProjectCard({
   index: number;
   visible: boolean;
 }) {
-  const { title, context, summary, flow, tags, link, featured } = project;
+  const { title, context, summary, flow, tags, links, featured } = project;
   return (
-    <Card as="article" $featured={!!featured} style={reveal(visible, index)}>
+    <Card
+      as="article"
+      $featured={!!featured}
+      data-featured={featured || undefined}
+      style={reveal(visible, index)}
+    >
       <Eyebrow>{context}</Eyebrow>
       <h3>{title}</h3>
       <p>{summary}</p>
       {flow && (
         <Flow
-          aria-label="How it fits together"
+          aria-label={`${title}: how it fits together`}
           style={{ "--steps": flow.length } as CSSProperties}
         >
           {flow.map((step) => (
@@ -133,7 +168,15 @@ function ProjectCard({
           ))}
         </Flow>
       )}
-      {link && <LinkOut href={link.href}>{link.label} ↗</LinkOut>}
+      {links && (
+        <Links>
+          {links.map((l) => (
+            <ExternalLink key={l.href} href={l.href}>
+              {l.label} ↗
+            </ExternalLink>
+          ))}
+        </Links>
+      )}
       <TagList aria-label={`${title}: technologies`}>
         {tags.map((t) => (
           <Tag key={t}>{t}</Tag>
