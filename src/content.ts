@@ -28,8 +28,9 @@ export const profile = {
       "observable and up to date.",
     "My background is in computational physics and data science: an MSc " +
       "from the University of Oslo, peer-reviewed research in computational " +
-      "neuroscience, and production machine-learning work. I work in four " +
-      "languages: English, Icelandic, Norwegian and German.",
+      "neuroscience, and production machine-learning work. In my own time I " +
+      "build open-source projects end to end, like Minnumst and recipify. I " +
+      "work in four languages: English, Icelandic, Norwegian and German.",
   ],
   // About page narrative: what I do, how I work, and how I lead.
   about: [
@@ -52,7 +53,8 @@ export const profile = {
       "teams, and I enjoy onboarding and training new team members.",
     "Outside work I build open-source projects end to end, such as " +
       "Minnumst, a self-hosted family history archive, from the app down to " +
-      "the hardened host it runs on.",
+      "the hardened host it runs on, and recipify, a pipeline that turns a " +
+      "kitchen's archive of recipe files into verified, searchable recipes.",
   ],
 };
 
@@ -314,11 +316,19 @@ export const projects: Project[] = [
       "scans) into 524 recipes, each checked word for word against its " +
       "source and traceable back to it. 100% test coverage, with a live " +
       "demo built by CI.",
-    tags: ["Python", "pytest", "poppler", "GitHub Actions"],
+    flow: [
+      { label: "Inventory", detail: "hash, classify and triage each file" },
+      { label: "Extract", detail: "poppler, python-docx, LibreOffice" },
+      { label: "Structure", detail: "deterministic rules, no rewriting" },
+      { label: "Assess", detail: "word-for-word check against the source" },
+      { label: "Viewer", detail: "one offline HTML file" },
+    ],
+    tags: ["Python", "pytest", "poppler", "python-docx", "GitHub Actions"],
     links: [
       { label: "Live demo", href: "https://steinnhm.com/recipify/demo/" },
       { label: "Code", href: "https://github.com/steinnhauser/recipify" },
     ],
+    featured: true,
     personal: true,
   },
   {

@@ -14,35 +14,19 @@ import {
 import { projects, type Project } from "../../content";
 import { breakpoints, colors, fonts } from "../../theme";
 
-// Featured projects span the full width; the others sit three to a row,
-// two on tablets (an odd one out spans the row) and one on phones.
+// Featured projects span the full width; the others sit two to a row, and
+// one to a row on phones.
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 
-  > * {
-    grid-column: span 2;
-  }
   > [data-featured] {
     grid-column: 1 / -1;
   }
 
-  @media (max-width: 1000px) {
-    > * {
-      grid-column: span 3;
-    }
-    > :not([data-featured]):last-child:nth-child(odd) {
-      grid-column: 1 / -1;
-    }
-  }
   @media (max-width: ${breakpoints.mobile}) {
     grid-template-columns: minmax(0, 1fr);
-
-    > *,
-    > :not([data-featured]):last-child:nth-child(odd) {
-      grid-column: 1 / -1;
-    }
   }
 `;
 

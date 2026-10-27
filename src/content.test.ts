@@ -73,6 +73,17 @@ describe("content", () => {
     expect(experienceYears(bySlug["sintef"])).toBe("2020");
   });
 
+  // Owner's decision: the site reflects his GitHub profile as well as the
+  // CV, so its two featured open-source projects stay prominent.
+  it("features the owner's open-source projects", () => {
+    const intro = profile.welcome.join(" ");
+    for (const name of ["Minnumst", "recipify"]) {
+      const p = projects.find((p) => p.title.startsWith(name));
+      expect(p?.personal && p.featured && p.flow, name).toBeTruthy();
+      expect(intro).toContain(name);
+    }
+  });
+
   it("names every language in the introduction", () => {
     const intro = profile.welcome.join(" ");
     expect(intro).toContain("four languages");
