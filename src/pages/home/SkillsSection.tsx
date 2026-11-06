@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { reveal } from "../../components/reveal";
 import Section from "../../components/Section";
 import {
+  Dot,
   Eyebrow,
   GlassCard,
   SectionLabel,
@@ -86,12 +87,14 @@ const LanguageList = styled.dl`
 
 function SkillsSection() {
   return (
-    <Section curves={5} tinted slant compact>
+    <Section id="skills" curves={5} tinted slant compact>
       {(visible) => (
         <>
           <div style={reveal(visible)}>
             <SectionLabel>03 / skills</SectionLabel>
-            <SectionTitle>Skills &amp; Certifications</SectionTitle>
+            <SectionTitle>
+              Skills &amp; certifications<Dot>.</Dot>
+            </SectionTitle>
             <Legend>
               <Tag as="span" $core>
                 core

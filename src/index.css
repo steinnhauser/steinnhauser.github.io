@@ -70,6 +70,12 @@ p {
   color: rgba(255, 255, 255, 0.86);
 }
 
+/* Selected text in the sun gold. */
+::selection {
+  background: rgba(240, 184, 96, 0.35);
+  color: #ffffff;
+}
+
 /* <main> takes focus from "Skip to content" without drawing a frame. */
 main:focus {
   outline: none;

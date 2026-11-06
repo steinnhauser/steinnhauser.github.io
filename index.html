@@ -4,21 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Steinn Hauser Magnússon</title>
-    <meta
-      name="description"
-      content="Steinn Hauser Magnússon, cloud operator and software engineer in Berlin: Kubernetes platforms, infrastructure as code, GitOps and automation, open-source projects, and a background in computational physics and data science."
-    />
     <meta name="theme-color" content="#131316" />
-    <link rel="canonical" href="https://steinnhm.com/" />
+    <meta name="color-scheme" content="dark" />
+    <!-- Each page's title, description, canonical URL and the rest of its
+         link preview tags are added at build time (scripts/prerender.ts). -->
     <meta property="og:type" content="profile" />
     <meta property="og:site_name" content="steinnhm.com" />
     <meta property="og:locale" content="en_GB" />
-    <meta property="og:title" content="Steinn Hauser Magnússon" />
-    <meta
-      property="og:description"
-      content="Cloud operator and software engineer in Berlin. Kubernetes, infrastructure as code and automation, with open-source projects and a computational physics background."
-    />
-    <meta property="og:url" content="https://steinnhm.com/" />
     <meta property="og:image" content="https://steinnhm.com/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -27,11 +19,6 @@
       content="Steinn Hauser Magnússon, cloud operator and software engineer in Berlin"
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Steinn Hauser Magnússon" />
-    <meta
-      name="twitter:description"
-      content="Cloud operator and software engineer in Berlin."
-    />
     <meta name="twitter:image" content="https://steinnhm.com/og-image.jpg" />
     <!-- Structured data for search engines; kept in sync with src/content.ts
          by src/content.test.ts. -->
@@ -61,6 +48,15 @@
         ]
       }
     </script>
+    <!-- Without JavaScript the scroll reveals never run: show everything. -->
+    <noscript>
+      <style>
+        [style*="opacity:0"] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

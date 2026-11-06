@@ -1,12 +1,12 @@
-import type { MouseEvent } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 import styled, { css } from "styled-components";
 import { socials } from "../content";
+import { paths, type SectionId } from "../routes";
 import { breakpoints, colors, fonts, NAV_HEIGHT } from "../theme";
 import { GithubIcon, LinkedInIcon, Mark, StackOverflowIcon } from "./Icons";
 import ExternalLink from "./ExternalLink";
 import useActiveSection from "../hooks/useActiveSection";
-import { scrollToSection } from "./scrollToSection";
+import { useSectionClick } from "./scrollToSection";
 
 const icons = {
   github: GithubIcon,
@@ -144,28 +144,22 @@ const PlainLink = styled(Link)`
   ${linkStyle}
 `;
 
-// Link to a section of the home page: scrolls there when already home,
-// otherwise opens home at that section (Layout reads the state).
+// Link to a section of the home page (/#work): scrolls there smoothly when
+// already home, otherwise opens home at that section (see Layout).
 function SectionLink({
   id,
   active,
   children,
 }: {
-  id: string;
+  id: SectionId;
   active: boolean;
   children: string;
 }) {
-  const { pathname } = useLocation();
-  const onClick = (e: MouseEvent) => {
-    if (pathname !== "/") return;
-    e.preventDefault();
-    scrollToSection(id);
-  };
+  const onClick = useSectionClick();
   return (
     <PlainLink
-      to="/"
-      state={{ section: id }}
-      onClick={onClick}
+      to={paths.section(id)}
+      onClick={onClick(id)}
       className={active ? "active" : undefined}
       aria-current={active ? "location" : undefined}
     >
@@ -195,18 +189,22 @@ const IconLink = styled(ExternalLink)`
 `;
 
 // The home page sections the nav links to.
-const sections = ["experience", "work"] as const;
+const sections: readonly SectionId[] = ["experience", "work"];
 
 function TopNav() {
   const { pathname } = useLocation();
-  const active = useActiveSection(sections, pathname === "/");
+  const home = pathname === paths.home;
+  const active = useActiveSection(sections, home);
+  // Home on the home page goes back to the top.
+  const onClick = useSectionClick();
   return (
     <Bar>
       {/* Home is underlined on the home page unless a linked section is in
           view. */}
       <PlainLink
-        to="/"
-        className={pathname === "/" && !active ? "active" : undefined}
+        to={paths.home}
+        onClick={onClick(null)}
+        className={home && !active ? "active" : undefined}
       >
         <Brand>
           <Mark />

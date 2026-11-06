@@ -3,32 +3,26 @@ import Layout from "./components/Layout";
 import About from "./pages/About";
 import Experience from "./pages/Experience";
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 import Project from "./pages/Project";
-
-// Experience pages used to live at the top level; keep old links working.
-const legacyRoutes: Record<string, string> = {
-  senec: "senec-software-developer",
-  "future-ready": "future-ready",
-  sintef: "sintef",
-  uio: "uio",
-};
+import { paths, redirects } from "./routes";
 
 function App() {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/experience/:slug" element={<Experience />} />
-        <Route path="/project/:slug" element={<Project />} />
-        {Object.entries(legacyRoutes).map(([from, to]) => (
+        <Route path={paths.home} element={<Home />} />
+        <Route path={paths.about} element={<About />} />
+        <Route path={paths.experience(":slug")} element={<Experience />} />
+        <Route path={paths.project(":slug")} element={<Project />} />
+        {Object.entries(redirects).map(([from, to]) => (
           <Route
             key={from}
-            path={`/${from}`}
-            element={<Navigate to={`/experience/${to}`} replace />}
+            path={from}
+            element={<Navigate to={to} replace />}
           />
         ))}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>
   );

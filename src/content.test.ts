@@ -6,6 +6,7 @@ import {
   coreSkills,
   experiences,
   experienceYears,
+  shortPeriod,
   languages,
   profile,
   projects,
@@ -91,6 +92,14 @@ describe("content", () => {
     expect(experienceYears(bySlug["senec-cloud-operator"])).toBe("2026 - now");
     expect(experienceYears(bySlug["future-ready"])).toBe("2020 - 2023");
     expect(experienceYears(bySlug["sintef"])).toBe("2020");
+  });
+
+  it("shortens CV periods for the timeline", () => {
+    expect(shortPeriod("February 2026 - Present")).toBe("Feb 2026 – now");
+    expect(shortPeriod("March 2023 - January 2026")).toBe(
+      "Mar 2023 – Jan 2026",
+    );
+    expect(shortPeriod("June 2020 - August 2020")).toBe("Jun – Aug 2020");
   });
 
   // Owner's decision: the site reflects his GitHub profile as well as the

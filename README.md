@@ -17,11 +17,18 @@ background in computational physics, research and data science. The CV in
 [`docs/cv/cv.md`](docs/cv/cv.md) is the source of truth, and a test fails if
 the site shows anything that isn't in it.
 
-| Page                               | Contents                                                                                                       |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Home (`#/`)                        | Portrait and professional summary, key figures, then Experience tiles, Skills & Certifications, and Education. |
-| Experience (`#/experience/<role>`) | One page per role: positions, dates, responsibilities and technologies.                                        |
-| About (`#/about`)                  | Longer narrative, contact details, and volunteering & open-source work.                                        |
+| Page                              | Contents                                                                                                                         |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Home (`/`)                        | Portrait and professional summary, key figures, then the career timeline, Selected Work, Skills & Certifications, and Education. |
+| Experience (`/experience/<role>`) | One page per role: positions, dates, responsibilities and technologies.                                                          |
+| Project (`/projects/<name>`)      | One page per open-source project: what it is, key figures, how it works, and links.                                              |
+| About (`/about`)                  | Longer narrative, contact details, and volunteering & open-source work.                                                          |
+
+Home sections have their own addresses (`/#experience`, `/#work`,
+`/#skills`, `/#education`). Old links keep working: the hash URLs used
+until November 2026 (`/#/about`), the pages of the first static site
+(`/about.html`) and `/project/<name>` all redirect (`src/routes.ts`).
+Anything else shows a not-found page.
 
 ## Getting started
 
@@ -80,8 +87,12 @@ src/
   theme.ts            Colours, fonts, breakpoints, glass and light mixins
   fonts.css           Self-hosted fonts (latin subsets)
   compat/             react → Preact shim (see vite.config.ts)
-  App.tsx, main.tsx   Routes (incl. legacy redirects) and entry point
-  pages/              Home, Experience (one template for all roles), About
+  routes.ts           Every URL: page paths, pre-rendered pages, redirects
+  meta.ts             Each page's title, description and canonical URL
+  App.tsx, main.tsx   Routes and the browser entry point (hydration)
+  prerender.tsx       Build-time renderer for the static pages
+  pages/              Home, Experience and Project (one template each),
+                      About, NotFound
   pages/home/         Home sections: Hero, Experience, Selected Work,
                       Skills, Education
   components/         Layout, TopNav, Section, reveal, Curves, Icons,
@@ -89,7 +100,9 @@ src/
   hooks/              useElementOnScreen (scroll reveals), usePointerLight
                       (cursor light on glass)
   assets/photos/      Portrait and landscape backgrounds (web-optimized)
-  *.test.ts(x), test/ Tests: content integrity, site-vs-CV, pages/routing
+  *.test.ts(x), test/ Tests: content integrity, site-vs-CV, pages, routes
+scripts/prerender.ts  Writes the static pages, 404.html and sitemap.xml
+TODO.md               Planned improvements, numbered
 ```
 
 To change the site's content:
@@ -117,6 +130,26 @@ the nav draws the same artwork (`Mark` in `src/components/Icons.tsx`), and
 `apple-touch-icon.png` (180px, full bleed) and `og-image.jpg` (1200×630)
 are rendered from it; re-render them when the mark changes.
 
+## Routing and pre-rendering
+
+Pages have real paths (`steinnhm.com/about`). `npm run build` (and so
+`make build`) runs in three steps:
+
+1. `vite build`: the browser bundle and an empty `dist/index.html` shell.
+2. `vite build --ssr src/prerender.tsx`: the same app, bundled for Node.
+3. `node scripts/prerender.ts`: renders every page into the shell, with
+   its title, description, canonical URL and link preview tags, the
+   styles it needs inline, and preloads for the fonts (and on the home
+   page, the portrait). It writes `about.html`, `experience/<role>.html`
+   and so on, which GitHub Pages serves at `/about` without a redirect,
+   plus `404.html` (served for any unknown path) and `sitemap.xml`.
+
+The content is in the HTML before any JavaScript runs, which helps search
+engines, link previews and slow connections. In the browser, `main.tsx`
+hydrates the page it was rendered for, or renders from scratch on
+`404.html` (where the router then shows the redirect or the not-found
+page). `make preview` serves `dist/` the way GitHub Pages does.
+
 ## CI and deployment
 
 `.github/workflows/ci.yml`:
@@ -129,8 +162,3 @@ are rendered from it; re-render them when the mark changes.
 
 Dependabot (`.github/dependabot.yml`) opens weekly update PRs for npm
 packages and GitHub Actions.
-
-## For agents
-
-Project context, design rules and current status for AI agents are in
-[`.github/agents/steinnhm-website.agent.md`](.github/agents/steinnhm-website.agent.md).

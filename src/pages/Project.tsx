@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import styled from "styled-components";
 import ExternalLink from "../components/ExternalLink";
 import { reveal } from "../components/reveal";
@@ -17,11 +17,10 @@ import {
   Tag,
   TagList,
 } from "../components/ui";
-import { projects, shortTitle } from "../content";
+import { shortTitle } from "../content";
+import { paths, projectPages as pages } from "../routes";
+import NotFound from "./NotFound";
 import { colors, fonts } from "../theme";
-
-// Projects that have their own page, in Selected Work order.
-const pages = projects.flatMap((p) => (p.page ? [{ ...p, page: p.page }] : []));
 
 const Card = styled(LiquidPanel)`
   max-width: 920px;
@@ -88,14 +87,10 @@ const Actions = styled(ButtonRow)`
   margin-top: 28px;
 `;
 
-// Back to the Selected Work section of the home page.
-const toWork = { pathname: "/" } as const;
-const workState = { section: "work" };
-
 function Project() {
   const { slug } = useParams();
   const index = pages.findIndex((p) => p.page.slug === slug);
-  if (index === -1) return <Navigate to="/" replace />;
+  if (index === -1) return <NotFound />;
 
   const project = pages[index];
   const { page } = project;
@@ -108,9 +103,7 @@ function Project() {
         <Card as="article" style={reveal(visible)}>
           <Header>
             <Eyebrow>{project.context}</Eyebrow>
-            <BackLink to={toWork} state={workState}>
-              ← Selected work
-            </BackLink>
+            <BackLink to={paths.section("work")}>← Selected work</BackLink>
           </Header>
           <h1>{project.title}</h1>
           <p>{page.intro}</p>
@@ -161,12 +154,12 @@ function Project() {
 
           <Pager aria-label="Other projects">
             {prev && (
-              <PillLink as={Link} to={`/project/${prev.page.slug}`}>
+              <PillLink as={Link} to={paths.project(prev.page.slug)}>
                 ← {shortTitle(prev.title)}
               </PillLink>
             )}
             {next && (
-              <PillLink as={Link} to={`/project/${next.page.slug}`}>
+              <PillLink as={Link} to={paths.project(next.page.slug)}>
                 {shortTitle(next.title)} →
               </PillLink>
             )}

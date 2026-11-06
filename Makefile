@@ -52,4 +52,4 @@ precommit: node_modules ## Run every pre-commit hook on all files (as CI does)
 	@pre-commit run --all-files
 
 clean: ## Remove build output and tool caches
-	@rm -rf dist coverage node_modules/.vite node_modules/.tmp
+	@rm -rf dist dist-ssr coverage node_modules/.vite node_modules/.tmp

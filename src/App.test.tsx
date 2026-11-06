@@ -8,6 +8,7 @@ import {
   projects,
   skillGroups,
 } from "./content";
+import { paths } from "./routes";
 import { renderAt } from "./test/renderAt";
 
 describe("home page", () => {
@@ -32,15 +33,35 @@ describe("home page", () => {
     }
   });
 
-  it("links a tile to every experience page", () => {
+  it("links every role on the timeline to its experience page", () => {
     renderAt("/");
     for (const exp of experiences) {
       const link = screen
         .getAllByRole("link")
-        .find((a) => a.getAttribute("href") === `/experience/${exp.slug}`);
+        .find((a) => a.getAttribute("href") === paths.experience(exp.slug));
       expect(link, exp.slug).toBeDefined();
       expect(link).toHaveTextContent(exp.tileTitle);
+      expect(link).toHaveTextContent(exp.summary);
+      for (const pos of exp.positions)
+        expect(link).toHaveTextContent(pos.title);
     }
+  });
+
+  it("groups roles at one company on one timeline card", () => {
+    renderAt("/");
+    const companies = screen
+      .getAllByRole("heading", { level: 3 })
+      .map((h) => h.textContent)
+      .filter((t) => experiences.some((e) => e.company === t));
+    expect(companies).toEqual([...new Set(experiences.map((e) => e.company))]);
+  });
+
+  it("starts the timeline at the studies, linked to Education", () => {
+    renderAt("/");
+    expect(
+      screen.getByRole("link", { name: /where it started/i }),
+    ).toHaveAttribute("href", paths.section("education"));
+    expect(document.getElementById("education")).not.toBeNull();
   });
 
   it("shows every selected-work project", () => {
@@ -111,10 +132,10 @@ describe("experience pages", () => {
     ).toBeInTheDocument();
   });
 
-  it("redirects unknown experiences to the home page", () => {
+  it("shows the not-found page for unknown experiences", () => {
     renderAt("/experience/does-not-exist");
     expect(
-      screen.getByRole("heading", { level: 1, name: `${profile.greeting},` }),
+      screen.getByRole("heading", { level: 1, name: "Nothing here." }),
     ).toBeInTheDocument();
   });
 });
@@ -132,7 +153,7 @@ describe("project pages", () => {
   it.each(withPages.map((p) => [p.page!.slug, p] as const))(
     "renders %s with its figures, sections and links",
     (slug, project) => {
-      renderAt(`/project/${slug}`);
+      renderAt(paths.project(slug));
       expect(
         screen.getByRole("heading", { level: 1, name: project.title }),
       ).toBeInTheDocument();
@@ -156,7 +177,7 @@ describe("project pages", () => {
   it("is linked from its card and from the hero", () => {
     renderAt("/");
     for (const p of withPages) {
-      const href = `/project/${p.page!.slug}`;
+      const href = paths.project(p.page!.slug);
       const links = screen
         .getAllByRole("link")
         .filter((a) => a.getAttribute("href") === href);
@@ -175,19 +196,26 @@ describe("project pages", () => {
   });
 
   it("links back to the Selected Work section", () => {
-    renderAt("/project/recipify");
+    renderAt(paths.project("recipify"));
     vi.mocked(Element.prototype.scrollIntoView).mockClear();
     fireEvent.click(screen.getByRole("link", { name: /selected work/i }));
     expect(
-      screen.getByRole("heading", { name: "Selected Work" }),
+      screen.getByRole("heading", { name: "Selected work." }),
     ).toBeVisible();
     expect(Element.prototype.scrollIntoView).toHaveBeenCalled();
   });
 
-  it("redirects unknown projects to the home page", () => {
-    renderAt("/project/does-not-exist");
+  it("moves the old /project/ URLs to /projects/", () => {
+    renderAt("/project/minnumst");
     expect(
-      screen.getByRole("heading", { level: 1, name: `${profile.greeting},` }),
+      screen.getByRole("heading", { level: 1, name: /^Minnumst/ }),
+    ).toBeInTheDocument();
+  });
+
+  it("shows the not-found page for unknown projects", () => {
+    renderAt(paths.project("does-not-exist"));
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Nothing here." }),
     ).toBeInTheDocument();
   });
 });
@@ -198,7 +226,7 @@ describe("top navigation", () => {
     vi.mocked(Element.prototype.scrollIntoView).mockClear();
     fireEvent.click(screen.getByRole("link", { name: "Work" }));
     expect(
-      screen.getByRole("heading", { name: "Selected Work" }),
+      screen.getByRole("heading", { name: "Selected work." }),
     ).toBeVisible();
     expect(Element.prototype.scrollIntoView).toHaveBeenCalled();
   });
@@ -239,6 +267,21 @@ describe("top navigation", () => {
       expect.objectContaining({ behavior: expect.any(String) }),
     );
   });
+});
+
+describe("not-found page", () => {
+  it.each(["/nope", "/experience", "/about/extra"])(
+    "shows for %s, with a way back",
+    (path) => {
+      renderAt(path);
+      expect(
+        screen.getByRole("heading", { level: 1, name: "Nothing here." }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getAllByRole("link", { name: "Home" }).length,
+      ).toBeGreaterThan(0);
+    },
+  );
 });
 
 describe("about page", () => {

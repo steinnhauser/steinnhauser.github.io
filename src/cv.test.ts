@@ -108,6 +108,15 @@ describe("site content matches the CV", () => {
     expect(new Date().getFullYear() - 2020).toBeGreaterThanOrEqual(6);
   });
 
+  it("keeps the timeline summaries to the CV's figures and terms", () => {
+    for (const exp of experiences.filter((e) => !NOT_ON_CV.has(e.slug))) {
+      // Every figure ("50+") and every protocol or product name in capitals
+      // ("IEC", "CRM") must appear in the CV.
+      for (const fact of exp.summary.match(/\d+\+?|\b[A-Z]{2,}\b/g) ?? [])
+        expect(onCv(fact), `${exp.slug}: ${fact}`).toBe(true);
+    }
+  });
+
   it("links key figures only to the CV's own sources", () => {
     for (const { value, link } of highlights) {
       if (!link) continue;

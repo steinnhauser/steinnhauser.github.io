@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import lavaLarge from "../../assets/photos/lava-field.webp";
 import lavaSmall from "../../assets/photos/lava-field-800.webp";
 import portrait from "../../assets/photos/portrait.webp";
@@ -7,7 +7,7 @@ import ExternalLink from "../../components/ExternalLink";
 import { DownloadIcon } from "../../components/Icons";
 import { reveal } from "../../components/reveal";
 import RichText from "../../components/RichText";
-import { scrollToSection } from "../../components/scrollToSection";
+import { useSectionClick } from "../../components/scrollToSection";
 import Section from "../../components/Section";
 import {
   ButtonRow,
@@ -17,6 +17,7 @@ import {
   PillLink,
 } from "../../components/ui";
 import { highlights, profile } from "../../content";
+import { paths } from "../../routes";
 import { breakpoints, colors, fonts, glass, hoverLift } from "../../theme";
 
 const Intro = styled.div`
@@ -35,11 +36,8 @@ const Intro = styled.div`
 
 // Portrait in a thin ring that runs from sunlight into slate blue, with a
 // soft warm glow behind it like the low sun in the coastal photo.
-const PortraitFrame = styled.div`
-  position: relative;
+const ring = css`
   flex-shrink: 0;
-  align-self: center;
-  width: clamp(190px, 24vw, 320px);
   aspect-ratio: 1;
   border-radius: 50%;
   padding: 4px;
@@ -51,9 +49,6 @@ const PortraitFrame = styled.div`
     ${colors.secondary} 80%,
     ${colors.sun}
   );
-  box-shadow:
-    0 0 80px ${colors.sun}2e,
-    0 24px 60px rgba(0, 0, 0, 0.55);
 
   img {
     display: block;
@@ -62,6 +57,49 @@ const PortraitFrame = styled.div`
     object-fit: cover;
     border-radius: 50%;
     border: 3px solid ${colors.primary};
+  }
+`;
+
+const PortraitFrame = styled.div`
+  ${ring}
+  position: relative;
+  align-self: center;
+  width: clamp(190px, 24vw, 320px);
+  box-shadow:
+    0 0 80px ${colors.sun}2e,
+    0 24px 60px rgba(0, 0, 0, 0.55);
+
+  /* Phones: the portrait moves into the panel, beside the heading (Avatar),
+     so the introduction and its actions fit on the first screen. */
+  @media (max-width: ${breakpoints.mobile}) {
+    display: none;
+  }
+`;
+
+// The phone-sized portrait beside "I'm Steinn," (same image file).
+const Avatar = styled.div`
+  ${ring}
+  display: none;
+  width: 72px;
+  padding: 3px;
+  box-shadow: 0 0 36px ${colors.sun}2e;
+
+  img {
+    border-width: 2px;
+  }
+  @media (max-width: ${breakpoints.mobile}) {
+    display: block;
+  }
+`;
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 10px 0 22px;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    margin: 14px 0 18px;
   }
 `;
 
@@ -74,11 +112,22 @@ const Text = styled(LiquidPanel)`
   h1 {
     font-size: clamp(2.6rem, 6vw, 4rem);
     line-height: 1.1;
-    margin: 10px 0 22px;
+    margin: 0;
   }
   p {
     line-height: 1.7;
     margin: 0 0 14px;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    padding: 22px 20px 24px;
+
+    h1 {
+      font-size: 2.3rem;
+    }
+    p {
+      line-height: 1.6;
+    }
   }
 `;
 
@@ -165,6 +214,7 @@ const Highlights = styled.dl`
 `;
 
 function Hero() {
+  const toSection = useSectionClick();
   return (
     <Section curves={1} photo={{ large: lavaLarge, small: lavaSmall }}>
       {(visible) => (
@@ -184,10 +234,15 @@ function Hero() {
                 glass blur). */}
             <Text style={reveal(visible, 0)}>
               <Eyebrow>{profile.headline}</Eyebrow>
-              <h1>
-                {profile.greeting}
-                <Dot>,</Dot>
-              </h1>
+              <Title>
+                <Avatar>
+                  <img src={portrait} alt="" width={72} height={72} />
+                </Avatar>
+                <h1>
+                  {profile.greeting}
+                  <Dot>,</Dot>
+                </h1>
+              </Title>
               {profile.welcome.map((paragraph) => (
                 <p key={paragraph.slice(0, 24)}>
                   <RichText text={paragraph} />
@@ -195,13 +250,14 @@ function Hero() {
               ))}
               <Actions>
                 <PillLink
-                  as="button"
+                  as={Link}
+                  to={paths.section("experience")}
                   $primary
-                  onClick={() => scrollToSection("experience")}
+                  onClick={toSection("experience")}
                 >
                   View experience ↓
                 </PillLink>
-                <PillLink as={Link} to="/about">
+                <PillLink as={Link} to={paths.about}>
                   Get in touch
                 </PillLink>
                 <PillLink href={profile.cvUrl} download>

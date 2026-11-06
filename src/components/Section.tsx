@@ -47,6 +47,11 @@ const Inner = styled.div<{ $compact: boolean }>`
     p.$compact
       ? `calc(${SLANT} + clamp(64px, 8vw, 112px)) clamp(16px, 4vw, 48px) clamp(64px, 8vw, 112px)`
       : `calc(${NAV_HEIGHT} + 40px) clamp(16px, 4vw, 48px) 72px`};
+
+  /* Phones: less air under the nav on page-top sections. */
+  @media (max-width: ${breakpoints.mobile}) {
+    ${(p) => !p.$compact && `padding-top: calc(${NAV_HEIGHT} + 20px);`}
+  }
 `;
 
 // A background photo: a large source plus a small one for narrow screens

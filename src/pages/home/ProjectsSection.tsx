@@ -6,6 +6,7 @@ import Screenshot from "../../components/Screenshot";
 import { reveal } from "../../components/reveal";
 import Section from "../../components/Section";
 import {
+  Dot,
   Eyebrow,
   insetTile,
   LiquidPanel,
@@ -15,6 +16,7 @@ import {
   TagList,
 } from "../../components/ui";
 import { projects, shortTitle, type Project } from "../../content";
+import { paths } from "../../routes";
 import { breakpoints, colors, fonts } from "../../theme";
 
 // Featured projects span the full width; the others sit two to a row, and
@@ -162,9 +164,9 @@ function ProjectCard({
   // Repeated link texts ("Code on GitHub") stay distinct for screen readers.
   const name = shortTitle(title);
   const more = project.page
-    ? { to: `/project/${project.page.slug}`, label: "Read the full story" }
+    ? { to: paths.project(project.page.slug), label: "Read the full story" }
     : project.role
-      ? { to: `/experience/${project.role}`, label: "More about the role" }
+      ? { to: paths.experience(project.role), label: "More about the role" }
       : undefined;
   return (
     <Card
@@ -228,7 +230,9 @@ function ProjectsSection() {
         <>
           <div style={reveal(visible)}>
             <SectionLabel>02 / selected work</SectionLabel>
-            <SectionTitle>Selected Work</SectionTitle>
+            <SectionTitle>
+              Selected work<Dot>.</Dot>
+            </SectionTitle>
           </div>
           <Grid>
             {projects.map((project, i) => (

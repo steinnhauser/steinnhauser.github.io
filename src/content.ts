@@ -33,8 +33,8 @@ export const profile = {
     "My background is in computational physics and data science: an MSc " +
       "from the University of Oslo, peer-reviewed research in computational " +
       "neuroscience, and production machine-learning work. In my own time I " +
-      "build open-source projects end to end, like [Minnumst](/project/minnumst) " +
-      "and [recipify](/project/recipify). I " +
+      "build open-source projects end to end, like [Minnumst](/projects/minnumst) " +
+      "and [recipify](/projects/recipify). I " +
       "work in four languages: English, Icelandic, Norwegian and German.",
   ],
   // About page narrative: what I do, how I work, and how I lead.
@@ -77,7 +77,7 @@ export const socials = [
   },
 ] as const;
 
-type Position = {
+export type Position = {
   title: string;
   period: string;
   bullets: string[];
@@ -91,6 +91,9 @@ export type Experience = {
   // Shorter company name for the home page tile, if `company` is long.
   shortCompany?: string;
   logo: string;
+  // One line for the career timeline and link previews, condensed from the
+  // CV bullets (any figure in it must be on the CV; see cv.test.ts).
+  summary: string;
   curves: CurveVariant;
   positions: Position[];
   tags: string[];
@@ -102,6 +105,8 @@ export const experiences: Experience[] = [
     tileTitle: "Cloud Operator",
     company: "SENEC GmbH",
     logo: senecLogo,
+    summary:
+      "Runs large-scale Kubernetes clusters and 50+ Ansible-managed servers, with GitOps delivery and automated, mTLS-secured maintenance.",
     curves: 6,
     positions: [
       {
@@ -134,6 +139,8 @@ export const experiences: Experience[] = [
     tileTitle: "Software Developer",
     company: "SENEC GmbH",
     logo: senecLogo,
+    summary:
+      "Oversaw Azure Function App microservices integrating CRM and Business Central, built with Terraform, Terragrunt and modern CI/CD.",
     curves: 2,
     positions: [
       {
@@ -165,6 +172,8 @@ export const experiences: Experience[] = [
     tileTitle: "Senior Data Scientist",
     company: "Future Ready AS",
     logo: futureReadyLogo,
+    summary:
+      "Sales analytics and a natural language processing model for telecom calls, then an LLM chatbot platform that simulates call-centre conversations.",
     curves: 5,
     positions: [
       {
@@ -205,6 +214,8 @@ export const experiences: Experience[] = [
     tileTitle: "Junior Software Developer",
     company: "SINTEF Energi AS",
     logo: sintefLogo,
+    summary:
+      "A graphical interface for the IEC 61850 digital substation protocol, in C and Python.",
     curves: 7,
     positions: [
       {
@@ -224,6 +235,8 @@ export const experiences: Experience[] = [
     company: "University of Oslo, Physics Department",
     shortCompany: "University of Oslo",
     logo: uioLogo,
+    summary:
+      "Built a rack of compute nodes for the physics department from donated Abel supercomputer hardware, at no additional cost.",
     curves: 8,
     positions: [
       {
@@ -259,7 +272,7 @@ export type Project = {
   role?: string;
   // A screenshot, shown on the card and the project's own page.
   image?: { src: string; alt: string; width: number; height: number };
-  // Projects with a `page` get their own page at #/project/:slug.
+  // Projects with a `page` get their own page at /projects/:slug.
   page?: ProjectPage;
 };
 
@@ -512,12 +525,25 @@ export const projects: Project[] = [
 ];
 
 // "2020 - 2021" / "2026 - now" for a tile, from its positions' periods.
-export function experienceYears(exp: Experience): string {
+// Year range of one or more positions: "2020", "2020 - 2023", "2026 - now".
+export function experienceYears(exp: { positions: Position[] }): string {
   const periods = exp.positions.map((p) => p.period).join(" ");
   const years = (periods.match(/\d{4}/g) ?? []).map(Number);
   const end = /present/i.test(periods) ? "now" : String(Math.max(...years));
   const start = String(Math.min(...years));
   return start === end ? start : `${start} - ${end}`;
+}
+
+// A CV period in short form: "Feb 2026 – now", "Mar 2023 – Jan 2026", or
+// "Jun – Aug 2020" within one year.
+export function shortPeriod(period: string): string {
+  const [from, to = from] = period.split(/\s+-\s+/);
+  const month = (d: string) => d.split(" ")[0].slice(0, 3);
+  const year = (d: string) => d.split(" ")[1];
+  if (/present/i.test(to)) return `${month(from)} ${year(from)} – now`;
+  if (year(from) === year(to))
+    return `${month(from)} – ${month(to)} ${year(to)}`;
+  return `${month(from)} ${year(from)} – ${month(to)} ${year(to)}`;
 }
 
 export const skillGroups = [

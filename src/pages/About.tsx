@@ -185,7 +185,9 @@ function About() {
           <>
             <div style={reveal(visible)}>
               <SectionLabel>beyond work</SectionLabel>
-              <SectionTitle>Volunteering &amp; Open Source</SectionTitle>
+              <SectionTitle>
+                Volunteering &amp; open source<Dot>.</Dot>
+              </SectionTitle>
             </div>
             <VolunteerGrid>
               {volunteering.map((v, i) => (

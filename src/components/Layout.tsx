@@ -1,7 +1,8 @@
-import { type MouseEvent, type ReactNode, useEffect } from "react";
+import { type MouseEvent, type ReactNode, useEffect, useRef } from "react";
 import { useLocation } from "react-router";
 import styled from "styled-components";
 import { profile, socials } from "../content";
+import { pageMeta } from "../meta";
 import usePointerLight from "../hooks/usePointerLight";
 import { colors, fonts, SLANT, slantTop } from "../theme";
 import TopNav from "./TopNav";
@@ -12,7 +13,7 @@ import ExternalLink from "./ExternalLink";
 const GRAIN = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
 
 // "Skip to content" for keyboard users: hidden until focused. It focuses
-// <main> directly, since a "#content" href would change the HashRouter route.
+// <main> directly rather than adding "#content" to the address.
 const SkipLink = styled.a`
   position: fixed;
   top: 12px;
@@ -76,17 +77,23 @@ const Footer = styled.footer`
 `;
 
 function Layout({ children }: { children: ReactNode }) {
-  const { pathname, state } = useLocation();
+  const { pathname, hash } = useLocation();
   usePointerLight();
-  const section = (state as { section?: string } | null)?.section;
 
-  // HashRouter keeps the scroll position between pages: start each page at
-  // the top, or at the section a link asked for (`state={{ section }}`).
+  // On arriving at a page, start at the top, or at the home page section
+  // the link points at (/#work). Links within a page scroll themselves.
+  const shownPath = useRef<string | null>(null);
   useEffect(() => {
-    const target = section && document.getElementById(section);
+    if (shownPath.current === pathname) return;
+    shownPath.current = pathname;
+    const target = hash && document.getElementById(hash.slice(1));
     if (target) target.scrollIntoView();
     else window.scrollTo(0, 0);
-  }, [pathname, section]);
+  }, [pathname, hash]);
+
+  useEffect(() => {
+    document.title = pageMeta(pathname).title;
+  }, [pathname]);
 
   return (
     <Body>

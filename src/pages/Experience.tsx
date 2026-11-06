@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import styled from "styled-components";
 import { reveal } from "../components/reveal";
 import Section from "../components/Section";
@@ -15,6 +15,8 @@ import {
   TagList,
 } from "../components/ui";
 import { experiences } from "../content";
+import { paths } from "../routes";
+import NotFound from "./NotFound";
 import { colors } from "../theme";
 
 const Card = styled(LiquidPanel)`
@@ -55,14 +57,10 @@ const Position = styled.div`
   }
 `;
 
-// Link back to the Experience section of the home page.
-const toExperience = { pathname: "/" } as const;
-const experienceState = { section: "experience" };
-
 function Experience() {
   const { slug } = useParams();
   const index = experiences.findIndex((e) => e.slug === slug);
-  if (index === -1) return <Navigate to="/" replace />;
+  if (index === -1) return <NotFound />;
 
   const exp = experiences[index];
   const prev = experiences[index - 1];
@@ -75,9 +73,7 @@ function Experience() {
           <Header>
             <img src={exp.logo} alt={`${exp.company} logo`} />
             <Muted>{exp.company}</Muted>
-            <BackLink to={toExperience} state={experienceState}>
-              ← All roles
-            </BackLink>
+            <BackLink to={paths.section("experience")}>← All roles</BackLink>
           </Header>
 
           {exp.positions.map((pos, p) => {
@@ -112,12 +108,12 @@ function Experience() {
 
           <Pager aria-label="Other experience">
             {prev && (
-              <PillLink as={Link} to={`/experience/${prev.slug}`}>
+              <PillLink as={Link} to={paths.experience(prev.slug)}>
                 ← {prev.tileTitle}
               </PillLink>
             )}
             {next && (
-              <PillLink as={Link} to={`/experience/${next.slug}`}>
+              <PillLink as={Link} to={paths.experience(next.slug)}>
                 {next.tileTitle} →
               </PillLink>
             )}

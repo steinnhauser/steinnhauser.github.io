@@ -3,6 +3,7 @@ import ExternalLink from "../../components/ExternalLink";
 import { reveal } from "../../components/reveal";
 import Section from "../../components/Section";
 import {
+  Dot,
   Eyebrow,
   GlassCard,
   Muted,
@@ -43,13 +44,13 @@ const Card = styled(GlassCard)`
 
 function EducationSection() {
   return (
-    <Section curves={3} aurora="tide" slant compact>
+    <Section id="education" curves={3} aurora="tide" slant compact>
       {(visible) => (
         <TwoColumn>
           <Heading style={reveal(visible)}>
             <SectionLabel>04 / education</SectionLabel>
             <SectionTitle>
-              My Academic <br /> Background
+              Academic background<Dot>.</Dot>
             </SectionTitle>
           </Heading>
           <Stack>
