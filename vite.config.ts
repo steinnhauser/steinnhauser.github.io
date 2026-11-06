@@ -54,7 +54,7 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: ["./src/test/setup.ts"],
     globalSetup: ["./scripts/profile-readme.ts"],
-    // Stub CSS in tests, except fonts.css, which assets.test.ts reads.
+    // Stub CSS in tests, except fonts.css, which assets.test.tsx reads.
     css: { include: [/fonts\.css/] },
     // Use the same ESM builds as the browser (Node would otherwise pick the
     // CommonJS ones, whose require("react") bypasses the aliases), and

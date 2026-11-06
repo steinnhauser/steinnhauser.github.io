@@ -103,11 +103,19 @@ To change the site's content:
 
 ### Images
 
-Images in `src/assets/photos/` and `src/assets/logos/` are WebP copies of
-the originals, encoded at the size they're displayed (logos 340px, portrait
-560px, backdrops 1280px plus an 800px variant for phones). `src/assets.test.ts`
-enforces the budget: WebP only, at most 100 KB per image and 250 KB in total.
-Keep the raw camera files out of git (see `.gitignore`).
+Images in `src/assets/photos/`, `src/assets/logos/` and
+`src/assets/projects/` are WebP copies of the originals, encoded at the size
+they're displayed (logos 340px, portrait 480px, backdrops 1280px plus an
+800px variant for phones, project screenshots 720-880px).
+`src/assets.test.tsx` enforces the budget: WebP only, at most 100 KB per
+image and 250 KB in total. Keep the raw camera files out of git (see
+`.gitignore`).
+
+The site mark (a low sun over two contour lines) is `public/favicon.svg`;
+the nav draws the same artwork (`Mark` in `src/components/Icons.tsx`), and
+`src/assets.test.tsx` fails if the two differ. `favicon-32.png`,
+`apple-touch-icon.png` (180px, full bleed) and `og-image.jpg` (1200×630)
+are rendered from it; re-render them when the mark changes.
 
 ## CI and deployment
 

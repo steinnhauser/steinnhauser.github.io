@@ -54,29 +54,49 @@ export const DownloadIcon = () => (
   </svg>
 );
 
-// Site monogram: a gold "S" drawn as one stroke, like the background curves.
-// Same artwork as public/favicon.svg, without the tile.
-export const Monogram = () => (
+// Site mark: a low sun setting over two contour lines, in the sun gold and
+// blues of the palette. Same artwork as public/favicon.svg, without the tile
+// (assets.test.tsx checks that they match). The sun is clipped at the horizon
+// and has the class "mark-sun", so the nav can let it rise on hover.
+export const Mark = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="14 10 36 46"
+    viewBox="7 21 50 37"
     width="100%"
     height="100%"
     aria-hidden="true"
   >
     <defs>
-      <linearGradient id="monogram-gold" x1="0" y1="0" x2="0" y2="1">
+      <linearGradient id="mark-sun" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stopColor="#f6cd85" />
         <stop offset="1" stopColor="#e9a443" />
       </linearGradient>
+      <clipPath id="mark-sky">
+        <rect width="64" height="38" />
+      </clipPath>
     </defs>
+    <g clipPath="url(#mark-sky)">
+      <circle
+        className="mark-sun"
+        cx="32"
+        cy="38"
+        r="15"
+        fill="url(#mark-sun)"
+      />
+    </g>
     <path
-      d="M42.5 19.5 C 39 14.5, 23 14, 22 22.5 C 21 31, 42.5 30.5, 42.5 40.5 C 42.5 50, 25 51, 20.5 44.5"
+      d="M9 44 C 19 39, 27 48, 37 43.5 S 51 40, 55 42.5"
       fill="none"
-      stroke="url(#monogram-gold)"
-      strokeWidth="6"
+      stroke="#8fa8dc"
+      strokeWidth="3.4"
       strokeLinecap="round"
-      strokeLinejoin="round"
+    />
+    <path
+      d="M14 52.5 C 22 49, 30 55.5, 39 52 S 48 50, 50 51"
+      fill="none"
+      stroke="#3f5787"
+      strokeWidth="3.4"
+      strokeLinecap="round"
     />
   </svg>
 );

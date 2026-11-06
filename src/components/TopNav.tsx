@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation } from "react-router";
 import styled, { css } from "styled-components";
 import { socials } from "../content";
 import { breakpoints, colors, fonts, NAV_HEIGHT } from "../theme";
-import { GithubIcon, LinkedInIcon, Monogram, StackOverflowIcon } from "./Icons";
+import { GithubIcon, LinkedInIcon, Mark, StackOverflowIcon } from "./Icons";
 import ExternalLink from "./ExternalLink";
 import useActiveSection from "../hooks/useActiveSection";
 import { scrollToSection } from "./scrollToSection";
@@ -55,16 +55,20 @@ const Brand = styled.span`
   gap: 12px;
 
   svg {
-    width: 20px;
-    height: 26px;
+    width: 30px;
+    height: 22px;
     flex-shrink: 0;
+  }
+  /* The sun rises a little above the horizon on hover. */
+  .mark-sun {
     transition: transform 400ms ease;
   }
-  a:hover & svg {
-    transform: rotate(-8deg);
+  a:hover & .mark-sun,
+  a:focus-visible & .mark-sun {
+    transform: translateY(-4px);
   }
 
-  /* Phones: the monogram alone stands for Home, to make room for the
+  /* Phones: the mark alone stands for Home, to make room for the
      section links. */
   @media (max-width: ${breakpoints.mobile}) {
     span {
@@ -205,7 +209,7 @@ function TopNav() {
         className={pathname === "/" && !active ? "active" : undefined}
       >
         <Brand>
-          <Monogram />
+          <Mark />
           <span>Home</span>
         </Brand>
       </PlainLink>
