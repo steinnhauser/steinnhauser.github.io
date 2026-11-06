@@ -18,13 +18,9 @@ finished items move to "Done" with their date.
    proves nothing was added to a recipe, or how Minnumst's CI checks that
    the hardening is idempotent. A `/notes/<slug>` page type would fit the
    pre-rendered routing as it is.
-4. **Choose the site mark.** The low sun over contour lines is live; the
-   `.sh` sketches (initials as a shell script) are the alternative. If
-   `.sh` wins, draw the letters as paths (an SVG favicon can't load web
-   fonts), then re-render `favicon-32.png`, `apple-touch-icon.png` and
-   `og-image.jpg`.
+4. ~~Choose the site mark~~: done 2026-11-06, `.sh` (see Done).
 5. **GitHub social card:** recapture the site screenshot after the next
-   deploy (it still shows the old "S" in the nav) and upload it by hand
+   deploy (it still shows the old "S" in the nav; the nav now shows `.sh`) and upload it by hand
    (Settings → Social preview).
 6. **Search Console:** after the routing change is deployed, submit
    `https://steinnhm.com/sitemap.xml` and check that the old hash links
@@ -58,4 +54,6 @@ finished items move to "Done" with their date.
   pre-rendered pages, per-page titles and link previews, a sitemap and a
   not-found page; inline critical CSS; phone hero with the actions on the
   first screen; consistent section headings; link preview re-rendered
-  with the graded portrait; low-sun site mark.
+  with the graded portrait; `.sh` site mark (the initials as a shell
+  script, in the heading font with its gold full stop), chosen over the
+  low sun.

@@ -55,17 +55,17 @@ const Brand = styled.span`
   gap: 12px;
 
   svg {
-    width: 30px;
-    height: 22px;
+    width: 41px;
+    height: 23px;
     flex-shrink: 0;
   }
-  /* The sun rises a little above the horizon on hover. */
-  .mark-sun {
+  /* The gold dot lifts a little on hover, like a prompt waiting. */
+  .mark-dot {
     transition: transform 400ms ease;
   }
-  a:hover & .mark-sun,
-  a:focus-visible & .mark-sun {
-    transform: translateY(-4px);
+  a:hover & .mark-dot,
+  a:focus-visible & .mark-dot {
+    transform: translateY(-5px);
   }
 
   /* Phones: the mark alone stands for Home, to make room for the

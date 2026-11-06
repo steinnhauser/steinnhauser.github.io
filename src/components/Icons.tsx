@@ -54,14 +54,15 @@ export const DownloadIcon = () => (
   </svg>
 );
 
-// Site mark: a low sun setting over two contour lines, in the sun gold and
-// blues of the palette. Same artwork as public/favicon.svg, without the tile
-// (assets.test.tsx checks that they match). The sun is clipped at the horizon
-// and has the class "mark-sun", so the nav can let it rise on hover.
+// Site mark: ".sh", the initials as a shell script, in Space Grotesk Bold
+// (as outlines) after the gold full stop the headings end with. Same
+// artwork as public/favicon.svg, without the tile (assets.test.tsx checks
+// that they match). The dot has the class "mark-dot", so the nav can lift
+// it on hover.
 export const Mark = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="7 21 50 37"
+    viewBox="6 17 52 29"
     width="100%"
     height="100%"
     aria-hidden="true"
@@ -71,32 +72,21 @@ export const Mark = () => (
         <stop offset="0" stopColor="#f6cd85" />
         <stop offset="1" stopColor="#e9a443" />
       </linearGradient>
-      <clipPath id="mark-sky">
-        <rect width="64" height="38" />
-      </clipPath>
     </defs>
-    <g clipPath="url(#mark-sky)">
-      <circle
-        className="mark-sun"
-        cx="32"
-        cy="38"
-        r="15"
-        fill="url(#mark-sun)"
-      />
-    </g>
-    <path
-      d="M9 44 C 19 39, 27 48, 37 43.5 S 51 40, 55 42.5"
-      fill="none"
-      stroke="#8fa8dc"
-      strokeWidth="3.4"
-      strokeLinecap="round"
+    <circle
+      className="mark-dot"
+      cx="12"
+      cy="39.5"
+      r="4.2"
+      fill="url(#mark-sun)"
     />
     <path
-      d="M14 52.5 C 22 49, 30 55.5, 39 52 S 48 50, 50 51"
-      fill="none"
-      stroke="#3f5787"
-      strokeWidth="3.4"
-      strokeLinecap="round"
+      d="M27.8 43.46Q24.6 43.46 22.55 42.08Q20.5 40.69 20.08 38.12L23.9 37.13Q24.13 38.28 24.68 38.94Q25.22 39.6 26.03 39.88Q26.84 40.16 27.8 40.16Q29.25 40.16 29.94 39.65Q30.64 39.14 30.64 38.38Q30.64 37.62 29.98 37.21Q29.32 36.8 27.86 36.53L26.94 36.37Q25.22 36.04 23.8 35.46Q22.39 34.88 21.53 33.86Q20.67 32.84 20.67 31.22Q20.67 28.78 22.45 27.47Q24.23 26.17 27.14 26.17Q29.88 26.17 31.69 27.39Q33.51 28.61 34.07 30.59L30.21 31.78Q29.94 30.53 29.13 30Q28.33 29.47 27.14 29.47Q25.95 29.47 25.32 29.88Q24.7 30.3 24.7 31.02Q24.7 31.81 25.36 32.19Q26.02 32.57 27.14 32.77L28.06 32.94Q29.91 33.27 31.41 33.81Q32.91 34.35 33.79 35.36Q34.66 36.37 34.66 38.08Q34.66 40.66 32.8 42.06Q30.93 43.46 27.8 43.46Z"
+      fill="#eef1f8"
+    />
+    <path
+      d="M37.29 43V19.9H41.45V28.64H42.04Q42.31 28.12 42.87 27.59Q43.43 27.06 44.37 26.71Q45.31 26.37 46.76 26.37Q48.68 26.37 50.11 27.24Q51.55 28.12 52.34 29.65Q53.13 31.19 53.13 33.23V43H48.97V33.56Q48.97 31.71 48.07 30.79Q47.16 29.87 45.48 29.87Q43.56 29.87 42.51 31.14Q41.45 32.41 41.45 34.68V43Z"
+      fill="#eef1f8"
     />
   </svg>
 );

@@ -124,7 +124,8 @@ they're displayed (logos 340px, portrait 480px, backdrops 1280px plus an
 image and 250 KB in total. Keep the raw camera files out of git (see
 `.gitignore`).
 
-The site mark (a low sun over two contour lines) is `public/favicon.svg`;
+The site mark (".sh": the initials as a shell script, with the gold full
+stop of the headings) is `public/favicon.svg`;
 the nav draws the same artwork (`Mark` in `src/components/Icons.tsx`), and
 `src/assets.test.tsx` fails if the two differ. `favicon-32.png`,
 `apple-touch-icon.png` (180px, full bleed) and `og-image.jpg` (1200×630)

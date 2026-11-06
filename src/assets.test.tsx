@@ -41,11 +41,12 @@ describe("image budget", () => {
 
 describe("brand mark", () => {
   // The nav mark and the favicon are two copies of one drawing. Compare the
-  // sun and the contour lines (the favicon's tile rects are left out).
+  // dot and the letters (the favicon's tile rects are left out; gradient
+  // fills differ only in their ids).
   const shapes = (root: ParentNode) =>
     [...root.querySelectorAll("circle, path")].map((el) =>
-      ["cx", "cy", "r", "d", "stroke", "stroke-width"]
-        .map((a) => el.getAttribute(a))
+      ["cx", "cy", "r", "d", "fill", "stroke", "stroke-width"]
+        .map((a) => el.getAttribute(a)?.replace(/^url\(.*\)$/, "url"))
         .join(" "),
     );
 
