@@ -64,6 +64,15 @@ describe("home page", () => {
     expect(document.getElementById("education")).not.toBeNull();
   });
 
+  it("scrolls from the start of the timeline to Education", () => {
+    renderAt("/");
+    const scroll = vi.mocked(Element.prototype.scrollIntoView);
+    scroll.mockClear();
+    fireEvent.click(screen.getByRole("link", { name: /where it started/i }));
+    expect(scroll).toHaveBeenCalled();
+    expect(scroll.mock.contexts[0]).toBe(document.getElementById("education"));
+  });
+
   it("shows every selected-work project", () => {
     renderAt("/");
     for (const p of projects) {

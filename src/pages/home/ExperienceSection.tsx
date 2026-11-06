@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import styled, { css, keyframes } from "styled-components";
 import { reveal } from "../../components/reveal";
+import { useSectionClick } from "../../components/scrollToSection";
 import Section from "../../components/Section";
 import {
   Dot,
@@ -378,6 +379,7 @@ function RoleLink({ exp, steps }: { exp: Experience; steps: boolean }) {
 }
 
 function ExperienceSection() {
+  const toSection = useSectionClick();
   return (
     <Section id="experience" curves={2} tinted slant compact>
       {(visible) => (
@@ -425,7 +427,10 @@ function ExperienceSection() {
             <Item style={reveal(visible, groups.length + 1)}>
               <Years $origin>{dash(studyYears)}</Years>
               <Node $hollow />
-              <Origin to={paths.section("education")}>
+              <Origin
+                to={paths.section("education")}
+                onClick={toSection("education")}
+              >
                 <strong>Where it started:</strong> physics at the University of
                 Oslo, a BSc in physics and astronomy and then an MSc in
                 computational science. <span>Education ↓</span>
