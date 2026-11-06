@@ -331,7 +331,7 @@ export const projects: Project[] = [
       src: minnumstShot,
       width: 720,
       height: 634,
-      alt: "Minnumst's public archive: a name search with a person's profile and story (fictional sample data)",
+      alt: "Minnumst's public archive in dark mode: a name search beside a photo of Grafarkirkja, a turf church in Höfðaströnd",
     },
     page: {
       slug: "minnumst",
@@ -345,7 +345,7 @@ export const projects: Project[] = [
         "TLS-terminating proxy and every write is authenticated before it " +
         "reaches the application.",
       figures: [
-        { value: "57 → 70", label: "Lynis hardening index, scored in CI" },
+        { value: "57 → 75", label: "Lynis hardening index, scored in CI" },
         {
           value: "254 → 0",
           label: "Trivy findings, API image moved to Alpine",

@@ -9,12 +9,14 @@ import type {} from "../scripts/profile-readme";
 
 const readme = inject("profileReadme");
 
-// The text of one "**Heading**" block, up to the next heading or rule.
+// The text of one "#### Heading" section, up to the next heading or rule.
 function block(heading: string): string {
-  const start = readme.indexOf(`**${heading}**`);
-  if (start === -1) return "";
-  const rest = readme.slice(start + heading.length + 4);
-  const end = rest.search(/\n\*\*|\n---/);
+  const line = readme
+    .split("\n")
+    .find((l) => /^#+ /.test(l) && l.replace(/^#+ /, "") === heading);
+  if (line === undefined) return "";
+  const rest = readme.slice(readme.indexOf(line) + line.length);
+  const end = rest.search(/\n#|\n---/);
   return end === -1 ? rest : rest.slice(0, end);
 }
 
@@ -25,17 +27,13 @@ const links = (text: string) =>
 const norm = (url: string) => url.replace(/\/$/, "");
 
 describe.skipIf(!readme)("site matches the GitHub profile", () => {
-  it("shows every tool from the profile's tools table", () => {
-    const rows = block("Tools I use most")
+  it("shows every tool from the profile's tools list", () => {
+    // One line per area: "- **Platform:** Kubernetes · Helm · ...".
+    const tools = block("Tools I use most")
       .split("\n")
-      .filter((line) => line.startsWith("|") && !line.includes("---"))
-      .slice(1); // header row
-    const tools = rows.flatMap((row) =>
-      row
-        .split("|")[2]
-        .split(/ · | \/ /)
-        .map((t) => t.trim()),
-    );
+      .map((line) => /^- \*\*[^*]+:\*\* (.+)$/.exec(line)?.[1])
+      .filter((list) => list !== undefined)
+      .flatMap((list) => list.split(/ · | \/ /).map((t) => t.trim()));
     expect(tools.length).toBeGreaterThan(0);
     const shown = skillGroups.flatMap((g) => g.skills);
     for (const tool of tools) expect(shown, tool).toContain(tool);
