@@ -4,9 +4,21 @@ import ExternalLink from "../components/ExternalLink";
 import { reveal } from "../components/reveal";
 import Screenshot from "../components/Screenshot";
 import Section from "../components/Section";
-import { Eyebrow, LiquidPanel, PillLink, Tag, TagList } from "../components/ui";
-import { projects } from "../content";
-import { breakpoints, colors, fonts } from "../theme";
+import {
+  BackLink,
+  BulletList,
+  ButtonRow,
+  Eyebrow,
+  FieldLabel,
+  insetTile,
+  LiquidPanel,
+  Pager,
+  PillLink,
+  Tag,
+  TagList,
+} from "../components/ui";
+import { projects, shortTitle } from "../content";
+import { colors, fonts } from "../theme";
 
 // Projects that have their own page, in Selected Work order.
 const pages = projects.flatMap((p) => (p.page ? [{ ...p, page: p.page }] : []));
@@ -35,26 +47,6 @@ const Header = styled.div`
   gap: 8px 18px;
 `;
 
-const BackLink = styled(Link)`
-  margin-left: auto;
-  font-family: ${fonts.mono};
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: ${colors.muted};
-  white-space: nowrap;
-
-  &:hover {
-    color: ${colors.sun};
-  }
-
-  @media (max-width: ${breakpoints.mobile}) {
-    order: -1;
-    flex-basis: 100%;
-    margin: 0 0 4px;
-  }
-`;
-
 // Key figures, as in the hero's band but quieter.
 const Figures = styled.dl`
   display: grid;
@@ -63,12 +55,8 @@ const Figures = styled.dl`
   margin: 28px 0 8px;
 
   div {
+    ${insetTile}
     padding: 14px 16px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.04);
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.09),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   dt {
     font-family: ${fonts.mono};
@@ -94,75 +82,15 @@ const Part = styled.section`
     font-size: clamp(1.25rem, 2.4vw, 1.55rem);
     margin: 0;
   }
-  ul {
-    margin: 14px 0 0;
-    padding-left: 1.15em;
-  }
-  li {
-    color: rgba(255, 255, 255, 0.86);
-    line-height: 1.7;
-    margin-bottom: 10px;
-    padding-left: 4px;
-  }
-  li::marker {
-    content: "▸";
-    color: ${colors.sun};
-  }
 `;
 
-const TagsLabel = styled.div`
-  margin: 32px 0 12px;
-  font-family: ${fonts.mono};
-  font-size: 0.72rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: ${colors.muted};
-`;
-
-const Actions = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+const Actions = styled(ButtonRow)`
   margin-top: 28px;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    > * {
-      flex: 1 1 auto;
-      justify-content: center;
-    }
-  }
-`;
-
-// Previous / next project, as on the experience pages.
-const Footer = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 40px;
-  padding-top: 28px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  font-size: 0.9rem;
-
-  > :only-child {
-    margin-left: auto;
-  }
-
-  @media (max-width: ${breakpoints.mobile}) {
-    flex-direction: column;
-
-    > * {
-      justify-content: center;
-    }
-  }
 `;
 
 // Back to the Selected Work section of the home page.
 const toWork = { pathname: "/" } as const;
 const workState = { section: "work" };
-
-// Short name for prev/next links: the part of the title before the colon.
-const shortTitle = (title: string) => title.split(":")[0];
 
 function Project() {
   const { slug } = useParams();
@@ -201,15 +129,15 @@ function Project() {
           {page.sections.map((part) => (
             <Part key={part.title}>
               <h2>{part.title}</h2>
-              <ul>
+              <BulletList>
                 {part.points.map((point) => (
                   <li key={point}>{point}</li>
                 ))}
-              </ul>
+              </BulletList>
             </Part>
           ))}
 
-          <TagsLabel id="technologies">Technologies</TagsLabel>
+          <FieldLabel id="technologies">Technologies</FieldLabel>
           <TagList aria-labelledby="technologies">
             {project.tags.map((t) => (
               <Tag key={t}>{t}</Tag>
@@ -231,7 +159,7 @@ function Project() {
             </Actions>
           )}
 
-          <Footer aria-label="Other projects">
+          <Pager aria-label="Other projects">
             {prev && (
               <PillLink as={Link} to={`/project/${prev.page.slug}`}>
                 ← {shortTitle(prev.title)}
@@ -242,7 +170,7 @@ function Project() {
                 {shortTitle(next.title)} →
               </PillLink>
             )}
-          </Footer>
+          </Pager>
         </Card>
       )}
     </Section>

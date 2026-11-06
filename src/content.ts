@@ -271,6 +271,10 @@ export type ProjectPage = {
   sections: { title: string; points: string[] }[];
 };
 
+// A project's short name, the part of its title before the colon
+// ("Minnumst"): prev/next links and distinct accessible link names.
+export const shortTitle = (title: string) => title.split(":")[0];
+
 export const projects: Project[] = [
   {
     title: "Automated server maintenance platform",

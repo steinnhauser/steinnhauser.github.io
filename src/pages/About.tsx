@@ -11,6 +11,7 @@ import {
 import { reveal } from "../components/reveal";
 import Section from "../components/Section";
 import {
+  ButtonRow,
   Dot,
   Eyebrow,
   GlassCard,
@@ -21,7 +22,7 @@ import {
   SectionTitle,
 } from "../components/ui";
 import { profile, socials, volunteering } from "../content";
-import { breakpoints, colors, fonts } from "../theme";
+import { colors, fonts } from "../theme";
 
 const socialIcons = {
   github: GithubIcon,
@@ -95,19 +96,6 @@ const ContactList = styled.dl`
   }
 `;
 
-const Actions = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    > * {
-      flex: 1 1 auto;
-      justify-content: center;
-    }
-  }
-`;
-
 const VolunteerGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
@@ -172,7 +160,7 @@ function About() {
                   <dd>{profile.location}</dd>
                 </div>
               </ContactList>
-              <Actions>
+              <ButtonRow>
                 <PillLink $primary href={profile.cvUrl} download>
                   <DownloadIcon />
                   Download CV
@@ -186,7 +174,7 @@ function About() {
                     </PillLink>
                   );
                 })}
-              </Actions>
+              </ButtonRow>
             </Contact>
           </Layout>
         )}

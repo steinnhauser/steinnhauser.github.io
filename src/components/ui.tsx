@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import styled, { css } from "styled-components";
 import {
   aurora,
@@ -167,5 +168,104 @@ export const TwoColumn = styled.div`
 
   @media (max-width: ${breakpoints.mobile}) {
     grid-template-columns: 1fr;
+  }
+`;
+
+// A quiet inset tile inside a glass panel: the flow steps of a featured
+// project and the key figures on project pages.
+export const insetTile = css`
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+`;
+
+// A row of pill buttons; full width on phones.
+export const ButtonRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    > * {
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+  }
+`;
+
+// The pieces shared by the experience and project pages.
+
+// "← All roles" / "← Selected work": back to a home section, at the right
+// of the page header (on its own line above it on phones).
+export const BackLink = styled(Link)`
+  margin-left: auto;
+  font-family: ${fonts.mono};
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: ${colors.muted};
+  white-space: nowrap;
+
+  &:hover {
+    color: ${colors.sun};
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    order: -1;
+    flex-basis: 100%;
+    margin: 0 0 4px;
+  }
+`;
+
+// Small label above a group, such as "Technologies".
+export const FieldLabel = styled.div`
+  margin: 32px 0 12px;
+  font-family: ${fonts.mono};
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: ${colors.muted};
+`;
+
+// Reading list with gold triangle markers.
+export const BulletList = styled.ul`
+  margin: 16px 0 0;
+  padding-left: 1.15em;
+
+  li {
+    color: rgba(255, 255, 255, 0.86);
+    line-height: 1.7;
+    margin-bottom: 11px;
+    padding-left: 4px;
+  }
+  li::marker {
+    content: "▸";
+    color: ${colors.sun};
+  }
+`;
+
+// Previous / next pills at the foot of a page.
+export const Pager = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.9rem;
+
+  > :only-child {
+    margin-left: auto;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    flex-direction: column;
+
+    > * {
+      justify-content: center;
+    }
   }
 `;

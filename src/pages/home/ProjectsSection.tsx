@@ -7,13 +7,14 @@ import { reveal } from "../../components/reveal";
 import Section from "../../components/Section";
 import {
   Eyebrow,
+  insetTile,
   LiquidPanel,
   SectionLabel,
   SectionTitle,
   Tag,
   TagList,
 } from "../../components/ui";
-import { projects, type Project } from "../../content";
+import { projects, shortTitle, type Project } from "../../content";
 import { breakpoints, colors, fonts } from "../../theme";
 
 // Featured projects span the full width; the others sit two to a row, and
@@ -108,13 +109,9 @@ const Flow = styled.ol`
   padding: 0;
 
   li {
+    ${insetTile}
     position: relative;
     padding: 14px 16px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.04);
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.09),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   /* Arrow to the next step. */
   li + li::before {
@@ -162,9 +159,8 @@ function ProjectCard({
 }) {
   const { title, context, summary, flow, tags, links, featured, image } =
     project;
-  // The project's short name, so repeated link texts ("Code on GitHub")
-  // stay distinct for screen readers.
-  const name = title.split(":")[0];
+  // Repeated link texts ("Code on GitHub") stay distinct for screen readers.
+  const name = shortTitle(title);
   const more = project.page
     ? { to: `/project/${project.page.slug}`, label: "Read the full story" }
     : project.role

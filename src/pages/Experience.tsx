@@ -3,15 +3,19 @@ import styled from "styled-components";
 import { reveal } from "../components/reveal";
 import Section from "../components/Section";
 import {
+  BackLink,
+  BulletList,
   Eyebrow,
+  FieldLabel,
   LiquidPanel,
   Muted,
+  Pager,
   PillLink,
   Tag,
   TagList,
 } from "../components/ui";
 import { experiences } from "../content";
-import { breakpoints, colors, fonts } from "../theme";
+import { colors } from "../theme";
 
 const Card = styled(LiquidPanel)`
   max-width: 820px;
@@ -36,27 +40,6 @@ const Header = styled.div`
   }
 `;
 
-const BackLink = styled(Link)`
-  margin-left: auto;
-  font-family: ${fonts.mono};
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: ${colors.muted};
-  white-space: nowrap;
-
-  &:hover {
-    color: ${colors.sun};
-  }
-
-  /* Phones: on its own line above the logo. */
-  @media (max-width: ${breakpoints.mobile}) {
-    order: -1;
-    flex-basis: 100%;
-    margin: 0 0 4px;
-  }
-`;
-
 const Position = styled.div`
   & + & {
     margin-top: 36px;
@@ -69,53 +52,6 @@ const Position = styled.div`
     font-size: clamp(1.8rem, 4vw, 2.6rem);
     line-height: 1.15;
     margin: 0 0 4px;
-  }
-  ul {
-    margin: 18px 0 0;
-    padding-left: 1.15em;
-  }
-  li {
-    color: rgba(255, 255, 255, 0.86);
-    line-height: 1.7;
-    margin-bottom: 12px;
-    padding-left: 4px;
-  }
-  li::marker {
-    content: "▸";
-    color: ${colors.sun};
-  }
-`;
-
-const TagsLabel = styled.div`
-  margin: 32px 0 12px;
-  font-family: ${fonts.mono};
-  font-size: 0.72rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: ${colors.muted};
-`;
-
-// Previous / next role, as glass pills.
-const Footer = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 40px;
-  padding-top: 28px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  font-size: 0.9rem;
-
-  > :only-child {
-    margin-left: auto;
-  }
-
-  @media (max-width: ${breakpoints.mobile}) {
-    flex-direction: column;
-
-    > * {
-      justify-content: center;
-    }
   }
 `;
 
@@ -150,7 +86,7 @@ function Experience() {
               <Position key={pos.title}>
                 <Heading>{pos.title}</Heading>
                 <Eyebrow>{pos.period}</Eyebrow>
-                <ul>
+                <BulletList>
                   {pos.bullets.map((b, i) => (
                     <li
                       key={b}
@@ -162,19 +98,19 @@ function Experience() {
                       {b}
                     </li>
                   ))}
-                </ul>
+                </BulletList>
               </Position>
             );
           })}
 
-          <TagsLabel id="technologies">Technologies</TagsLabel>
+          <FieldLabel id="technologies">Technologies</FieldLabel>
           <TagList aria-labelledby="technologies">
             {exp.tags.map((t) => (
               <Tag key={t}>{t}</Tag>
             ))}
           </TagList>
 
-          <Footer aria-label="Other experience">
+          <Pager aria-label="Other experience">
             {prev && (
               <PillLink as={Link} to={`/experience/${prev.slug}`}>
                 ← {prev.tileTitle}
@@ -185,7 +121,7 @@ function Experience() {
                 {next.tileTitle} →
               </PillLink>
             )}
-          </Footer>
+          </Pager>
         </Card>
       )}
     </Section>

@@ -9,7 +9,13 @@ import { reveal } from "../../components/reveal";
 import RichText from "../../components/RichText";
 import { scrollToSection } from "../../components/scrollToSection";
 import Section from "../../components/Section";
-import { Dot, Eyebrow, LiquidPanel, PillLink } from "../../components/ui";
+import {
+  ButtonRow,
+  Dot,
+  Eyebrow,
+  LiquidPanel,
+  PillLink,
+} from "../../components/ui";
 import { highlights, profile } from "../../content";
 import { breakpoints, colors, fonts, glass, hoverLift } from "../../theme";
 
@@ -76,18 +82,8 @@ const Text = styled(LiquidPanel)`
   }
 `;
 
-const Actions = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+const Actions = styled(ButtonRow)`
   margin-top: 26px;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    > * {
-      flex: 1 1 auto;
-      justify-content: center;
-    }
-  }
 `;
 
 // Full-width band of key figures under the introduction.
