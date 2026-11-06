@@ -1,16 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- ".sh": the initials as a shell script, in Space Grotesk Bold (the
+       heading font, drawn as outlines so no font has to load), led by the
+       gold full stop the headings end with. The nav mark (Mark in
+       src/components/Icons.tsx) draws the same artwork without the tile;
+       assets.test.tsx keeps the two in sync. -->
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#232a3d"/>
       <stop offset="1" stop-color="#131316"/>
     </linearGradient>
-    <linearGradient id="s" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#f6cd85"/>
       <stop offset="1" stop-color="#e9a443"/>
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="14" fill="url(#bg)"/>
   <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="13.25" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1.5"/>
-  <path d="M6 44 C 20 34, 40 54, 58 38" fill="none" stroke="#3f5787" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M42.5 19.5 C 39 14.5, 23 14, 22 22.5 C 21 31, 42.5 30.5, 42.5 40.5 C 42.5 50, 25 51, 20.5 44.5" fill="none" stroke="url(#s)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="12" cy="39.5" r="4.2" fill="url(#sun)"/>
+  <path d="M27.8 43.46Q24.6 43.46 22.55 42.08Q20.5 40.69 20.08 38.12L23.9 37.13Q24.13 38.28 24.68 38.94Q25.22 39.6 26.03 39.88Q26.84 40.16 27.8 40.16Q29.25 40.16 29.94 39.65Q30.64 39.14 30.64 38.38Q30.64 37.62 29.98 37.21Q29.32 36.8 27.86 36.53L26.94 36.37Q25.22 36.04 23.8 35.46Q22.39 34.88 21.53 33.86Q20.67 32.84 20.67 31.22Q20.67 28.78 22.45 27.47Q24.23 26.17 27.14 26.17Q29.88 26.17 31.69 27.39Q33.51 28.61 34.07 30.59L30.21 31.78Q29.94 30.53 29.13 30Q28.33 29.47 27.14 29.47Q25.95 29.47 25.32 29.88Q24.7 30.3 24.7 31.02Q24.7 31.81 25.36 32.19Q26.02 32.57 27.14 32.77L28.06 32.94Q29.91 33.27 31.41 33.81Q32.91 34.35 33.79 35.36Q34.66 36.37 34.66 38.08Q34.66 40.66 32.8 42.06Q30.93 43.46 27.8 43.46Z" fill="#eef1f8"/>
+  <path d="M37.29 43V19.9H41.45V28.64H42.04Q42.31 28.12 42.87 27.59Q43.43 27.06 44.37 26.71Q45.31 26.37 46.76 26.37Q48.68 26.37 50.11 27.24Q51.55 28.12 52.34 29.65Q53.13 31.19 53.13 33.23V43H48.97V33.56Q48.97 31.71 48.07 30.79Q47.16 29.87 45.48 29.87Q43.56 29.87 42.51 31.14Q41.45 32.41 41.45 34.68V43Z" fill="#eef1f8"/>
 </svg>
