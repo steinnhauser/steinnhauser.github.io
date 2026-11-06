@@ -168,12 +168,12 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    slug: "future-ready",
+    slug: "future-ready-senior-data-scientist",
     tileTitle: "Senior Data Scientist",
     company: "Future Ready AS",
     logo: futureReadyLogo,
     summary:
-      "Sales analytics and a natural language processing model for telecom calls, then an LLM chatbot platform that simulates call-centre conversations.",
+      "Built an LLM chatbot platform that simulates call-centre conversations on Django, Flask and Azure, and managed its frontend and UX teams.",
     curves: 5,
     positions: [
       {
@@ -185,6 +185,18 @@ export const experiences: Experience[] = [
           "Leadership and communication experience through management meetings with external shareholders and investors, alongside training and management of new team members.",
         ],
       },
+    ],
+    tags: ["LLMs", "Django", "Flask", "Azure", "Python", "Docker", "MongoDB"],
+  },
+  {
+    slug: "future-ready-data-scientist",
+    tileTitle: "Data Scientist",
+    company: "Future Ready AS",
+    logo: futureReadyLogo,
+    summary:
+      "Sales analytics of telecom data, and a natural language processing model that transcribes calls and captures the sales techniques that lead to sales.",
+    curves: 3,
+    positions: [
       {
         title: "Data Scientist",
         period: "November 2020 - December 2021",
@@ -195,19 +207,7 @@ export const experiences: Experience[] = [
         ],
       },
     ],
-    tags: [
-      "Python",
-      "LLMs",
-      "NLP",
-      "Rasa",
-      "Django",
-      "Flask",
-      "Azure",
-      "Docker",
-      "MongoDB",
-      "pandas",
-      "PySpark",
-    ],
+    tags: ["Python", "NLP", "Rasa", "pandas", "NumPy", "PySpark", "Django"],
   },
   {
     slug: "sintef",

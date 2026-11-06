@@ -45,6 +45,10 @@ describe("old hash URLs", () => {
     ["#/", "/"],
     ["#/senec", paths.experience("senec-software-developer")],
     ["#/experience/uio", paths.experience("uio")],
+    [
+      "#/experience/future-ready",
+      paths.experience("future-ready-senior-data-scientist"),
+    ],
     ["#/project/minnumst", paths.project("minnumst")],
   ])("%s becomes %s", (hash, path) => {
     expect(legacyHashPath(hash)).toBe(path);

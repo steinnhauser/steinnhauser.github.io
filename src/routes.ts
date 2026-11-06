@@ -37,9 +37,13 @@ export const pagePaths = [
 export const redirects: Record<string, string> = {
   // Experience pages of the first React site (#/senec, ...).
   "/senec": paths.experience("senec-software-developer"),
-  "/future-ready": paths.experience("future-ready"),
+  "/future-ready": paths.experience("future-ready-senior-data-scientist"),
   "/sintef": paths.experience("sintef"),
   "/uio": paths.experience("uio"),
+  // Future Ready had one page until its two roles were split (November 2026).
+  "/experience/future-ready": paths.experience(
+    "future-ready-senior-data-scientist",
+  ),
   // Pages of the original static site (v1.0.0).
   "/index.html": paths.home,
   "/about.html": paths.about,

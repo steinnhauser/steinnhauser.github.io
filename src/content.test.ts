@@ -90,7 +90,9 @@ describe("content", () => {
   it("formats experience year ranges", () => {
     const bySlug = Object.fromEntries(experiences.map((e) => [e.slug, e]));
     expect(experienceYears(bySlug["senec-cloud-operator"])).toBe("2026 - now");
-    expect(experienceYears(bySlug["future-ready"])).toBe("2020 - 2023");
+    expect(experienceYears(bySlug["future-ready-data-scientist"])).toBe(
+      "2020 - 2021",
+    );
     expect(experienceYears(bySlug["sintef"])).toBe("2020");
   });
 
