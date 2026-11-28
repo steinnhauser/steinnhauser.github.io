@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { limitCycle, step, velocity, vortex, type Point } from "./vanDerPol";
+import { limitCycle, step, velocity, type Point } from "./vanDerPol";
 
 const settle = (p: Point, steps = 6000) => {
   for (let i = 0; i < steps; i++) p = step(p, 0.01);
@@ -36,15 +36,5 @@ describe("Van der Pol flow", () => {
       0.15,
     );
     expect(Math.max(...loop.map(([x]) => Math.abs(x)))).toBeCloseTo(2, 0);
-  });
-
-  it("turns the flow around the pointer, fading with distance", () => {
-    const near = vortex([10, 0], [0, 0], 1000);
-    const far = vortex([200, 0], [0, 0], 1000);
-    // Perpendicular to the direction from the centre.
-    expect(near[0]).toBeCloseTo(0);
-    expect(near[1]).toBeGreaterThan(0);
-    expect(Math.hypot(...far)).toBeLessThan(Math.hypot(...near));
-    expect(vortex([10, 0], [0, 0], 0).map(Math.abs)).toEqual([0, 0]);
   });
 });

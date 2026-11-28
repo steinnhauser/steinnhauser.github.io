@@ -46,17 +46,3 @@ export function limitCycle(count = 600, mu = MU): Point[] {
   const every = Math.max(1, Math.floor(loop.length / count));
   return loop.filter((_, i) => i % every === 0);
 }
-
-// A vortex at `centre` (screen pixels), added to a screen-space velocity:
-// it turns the flow around the pointer and fades with distance.
-export function vortex(
-  [x, y]: Point,
-  centre: Point,
-  strength: number,
-  core = 30,
-): Point {
-  const dx = x - centre[0];
-  const dy = y - centre[1];
-  const k = strength / (dx * dx + dy * dy + core * core);
-  return [-dy * k, dx * k];
-}

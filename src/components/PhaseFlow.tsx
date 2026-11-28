@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { breakpoints, fonts, SLANT } from "../theme";
-import { limitCycle, MU, velocity, vortex, type Point } from "./vanDerPol";
+import { limitCycle, MU, step, velocity, type Point } from "./vanDerPol";
 
-// The cover's background: the phase plane of a Van der Pol oscillator.
-// Fine silver streamlines show the flow, the gold loop is the limit cycle
-// every trajectory settles onto, and a few slow particles drift along the
-// flow towards it. The pointer stirs a gentle vortex that the streamlines
-// and particles bend around; it fades when the pointer leaves the cover.
-// A still frame for reduced motion; paused while the cover is off screen.
+// The cover's background: the phase plane of a Van der Pol oscillator,
+// drawn like a figure in a physics book. Fine silver streamlines inside a
+// soft oval, faint axes with ticks, the gold limit cycle every trajectory
+// settles onto, and a few slow particles drifting towards it. The figure
+// itself is still; only the particles move. A still frame for reduced
+// motion; paused while the cover is off screen.
 
 const Layer = styled.div<{ $visible: boolean }>`
   position: absolute;
@@ -23,15 +23,12 @@ const Layer = styled.div<{ $visible: boolean }>`
     inset: 0;
     width: 100%;
     height: 100%;
-    /* Fade towards the text on the left. */
-    mask-image: linear-gradient(to right, transparent 30%, #000 64%);
   }
 
-  /* Phones: the flow sits behind the text, so keep it faint. */
+  /* Phones: the figure sits behind the text, so keep it faint. */
   @media (max-width: ${breakpoints.mobile}) {
     canvas {
-      opacity: 0.4;
-      mask-image: none;
+      opacity: 0.45;
     }
   }
 `;
@@ -44,7 +41,7 @@ const Legend = styled.div`
   font-family: ${fonts.mono};
   font-size: 0.68rem;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.4);
 
   span {
     margin-left: 1.6em;
@@ -59,227 +56,202 @@ const SILVER = "226, 230, 240";
 const GOLD = "240, 184, 96";
 const IVORY = "244, 238, 226";
 
-const SPEED = 0.16; // phase-time units per second for the particles
-const PARTICLES = 70;
-const TRAIL = 22; // points of trail behind each particle
-const VORTEX = 28000; // vortex strength at full stir
+const SPEED = 0.14; // phase-time units per second for the particles
+const PARTICLES = 26;
+const TRAIL = 40; // points of trail behind each particle
+
+// The figure's extent in phase units: the oval the streamlines fill.
+const EXTENT_X = 3.3;
+const EXTENT_Y = 5;
 
 type Particle = { p: Point; trail: Point[]; age: number; life: number };
 
 function PhaseFlow({ visible }: { visible: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // Kept across pauses, so the motion resumes where it stopped.
-  const state = useRef<{
-    particles: Particle[];
-    cycle: Point[];
-    stir: { at: Point; target: Point; strength: number; on: boolean };
-  } | null>(null);
+  const state = useRef<{ particles: Particle[]; cycle: Point[] } | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
-    const cache = document.createElement("canvas");
-    const cacheCtx = cache.getContext("2d");
-    if (!cacheCtx) return;
+    // The still part of the figure, drawn once per size.
+    const plate = document.createElement("canvas");
+    const plateCtx = plate.getContext("2d");
+    if (!plateCtx) return;
 
-    if (!state.current)
-      state.current = {
-        particles: [],
-        cycle: limitCycle(500),
-        stir: { at: [0, 0], target: [0, 0], strength: 0, on: false },
-      };
+    if (!state.current) state.current = { particles: [], cycle: limitCycle() };
     const s = state.current;
     const reduce = window.matchMedia?.(
       "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const finePointer = window.matchMedia?.(
-      "(hover: hover) and (pointer: fine)",
     ).matches;
 
     // Screen layout: the phase plane's origin, and pixels per unit of x
     // and of y = ẋ.
     let width = 0;
     let height = 0;
-    let dpr = 1;
     let cx = 0;
     let cy = 0;
     let sx = 1;
     let sy = 1;
     const toScreen = ([x, y]: Point): Point => [cx + x * sx, cy - y * sy];
-    const toPhase = ([X, Y]: Point): Point => [(X - cx) / sx, (cy - Y) / sy];
 
-    // Screen-space velocity (pixels per phase-time unit), with the vortex.
-    const flow = (X: number, Y: number): Point => {
-      const [u, v] = velocity(toPhase([X, Y]));
-      let vx = u * sx;
-      let vy = -v * sy;
-      if (s.stir.strength > 0.002) {
-        const [wx, wy] = vortex([X, Y], s.stir.at, VORTEX * s.stir.strength);
-        vx += wx;
-        vy += wy;
-      }
-      return [vx, vy];
+    // 1 in the middle of the oval, easing to 0 at its edge.
+    const weight = ([x, y]: Point) => {
+      const d = Math.hypot(x / EXTENT_X, y / EXTENT_Y);
+      const t = Math.max(0, Math.min(1, (1 - d) / 0.45));
+      return t * t * (3 - 2 * t);
     };
 
-    // Streamlines from a staggered grid of seeds, drawn into the cache.
-    // Each line brightens along its length, so the flow reads directional.
-    const drawStreamlines = () => {
-      cacheCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      cacheCtx.clearRect(0, 0, width, height);
-      cacheCtx.lineCap = "round";
-      cacheCtx.lineWidth = 0.7;
-      const gap = Math.max(32, Math.min(44, width / 34));
-      const left = width < 760 ? 0 : width * 0.3;
-      const STEPS = 56;
-      const BANDS = 4;
-      for (let row = 0, Y = gap / 2; Y < height; row++, Y += gap) {
-        for (let X = left + (row % 2) * (gap / 2); X < width; X += gap) {
-          const line: Point[] = [[X, Y]];
-          let x = X;
-          let y = Y;
+    const drawPlate = (dpr: number) => {
+      const g = plateCtx;
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.clearRect(0, 0, width, height);
+      g.lineCap = "round";
+      g.lineJoin = "round";
+
+      // Axes, with ticks at the integers and their names.
+      g.strokeStyle = `rgba(${SILVER}, 0.14)`;
+      g.lineWidth = 0.6;
+      g.beginPath();
+      g.moveTo(...toScreen([-EXTENT_X, 0]));
+      g.lineTo(...toScreen([EXTENT_X, 0]));
+      g.moveTo(...toScreen([0, -EXTENT_Y * 0.92]));
+      g.lineTo(...toScreen([0, EXTENT_Y * 0.92]));
+      for (let i = -3; i <= 3; i++) {
+        if (i === 0) continue;
+        const [X, Y] = toScreen([i, 0]);
+        g.moveTo(X, Y - 3);
+        g.lineTo(X, Y + 3);
+      }
+      for (let i = -4; i <= 4; i++) {
+        if (i === 0) continue;
+        const [X, Y] = toScreen([0, i]);
+        g.moveTo(X - 3, Y);
+        g.lineTo(X + 3, Y);
+      }
+      g.stroke();
+      g.fillStyle = `rgba(${SILVER}, 0.38)`;
+      g.font = `10px ${fonts.mono}`;
+      const [ax, ay] = toScreen([EXTENT_X, 0]);
+      g.fillText("x", ax + 6, ay + 3.5);
+      const [bx, by] = toScreen([0, EXTENT_Y * 0.92]);
+      g.fillText("ẋ", bx + 6, by + 4);
+
+      // A direction field: from a staggered grid inside the oval, short
+      // strokes of equal length along the flow, each brightening towards
+      // its end so the direction reads.
+      const gap = Math.max(20, Math.min(28, sx * 0.34));
+      g.lineWidth = 0.6;
+      const STEPS = 12;
+      const STEP = 1.9; // pixels per step
+      for (let row = 0, Y = cy - EXTENT_Y * sy; Y < cy + EXTENT_Y * sy; row++) {
+        for (
+          let X = cx - EXTENT_X * sx + (row % 2) * (gap / 2);
+          X < cx + EXTENT_X * sx;
+          X += gap
+        ) {
+          let p: Point = [(X - cx) / sx, (cy - Y) / sy];
+          if (weight(p) <= 0) continue;
+          const line: Point[] = [p];
           for (let i = 0; i < STEPS; i++) {
-            const [u, v] = flow(x, y);
-            const m = Math.hypot(u, v) || 1;
-            x += (u / m) * 2.6;
-            y += (v / m) * 2.6;
-            if (x < -10 || x > width + 10 || y < -10 || y > height + 10) break;
-            line.push([x, y]);
+            const [u, v] = velocity(p);
+            const m = Math.hypot(u * sx, v * sy) || 1;
+            p = [p[0] + (u / m) * STEP, p[1] + (v / m) * STEP];
+            line.push(p);
           }
-          const per = Math.ceil(line.length / BANDS);
-          for (let b = 0; b < BANDS; b++) {
-            const from = b * per;
-            const to = Math.min(line.length - 1, from + per);
-            if (to <= from) break;
-            cacheCtx.strokeStyle = `rgba(${SILVER}, ${0.05 + b * 0.075})`;
-            cacheCtx.beginPath();
-            cacheCtx.moveTo(...line[from]);
-            for (let i = from + 1; i <= to; i++) cacheCtx.lineTo(...line[i]);
-            cacheCtx.stroke();
+          for (let i = 1; i < line.length; i++) {
+            const a = (0.05 + 0.42 * (i / line.length)) * weight(line[i]);
+            if (a < 0.01) continue;
+            g.strokeStyle = `rgba(${SILVER}, ${a})`;
+            g.beginPath();
+            g.moveTo(...toScreen(line[i - 1]));
+            g.lineTo(...toScreen(line[i]));
+            g.stroke();
           }
         }
+        Y += gap;
       }
+
+      // The limit cycle, in gold.
+      g.strokeStyle = `rgba(${GOLD}, 0.62)`;
+      g.lineWidth = 1;
+      g.beginPath();
+      s.cycle.forEach((q, i) =>
+        i === 0 ? g.moveTo(...toScreen(q)) : g.lineTo(...toScreen(q)),
+      );
+      g.closePath();
+      g.stroke();
     };
 
     const spawn = (): Particle => {
-      const left = width < 760 ? 0 : width * 0.35;
-      const p = toPhase([
-        left + Math.random() * (width - left),
-        Math.random() * height,
-      ]);
-      return { p, trail: [], age: 0, life: 6 + Math.random() * 8 };
+      // Anywhere inside the inner part of the oval.
+      let p: Point;
+      do
+        p = [
+          (Math.random() * 2 - 1) * EXTENT_X,
+          (Math.random() * 2 - 1) * EXTENT_Y,
+        ];
+      while (weight(p) < 0.5);
+      return { p, trail: [], age: 0, life: 7 + Math.random() * 7 };
     };
 
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = canvas.clientWidth;
       height = canvas.clientHeight;
-      for (const c of [canvas, cache]) {
+      for (const c of [canvas, plate]) {
         c.width = Math.round(width * dpr);
         c.height = Math.round(height * dpr);
       }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const phone = width < 760;
-      cx = width * (phone ? 0.5 : 0.72);
-      cy = height * (phone ? 0.55 : 0.45);
-      sx = phone ? width * 0.21 : Math.min(width * 0.092, height * 0.15);
-      sy = height * (phone ? 0.075 : 0.082);
+      cx = width * (phone ? 0.5 : 0.75);
+      cy = height * (phone ? 0.58 : 0.45);
+      sx = phone ? width * 0.13 : Math.min(width * 0.058, height * 0.095);
+      sy = sx * 0.6;
       if (s.particles.length === 0)
         s.particles = Array.from({ length: PARTICLES }, () => {
           const q = spawn();
           q.age = Math.random() * q.life; // staggered
           return q;
         });
-      drawStreamlines();
+      for (const q of s.particles) q.trail = [];
+      drawPlate(dpr);
       draw();
     };
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
-      ctx.drawImage(cache, 0, 0, width, height);
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-
-      // The limit cycle, in gold.
-      ctx.strokeStyle = `rgba(${GOLD}, 0.5)`;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      s.cycle.forEach((q, i) => {
-        const [X, Y] = toScreen(q);
-        if (i === 0) ctx.moveTo(X, Y);
-        else ctx.lineTo(X, Y);
-      });
-      ctx.closePath();
-      ctx.stroke();
+      ctx.drawImage(plate, 0, 0, width, height);
       if (reduce) return;
-
-      // The particles: short trails that brighten towards the head; one in
-      // seven is gold.
+      ctx.lineCap = "round";
+      ctx.lineWidth = 0.9;
       s.particles.forEach((q, n) => {
         if (q.trail.length < 2) return;
-        const fade = Math.max(0, Math.min(1, q.age, q.life - q.age));
-        const color = n % 7 === 0 ? GOLD : IVORY;
-        ctx.lineWidth = 1;
+        const fade =
+          Math.max(0, Math.min(1, q.age, q.life - q.age)) * weight(q.p);
+        const color = n % 6 === 0 ? GOLD : IVORY;
         for (let i = 1; i < q.trail.length; i++) {
           const t = i / q.trail.length;
-          ctx.strokeStyle = `rgba(${color}, ${0.55 * t * t * fade})`;
+          ctx.strokeStyle = `rgba(${color}, ${0.6 * t * t * fade})`;
           ctx.beginPath();
-          ctx.moveTo(...q.trail[i - 1]);
-          ctx.lineTo(...q.trail[i]);
+          ctx.moveTo(...toScreen(q.trail[i - 1]));
+          ctx.lineTo(...toScreen(q.trail[i]));
           ctx.stroke();
         }
       });
     };
 
     const advance = (seconds: number) => {
-      // Ease the vortex towards the pointer, and its strength in or out.
-      const st = s.stir;
-      const before = st.strength;
-      const moved = Math.hypot(
-        st.target[0] - st.at[0],
-        st.target[1] - st.at[1],
-      );
-      st.at = [
-        st.at[0] + (st.target[0] - st.at[0]) * 0.08,
-        st.at[1] + (st.target[1] - st.at[1]) * 0.08,
-      ];
-      st.strength += ((st.on ? 1 : 0) - st.strength) * 0.05;
-      if (st.strength < 0.002 && !st.on) st.strength = 0;
-      if (
-        (st.strength > 0.002 && moved > 0.3) ||
-        Math.abs(st.strength - before) > 0.002
-      )
-        drawStreamlines();
-
-      const dt = seconds * SPEED;
       for (let i = 0; i < s.particles.length; i++) {
         let q = s.particles[i];
         q.age += seconds;
         if (q.age > q.life) q = s.particles[i] = spawn();
-        // Move in screen space, so the vortex applies to the particles too.
-        let [X, Y] = toScreen(q.p);
-        for (let k = 0; k < 2; k++) {
-          const [u, v] = flow(X, Y);
-          X += (u * dt) / 2;
-          Y += (v * dt) / 2;
-        }
-        q.p = toPhase([X, Y]);
-        q.trail.push([X, Y]);
+        q.p = step(q.p, seconds * SPEED);
+        q.trail.push(q.p);
         if (q.trail.length > TRAIL) q.trail.shift();
       }
-    };
-
-    const onPointer = (e: PointerEvent) => {
-      const r = canvas.getBoundingClientRect();
-      const x = e.clientX - r.left;
-      const y = e.clientY - r.top;
-      const inside = x >= 0 && y >= 0 && x <= r.width && y <= r.height;
-      if (inside && !s.stir.on && s.stir.strength === 0) s.stir.at = [x, y];
-      s.stir.target = [x, y];
-      s.stir.on = inside;
-    };
-    const onLeave = () => {
-      s.stir.on = false;
     };
 
     const observer = new ResizeObserver(resize);
@@ -287,10 +259,6 @@ function PhaseFlow({ visible }: { visible: boolean }) {
     resize();
     if (reduce || !visible) return () => observer.disconnect();
 
-    if (finePointer) {
-      window.addEventListener("pointermove", onPointer);
-      document.addEventListener("pointerleave", onLeave);
-    }
     let frame = 0;
     let last = performance.now();
     const tick = (now: number) => {
@@ -306,8 +274,6 @@ function PhaseFlow({ visible }: { visible: boolean }) {
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
-      window.removeEventListener("pointermove", onPointer);
-      document.removeEventListener("pointerleave", onLeave);
     };
   }, [visible]);
 
