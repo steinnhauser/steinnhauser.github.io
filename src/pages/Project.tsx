@@ -1,6 +1,7 @@
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
 import styled from "styled-components";
 import ExternalLink from "../components/ExternalLink";
+import { Chevron } from "../components/Icons";
 import { reveal } from "../components/reveal";
 import Screenshot from "../components/Screenshot";
 import Section from "../components/Section";
@@ -13,6 +14,7 @@ import {
   insetTile,
   LiquidPanel,
   Pager,
+  PagerLink,
   PillLink,
   Tag,
   TagList,
@@ -103,7 +105,10 @@ function Project() {
         <Card as="article" style={reveal(visible)}>
           <Header>
             <Eyebrow>{project.context}</Eyebrow>
-            <BackLink to={paths.section("work")}>← Selected work</BackLink>
+            <BackLink to={paths.section("work")}>
+              <Chevron dir="left" />
+              Selected work
+            </BackLink>
           </Header>
           <h1>{project.title}</h1>
           <p>{page.intro}</p>
@@ -154,14 +159,16 @@ function Project() {
 
           <Pager aria-label="Other projects">
             {prev && (
-              <PillLink as={Link} to={paths.project(prev.page.slug)}>
-                ← {shortTitle(prev.title)}
-              </PillLink>
+              <PagerLink to={paths.project(prev.page.slug)}>
+                <Chevron dir="left" />
+                {shortTitle(prev.title)}
+              </PagerLink>
             )}
             {next && (
-              <PillLink as={Link} to={paths.project(next.page.slug)}>
-                {shortTitle(next.title)} →
-              </PillLink>
+              <PagerLink to={paths.project(next.page.slug)}>
+                {shortTitle(next.title)}
+                <Chevron />
+              </PagerLink>
             )}
           </Pager>
         </Card>

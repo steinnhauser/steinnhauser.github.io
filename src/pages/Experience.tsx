@@ -1,5 +1,6 @@
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
 import styled from "styled-components";
+import { Chevron } from "../components/Icons";
 import { reveal } from "../components/reveal";
 import Section from "../components/Section";
 import {
@@ -10,7 +11,7 @@ import {
   LiquidPanel,
   Muted,
   Pager,
-  PillLink,
+  PagerLink,
   Tag,
   TagList,
 } from "../components/ui";
@@ -73,7 +74,10 @@ function Experience() {
           <Header>
             <img src={exp.logo} alt={`${exp.company} logo`} />
             <Muted>{exp.company}</Muted>
-            <BackLink to={paths.section("experience")}>← All roles</BackLink>
+            <BackLink to={paths.section("experience")}>
+              <Chevron dir="left" />
+              All roles
+            </BackLink>
           </Header>
 
           {exp.positions.map((pos, p) => {
@@ -108,14 +112,16 @@ function Experience() {
 
           <Pager aria-label="Other experience">
             {prev && (
-              <PillLink as={Link} to={paths.experience(prev.slug)}>
-                ← {prev.tileTitle}
-              </PillLink>
+              <PagerLink to={paths.experience(prev.slug)}>
+                <Chevron dir="left" />
+                {prev.tileTitle}
+              </PagerLink>
             )}
             {next && (
-              <PillLink as={Link} to={paths.experience(next.slug)}>
-                {next.tileTitle} →
-              </PillLink>
+              <PagerLink to={paths.experience(next.slug)}>
+                {next.tileTitle}
+                <Chevron />
+              </PagerLink>
             )}
           </Pager>
         </Card>

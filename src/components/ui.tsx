@@ -197,9 +197,40 @@ export const ButtonRow = styled.div`
 
 // The pieces shared by the experience and project pages.
 
-// "← All roles" / "← Selected work": back to a home section, at the right
+// Links with a `Chevron`: it moves a little towards where the link goes.
+export const nudge = css`
+  .chevron {
+    flex-shrink: 0;
+    transition: translate 250ms ease;
+  }
+  &:hover .chevron-right,
+  &:focus-visible .chevron-right {
+    translate: 3px 0;
+  }
+  &:hover .chevron-left,
+  &:focus-visible .chevron-left {
+    translate: -3px 0;
+  }
+`;
+
+// The same chevron drawn in CSS, for pseudo-elements: a corner of two
+// thin borders, turned to point right.
+export const cssChevron = css`
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  rotate: 45deg;
+`;
+
+// "‹ All roles" / "‹ Selected work": back to a home section, at the right
 // of the page header (on its own line above it on phones).
 export const BackLink = styled(Link)`
+  ${nudge}
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   margin-left: auto;
   font-family: ${fonts.mono};
   font-size: 0.78rem;
@@ -263,9 +294,26 @@ export const Pager = styled.nav`
 
   @media (max-width: ${breakpoints.mobile}) {
     flex-direction: column;
+    align-items: flex-start;
 
-    > * {
-      justify-content: center;
+    > :last-child:not(:only-child) {
+      align-self: flex-end;
     }
+  }
+`;
+
+// "‹ Cloud Operator" / "Senior Data Scientist ›": plain text, no button.
+export const PagerLink = styled(Link)`
+  ${nudge}
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  color: ${colors.muted};
+  transition: color 250ms ease;
+
+  &:hover,
+  &:focus-visible {
+    color: ${colors.sun};
   }
 `;

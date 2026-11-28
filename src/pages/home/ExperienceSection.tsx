@@ -4,6 +4,7 @@ import { reveal } from "../../components/reveal";
 import { useSectionClick } from "../../components/scrollToSection";
 import Section from "../../components/Section";
 import {
+  cssChevron,
   Dot,
   GlassCard,
   SectionLabel,
@@ -253,11 +254,10 @@ const Role = styled(Link)`
   }
   /* Arrow to the details page. */
   &::after {
-    content: "→";
+    ${cssChevron}
     position: absolute;
-    top: 12px;
-    right: 14px;
-    font-family: ${fonts.mono};
+    top: 18px;
+    right: 18px;
     color: ${colors.muted};
     transition:
       translate 250ms ease,

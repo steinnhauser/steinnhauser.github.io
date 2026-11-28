@@ -2,14 +2,17 @@ import type { CSSProperties } from "react";
 import { Link } from "react-router";
 import styled from "styled-components";
 import ExternalLink from "../../components/ExternalLink";
+import { Chevron } from "../../components/Icons";
 import Screenshot from "../../components/Screenshot";
 import { reveal } from "../../components/reveal";
 import Section from "../../components/Section";
 import {
+  cssChevron,
   Dot,
   Eyebrow,
   insetTile,
   LiquidPanel,
+  nudge,
   SectionLabel,
   SectionTitle,
   Tag,
@@ -44,6 +47,11 @@ const Links = styled.p`
 
 // The internal "read more" link, in gold like the site's other actions.
 const More = styled(Link)`
+  ${nudge}
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: start;
   font-family: ${fonts.mono};
   font-size: 0.82rem;
   letter-spacing: 0.03em;
@@ -117,13 +125,11 @@ const Flow = styled.ol`
   }
   /* Arrow to the next step. */
   li + li::before {
-    content: "→";
+    ${cssChevron}
     position: absolute;
-    left: -21px;
-    top: 50%;
-    translate: 0 -50%;
+    left: -18px;
+    top: calc(50% - 3px);
     color: ${colors.sun};
-    font-family: ${fonts.mono};
   }
   strong {
     display: block;
@@ -182,7 +188,8 @@ function ProjectCard({
           <p>{summary}</p>
           {more && (
             <More to={more.to} aria-label={`${more.label}: ${name}`}>
-              {more.label} →
+              {more.label}
+              <Chevron />
             </More>
           )}
         </div>

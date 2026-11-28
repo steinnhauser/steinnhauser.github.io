@@ -2,11 +2,11 @@ import { Link } from "react-router";
 import styled from "styled-components";
 import ExternalLink from "../../components/ExternalLink";
 import LorenzField from "../../components/LorenzField";
-import { DownloadIcon } from "../../components/Icons";
+import { Chevron, DownloadIcon } from "../../components/Icons";
 import { reveal } from "../../components/reveal";
 import { useSectionClick } from "../../components/scrollToSection";
 import Section from "../../components/Section";
-import { Dot, PillLink } from "../../components/ui";
+import { Dot, nudge, PillLink } from "../../components/ui";
 import { facts, profile } from "../../content";
 import { paths } from "../../routes";
 import { breakpoints, colors, fonts } from "../../theme";
@@ -80,6 +80,7 @@ const Actions = styled.div`
 
 // Secondary actions: plain text links, so only one button asks for a click.
 const QuietLink = styled.a`
+  ${nudge}
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -212,7 +213,8 @@ function Hero() {
                 View experience ↓
               </PillLink>
               <QuietLink as={Link} to={paths.about}>
-                Get in touch →
+                Get in touch
+                <Chevron />
               </QuietLink>
               <QuietLink href={profile.cvUrl} download>
                 <DownloadIcon />

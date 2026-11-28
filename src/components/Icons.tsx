@@ -36,6 +36,28 @@ export const StackOverflowIcon = () => (
   />
 );
 
+// Thin chevron for back and forward links ("‹ All roles", "Next ›"). The
+// class lets links nudge it towards where they go (`nudge` in ui.tsx).
+export const Chevron = ({ dir = "right" }: { dir?: "left" | "right" }) => (
+  <svg
+    className={`chevron chevron-${dir}`}
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 16 16"
+    width="0.72em"
+    height="0.72em"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.7"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path
+      d={dir === "left" ? "M10 2.5 4.5 8l5.5 5.5" : "M6 2.5l5.5 5.5L6 13.5"}
+    />
+  </svg>
+);
+
 // Arrow into a tray, for the "Download CV" buttons.
 export const DownloadIcon = () => (
   <svg
