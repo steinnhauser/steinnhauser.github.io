@@ -61,8 +61,11 @@ const PARTICLES = 26;
 const TRAIL = 40; // points of trail behind each particle
 
 // The figure's extent in phase units: the oval the streamlines fill.
-const EXTENT_X = 3.3;
-const EXTENT_Y = 5;
+const EXTENT_X = 4.4;
+const EXTENT_Y = 6.6;
+// The axes stay at the size of the figure's heart.
+const AXIS_X = 3.0;
+const AXIS_Y = 4.2;
 
 type Particle = { p: Point; trail: Point[]; age: number; life: number };
 
@@ -96,10 +99,12 @@ function PhaseFlow({ visible }: { visible: boolean }) {
     let sy = 1;
     const toScreen = ([x, y]: Point): Point => [cx + x * sx, cy - y * sy];
 
-    // 1 in the middle of the oval, easing to 0 at its edge.
+    // 1 in the middle of the oval, easing gradually to 0 at its edge:
+    // the fade takes most of the radius, so the figure has no visible
+    // border.
     const weight = ([x, y]: Point) => {
       const d = Math.hypot(x / EXTENT_X, y / EXTENT_Y);
-      const t = Math.max(0, Math.min(1, (1 - d) / 0.45));
+      const t = Math.max(0, Math.min(1, (1 - d) / 0.78));
       return t * t * (3 - 2 * t);
     };
 
@@ -114,17 +119,17 @@ function PhaseFlow({ visible }: { visible: boolean }) {
       g.strokeStyle = `rgba(${SILVER}, 0.14)`;
       g.lineWidth = 0.6;
       g.beginPath();
-      g.moveTo(...toScreen([-EXTENT_X, 0]));
-      g.lineTo(...toScreen([EXTENT_X, 0]));
-      g.moveTo(...toScreen([0, -EXTENT_Y * 0.92]));
-      g.lineTo(...toScreen([0, EXTENT_Y * 0.92]));
-      for (let i = -3; i <= 3; i++) {
+      g.moveTo(...toScreen([-AXIS_X, 0]));
+      g.lineTo(...toScreen([AXIS_X, 0]));
+      g.moveTo(...toScreen([0, -AXIS_Y]));
+      g.lineTo(...toScreen([0, AXIS_Y]));
+      for (let i = -2; i <= 2; i++) {
         if (i === 0) continue;
         const [X, Y] = toScreen([i, 0]);
         g.moveTo(X, Y - 3);
         g.lineTo(X, Y + 3);
       }
-      for (let i = -4; i <= 4; i++) {
+      for (let i = -3; i <= 3; i++) {
         if (i === 0) continue;
         const [X, Y] = toScreen([0, i]);
         g.moveTo(X - 3, Y);
@@ -133,9 +138,9 @@ function PhaseFlow({ visible }: { visible: boolean }) {
       g.stroke();
       g.fillStyle = `rgba(${SILVER}, 0.38)`;
       g.font = `10px ${fonts.mono}`;
-      const [ax, ay] = toScreen([EXTENT_X, 0]);
+      const [ax, ay] = toScreen([AXIS_X, 0]);
       g.fillText("x", ax + 6, ay + 3.5);
-      const [bx, by] = toScreen([0, EXTENT_Y * 0.92]);
+      const [bx, by] = toScreen([0, AXIS_Y]);
       g.fillText("ẋ", bx + 6, by + 4);
 
       // A direction field: from a staggered grid inside the oval, short
@@ -192,7 +197,7 @@ function PhaseFlow({ visible }: { visible: boolean }) {
           (Math.random() * 2 - 1) * EXTENT_X,
           (Math.random() * 2 - 1) * EXTENT_Y,
         ];
-      while (weight(p) < 0.5);
+      while (weight(p) < 0.35);
       return { p, trail: [], age: 0, life: 7 + Math.random() * 7 };
     };
 
@@ -206,9 +211,9 @@ function PhaseFlow({ visible }: { visible: boolean }) {
       }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const phone = width < 760;
-      cx = width * (phone ? 0.5 : 0.75);
+      cx = width * (phone ? 0.5 : 0.74);
       cy = height * (phone ? 0.58 : 0.45);
-      sx = phone ? width * 0.13 : Math.min(width * 0.058, height * 0.095);
+      sx = phone ? width * 0.15 : Math.min(width * 0.075, height * 0.124);
       sy = sx * 0.6;
       if (s.particles.length === 0)
         s.particles = Array.from({ length: PARTICLES }, () => {
