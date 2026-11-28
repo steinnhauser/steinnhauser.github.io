@@ -111,7 +111,7 @@ type Props = {
   // The swinging background lines; a section with its own `backdrop` may
   // leave them out.
   curves?: CurveVariant;
-  // A background drawn by the page (the cover's Lorenz attractor).
+  // A background drawn by the page (the cover's phase-space flow).
   backdrop?: (visible: boolean) => ReactNode;
   tinted?: boolean;
   // Diagonal top edge that overlaps the section above.

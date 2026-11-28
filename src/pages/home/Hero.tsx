@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import styled from "styled-components";
 import ExternalLink from "../../components/ExternalLink";
-import LorenzField from "../../components/LorenzField";
+import PhaseFlow from "../../components/PhaseFlow";
 import { Chevron, DownloadIcon } from "../../components/Icons";
 import { reveal } from "../../components/reveal";
 import { useSectionClick } from "../../components/scrollToSection";
@@ -186,7 +186,7 @@ function Hero() {
   const toSection = useSectionClick();
   const [first, ...rest] = profile.name.split(" ");
   return (
-    <Section backdrop={(visible) => <LorenzField visible={visible} />}>
+    <Section backdrop={(visible) => <PhaseFlow visible={visible} />}>
       {(visible) => (
         <>
           <Intro>

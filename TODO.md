@@ -53,7 +53,8 @@ finished items move to "Done" with their date.
   sentence instead of the portrait, greeting and two-paragraph intro; a
   four-column fact strip instead of the key-figure tiles; one button and
   two quiet links; the lava backdrop removed; the portrait moved to About; a
-  rotating Lorenz attractor as the cover's interactive background.
+  Van der Pol phase-space flow as the cover's interactive background;
+  thin chevrons instead of arrows.
 - 2026-11-06: career timeline instead of logo tiles; real URLs with
   pre-rendered pages, per-page titles and link previews, a sitemap and a
   not-found page; inline critical CSS; phone hero with the actions on the
