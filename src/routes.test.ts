@@ -33,7 +33,7 @@ describe("pages", () => {
   });
 
   it("links content text only to pages that exist", () => {
-    const text = [...profile.welcome, ...profile.about].join(" ");
+    const text = [profile.summary, ...profile.about].join(" ");
     for (const [, path] of text.matchAll(/\]\((\/[^)]*)\)/g))
       expect(pagePaths, path).toContain(path);
   });

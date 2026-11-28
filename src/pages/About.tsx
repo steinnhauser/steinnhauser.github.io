@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import sunsetLarge from "../assets/photos/coast-sunset.webp";
 import sunsetSmall from "../assets/photos/coast-sunset-800.webp";
+import portrait from "../assets/photos/portrait.webp";
 import ExternalLink from "../components/ExternalLink";
 import {
   DownloadIcon,
@@ -47,7 +48,6 @@ const Story = styled(LiquidPanel)`
   h1 {
     font-size: clamp(2.5rem, 6vw, 4rem);
     line-height: 1.05;
-    margin: 10px 0 22px;
   }
   p {
     font-size: clamp(1rem, 1.2vw, 1.06rem);
@@ -56,6 +56,47 @@ const Story = styled(LiquidPanel)`
   }
   p:last-child {
     margin-bottom: 0;
+  }
+`;
+
+// The portrait beside the heading, in a thin ring that runs from sunlight
+// into slate blue, with a soft warm glow like the low sun in the photo.
+const Heading = styled.div`
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.5vw, 28px);
+  margin: 10px 0 22px;
+
+  h1 {
+    margin: 0;
+  }
+`;
+
+const Portrait = styled.div`
+  flex-shrink: 0;
+  width: clamp(76px, 9vw, 112px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  padding: 3px;
+  background: conic-gradient(
+    from 200deg,
+    ${colors.sun},
+    ${colors.secondary} 35%,
+    ${colors.accent} 60%,
+    ${colors.secondary} 80%,
+    ${colors.sun}
+  );
+  box-shadow:
+    0 0 48px ${colors.sun}2e,
+    0 16px 40px rgba(0, 0, 0, 0.5);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid ${colors.primary};
   }
 `;
 
@@ -128,9 +169,20 @@ function About() {
           >
             <Story style={reveal(visible, 0)}>
               <Eyebrow>{profile.headline}</Eyebrow>
-              <h1>
-                About me<Dot>.</Dot>
-              </h1>
+              <Heading>
+                <Portrait>
+                  <img
+                    src={portrait}
+                    alt={`Portrait of ${profile.name}`}
+                    width={480}
+                    height={480}
+                    fetchPriority="high"
+                  />
+                </Portrait>
+                <h1>
+                  About me<Dot>.</Dot>
+                </h1>
+              </Heading>
               {profile.about.map((p) => (
                 <p key={p.slice(0, 32)}>{p}</p>
               ))}

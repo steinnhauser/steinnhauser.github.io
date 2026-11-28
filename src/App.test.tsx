@@ -3,7 +3,8 @@ import { describe, expect, it, vi } from "vitest";
 import {
   certifications,
   experiences,
-  highlights,
+  facts,
+  languages,
   profile,
   projects,
   skillGroups,
@@ -12,25 +13,37 @@ import { paths } from "./routes";
 import { renderAt } from "./test/renderAt";
 
 describe("home page", () => {
-  it("renders the welcome section", () => {
+  it("opens with the name, the discipline and the summary", () => {
     renderAt("/");
     expect(
-      screen.getByRole("heading", { level: 1, name: `${profile.greeting},` }),
+      screen.getByRole("heading", { level: 1, name: `${profile.name}.` }),
     ).toBeInTheDocument();
-    expect(screen.getByAltText(`Portrait of ${profile.name}`)).toBeVisible();
+    expect(screen.getByText(profile.discipline)).toBeInTheDocument();
+    expect(screen.getByText(profile.summary)).toBeInTheDocument();
+    // The portrait lives on the About page now.
+    expect(screen.queryByAltText(`Portrait of ${profile.name}`)).toBeNull();
   });
 
-  it("shows the headline and key figures", () => {
+  it("shows the fact strip, with links to the proof", () => {
     renderAt("/");
-    expect(screen.getAllByText(profile.headline)[0]).toBeInTheDocument();
-    for (const h of highlights) {
-      expect(screen.getByText(h.label)).toBeInTheDocument();
-      if (h.link) {
-        expect(
-          screen.getByRole("link", { name: `${h.value}: ${h.link.label}` }),
-        ).toHaveAttribute("href", h.link.href);
+    const strip = screen.getByLabelText("At a glance");
+    for (const f of facts) {
+      expect(within(strip).getByText(f.label)).toBeInTheDocument();
+      for (const line of f.lines) {
+        if (line.href) {
+          expect(
+            within(strip).getByRole("link", {
+              name: `${line.text}: ${line.title}`,
+            }),
+          ).toHaveAttribute("href", line.href);
+        } else {
+          expect(within(strip).getByText(line.text)).toBeInTheDocument();
+        }
       }
     }
+    // Every language is named.
+    const text = strip.textContent ?? "";
+    for (const l of languages) expect(text).toContain(l.language);
   });
 
   it("links every role on the timeline to its experience page", () => {
@@ -94,8 +107,9 @@ describe("home page", () => {
         screen.getByRole("heading", { name: group.title }),
       ).toBeInTheDocument();
     }
+    const skills = within(document.getElementById("skills")!);
     for (const cert of certifications) {
-      expect(screen.getByText(cert.title)).toBeInTheDocument();
+      expect(skills.getByText(cert.title)).toBeInTheDocument();
     }
     const verify = screen.getAllByRole("link", { name: /verify credential/i });
     expect(verify.map((a) => a.getAttribute("href"))).toEqual(
@@ -129,7 +143,7 @@ describe("experience pages", () => {
     vi.mocked(Element.prototype.scrollIntoView).mockClear();
     fireEvent.click(screen.getByRole("link", { name: /all roles/i }));
     expect(
-      screen.getByRole("heading", { level: 1, name: `${profile.greeting},` }),
+      screen.getByRole("heading", { level: 1, name: `${profile.name}.` }),
     ).toBeInTheDocument();
     expect(Element.prototype.scrollIntoView).toHaveBeenCalled();
   });
@@ -183,15 +197,15 @@ describe("project pages", () => {
     },
   );
 
-  it("is linked from its card and from the hero", () => {
+  it("is linked from its card", () => {
     renderAt("/");
     for (const p of withPages) {
       const href = paths.project(p.page!.slug);
       const links = screen
         .getAllByRole("link")
         .filter((a) => a.getAttribute("href") === href);
-      // "Read the full story" on the card, and the name in the hero intro.
-      expect(links.length, href).toBe(2);
+      // "Read the full story" on the card.
+      expect(links.length, href).toBe(1);
     }
   });
 
@@ -306,6 +320,11 @@ describe("about page", () => {
       "href",
       "tel:+491796047257",
     );
+  });
+
+  it("shows the portrait", () => {
+    renderAt("/about");
+    expect(screen.getByAltText(`Portrait of ${profile.name}`)).toBeVisible();
   });
 });
 

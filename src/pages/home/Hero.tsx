@@ -1,294 +1,248 @@
 import { Link } from "react-router";
-import styled, { css } from "styled-components";
-import lavaLarge from "../../assets/photos/lava-field.webp";
-import lavaSmall from "../../assets/photos/lava-field-800.webp";
-import portrait from "../../assets/photos/portrait.webp";
+import styled from "styled-components";
 import ExternalLink from "../../components/ExternalLink";
 import { DownloadIcon } from "../../components/Icons";
 import { reveal } from "../../components/reveal";
-import RichText from "../../components/RichText";
 import { useSectionClick } from "../../components/scrollToSection";
 import Section from "../../components/Section";
-import {
-  ButtonRow,
-  Dot,
-  Eyebrow,
-  LiquidPanel,
-  PillLink,
-} from "../../components/ui";
-import { highlights, profile } from "../../content";
+import { Dot, PillLink } from "../../components/ui";
+import { facts, profile } from "../../content";
 import { paths } from "../../routes";
-import { breakpoints, colors, fonts, glass, hoverLift } from "../../theme";
+import { breakpoints, colors, fonts } from "../../theme";
 
+// The cover: a discipline line, the name, one sentence, the actions, and a
+// quiet strip of facts. Left-aligned and unboxed; the background carries it.
 const Intro = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: gap 1s ease;
-
-  /* Phones (portrait): stack, with the portrait centred above
-     left-aligned text, which reads far better than centred paragraphs. */
-  @media (max-width: ${breakpoints.mobile}) {
-    flex-direction: column;
-    align-items: stretch;
-  }
+  max-width: 760px;
 `;
 
-// Portrait in a thin ring that runs from sunlight into slate blue, with a
-// soft warm glow behind it like the low sun in the coastal photo.
-const ring = css`
-  flex-shrink: 0;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  padding: 4px;
-  background: conic-gradient(
-    from 200deg,
-    ${colors.sun},
-    ${colors.secondary} 35%,
-    ${colors.accent} 60%,
-    ${colors.secondary} 80%,
-    ${colors.sun}
-  );
+// "● CLOUD & PLATFORM ENGINEERING / COMPUTATIONAL PHYSICS"
+const Discipline = styled.p`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-family: ${fonts.mono};
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${colors.muted};
 
-  img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  &::before {
+    content: "";
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    border: 3px solid ${colors.primary};
+    background: ${colors.sun};
+    box-shadow: 0 0 12px ${colors.sun}99;
   }
 `;
 
-const PortraitFrame = styled.div`
-  ${ring}
-  position: relative;
-  align-self: center;
-  width: clamp(190px, 24vw, 320px);
-  box-shadow:
-    0 0 80px ${colors.sun}2e,
-    0 24px 60px rgba(0, 0, 0, 0.55);
+const Name = styled.h1`
+  margin: clamp(18px, 3vh, 28px) 0 clamp(20px, 3vh, 28px);
+  font-size: clamp(2.7rem, 7vw, 5.4rem);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
 
-  /* Phones: the portrait moves into the panel, beside the heading (Avatar),
-     so the introduction and its actions fit on the first screen. */
-  @media (max-width: ${breakpoints.mobile}) {
-    display: none;
-  }
-`;
-
-// The phone-sized portrait beside "I'm Steinn," (same image file).
-const Avatar = styled.div`
-  ${ring}
-  display: none;
-  width: 72px;
-  padding: 3px;
-  box-shadow: 0 0 36px ${colors.sun}2e;
-
-  img {
-    border-width: 2px;
-  }
-  @media (max-width: ${breakpoints.mobile}) {
+  /* Given names on the first line, the surname on the second. */
+  > span {
     display: block;
   }
 `;
 
-const Title = styled.div`
+const Summary = styled.p`
+  max-width: 34em;
+  margin: 0;
+  font-size: clamp(1.02rem, 1.35vw, 1.16rem);
+  line-height: 1.7;
+  color: ${colors.muted};
+`;
+
+const Actions = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
-  margin: 10px 0 22px;
+  gap: 14px 30px;
+  margin-top: clamp(28px, 4.5vh, 40px);
 
   @media (max-width: ${breakpoints.mobile}) {
-    margin: 14px 0 18px;
-  }
-`;
+    gap: 14px 24px;
 
-// The introduction sits on a liquid-glass panel, which lifts it off the
-// lava photo and ties the cover to the glass used across the site.
-const Text = styled(LiquidPanel)`
-  max-width: 660px;
-  padding: clamp(24px, 3.2vw, 40px);
-
-  h1 {
-    font-size: clamp(2.6rem, 6vw, 4rem);
-    line-height: 1.1;
-    margin: 0;
-  }
-  p {
-    line-height: 1.7;
-    margin: 0 0 14px;
-  }
-
-  @media (max-width: ${breakpoints.mobile}) {
-    padding: 22px 20px 24px;
-
-    h1 {
-      font-size: 2.3rem;
-    }
-    p {
-      line-height: 1.6;
+    > :first-child {
+      flex: 1 1 100%;
+      justify-content: center;
     }
   }
 `;
 
-const Actions = styled(ButtonRow)`
-  margin-top: 26px;
+// Secondary actions: plain text links, so only one button asks for a click.
+const QuietLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: ${colors.text};
+  opacity: 0.78;
+  transition:
+    opacity 200ms ease,
+    color 200ms ease;
+
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+    color: ${colors.sun};
+  }
+  svg {
+    width: 16px;
+    height: 16px;
+  }
 `;
 
-// Full-width band of key figures under the introduction.
-const Highlights = styled.dl`
+// Four columns under a hairline, each with a mono label and two lines.
+const Facts = styled.dl`
   display: grid;
-  grid-template-columns: repeat(${highlights.length}, minmax(0, 1fr));
-  gap: 14px;
-  margin: clamp(40px, 6vh, 64px) 0 0;
+  grid-template-columns: repeat(${facts.length}, minmax(0, 1fr));
+  margin: clamp(56px, 11vh, 112px) 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
 
   div {
-    ${glass}
-    ${hoverLift}
-    overflow: hidden;
-    border-radius: 14px;
-    padding: 16px 18px 18px;
-
-    /* Thin sunlit edge along the top of each figure. */
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto;
-      height: 2px;
-      background: linear-gradient(90deg, ${colors.sun}, transparent 80%);
-      opacity: 0.8;
-    }
+    padding: 18px 20px 4px;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  div:first-child {
+    padding-left: 0;
+    border-left: 0;
   }
   dt {
+    margin-bottom: 10px;
     font-family: ${fonts.mono};
-    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
-    font-weight: 500;
-    color: ${colors.sun};
-    line-height: 1.15;
-    white-space: nowrap;
-  }
-  dt a {
-    color: inherit;
-  }
-  /* Small arrow on figures that link to their proof. */
-  dt small {
-    margin-left: 6px;
-    font-size: 0.5em;
-    vertical-align: super;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     color: ${colors.muted};
-    transition: color 250ms ease;
-  }
-  dt a:hover small {
-    color: ${colors.sun};
   }
   dd {
-    margin: 6px 0 0;
-    font-size: 0.82rem;
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: ${colors.text};
+  }
+  dd a {
+    color: inherit;
+    text-decoration: none;
+  }
+  dd a small {
+    margin-left: 4px;
+    font-size: 0.75em;
     color: ${colors.muted};
-    line-height: 1.4;
+    transition: color 200ms ease;
+  }
+  dd a:hover,
+  dd a:hover small {
+    color: ${colors.sun};
   }
 
-  /* Tablets: three on the first row, the rest share the second. */
-  @media (max-width: 1000px) {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-
-    div {
-      grid-column: span 2;
-    }
-    div:nth-child(n + 4) {
-      grid-column: span 3;
-    }
-  }
-  @media (max-width: ${breakpoints.mobile}) {
+  /* Tablets and phones: two by two. */
+  @media (max-width: 900px) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
 
-    div,
-    div:nth-child(n + 4) {
-      grid-column: auto;
+    div:nth-child(odd) {
+      padding-left: 0;
+      border-left: 0;
     }
-    /* An odd figure out spans the full row instead of sitting alone. */
-    div:last-child:nth-child(odd) {
-      grid-column: 1 / -1;
+    div:nth-child(n + 3) {
+      margin-top: 8px;
+    }
+  }
+
+  /* Phones: one row per fact, the label beside its lines. */
+  @media (max-width: ${breakpoints.mobile}) {
+    grid-template-columns: minmax(0, 1fr);
+
+    div,
+    div:nth-child(odd) {
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      padding: 12px 0;
+      margin: 0;
+      border-left: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    dt {
+      grid-row: span 2;
+      margin: 4px 0 0;
+    }
+    dd {
+      grid-column: 2;
     }
   }
 `;
 
 function Hero() {
   const toSection = useSectionClick();
+  const [first, ...rest] = profile.name.split(" ");
   return (
-    <Section curves={1} photo={{ large: lavaLarge, small: lavaSmall }}>
+    <Section curves={1}>
       {(visible) => (
         <>
-          <Intro className={visible ? "flex-faded-in" : "flex-faded-out"}>
-            <PortraitFrame style={reveal(visible, 2, "scale(0.96)")}>
-              <img
-                src={portrait}
-                alt={`Portrait of ${profile.name}`}
-                width={480}
-                height={480}
-                fetchPriority="high"
-              />
-            </PortraitFrame>
-            {/* The panel reveals as one piece; its contents don't fade on
-                their own (a fading ancestor would switch off the pills'
-                glass blur). */}
-            <Text style={reveal(visible, 0)}>
-              <Eyebrow>{profile.headline}</Eyebrow>
-              <Title>
-                <Avatar>
-                  <img src={portrait} alt="" width={72} height={72} />
-                </Avatar>
-                <h1>
-                  {profile.greeting}
-                  <Dot>,</Dot>
-                </h1>
-              </Title>
-              {profile.welcome.map((paragraph) => (
-                <p key={paragraph.slice(0, 24)}>
-                  <RichText text={paragraph} />
-                </p>
-              ))}
-              <Actions>
-                <PillLink
-                  as={Link}
-                  to={paths.section("experience")}
-                  $primary
-                  onClick={toSection("experience")}
-                >
-                  View experience ↓
-                </PillLink>
-                <PillLink as={Link} to={paths.about}>
-                  Get in touch
-                </PillLink>
-                <PillLink href={profile.cvUrl} download>
-                  <DownloadIcon />
-                  Download CV
-                </PillLink>
-              </Actions>
-            </Text>
+          <Intro>
+            <Discipline style={reveal(visible, 0)}>
+              {profile.discipline}
+            </Discipline>
+            <Name style={reveal(visible, 1)}>
+              <span>
+                {first} {rest.slice(0, -1).join(" ")}{" "}
+              </span>
+              <span>
+                {rest.at(-1)}
+                <Dot>.</Dot>
+              </span>
+            </Name>
+            <Summary style={reveal(visible, 2)}>{profile.summary}</Summary>
+            <Actions style={reveal(visible, 3)}>
+              <PillLink
+                as={Link}
+                to={paths.section("experience")}
+                $primary
+                onClick={toSection("experience")}
+              >
+                View experience ↓
+              </PillLink>
+              <QuietLink as={Link} to={paths.about}>
+                Get in touch →
+              </QuietLink>
+              <QuietLink href={profile.cvUrl} download>
+                <DownloadIcon />
+                Download CV
+              </QuietLink>
+            </Actions>
           </Intro>
 
-          <Highlights aria-label="Key figures">
-            {highlights.map((h, i) => (
-              <div key={h.value} data-light style={reveal(visible, 3 + i)}>
-                <dt>
-                  {h.link ? (
-                    <ExternalLink
-                      href={h.link.href}
-                      aria-label={`${h.value}: ${h.link.label}`}
-                      title={h.link.label}
-                    >
-                      {h.value}
-                      <small aria-hidden="true">↗</small>
-                    </ExternalLink>
-                  ) : (
-                    h.value
-                  )}
-                </dt>
-                <dd>{h.label}</dd>
+          <Facts aria-label="At a glance">
+            {facts.map((f, i) => (
+              <div key={f.label} style={reveal(visible, 4 + i)}>
+                <dt>{f.label}</dt>
+                {f.lines.map((line) => (
+                  <dd key={line.text}>
+                    {line.href ? (
+                      <ExternalLink
+                        href={line.href}
+                        title={line.title}
+                        aria-label={`${line.text}: ${line.title}`}
+                      >
+                        {line.text}
+                        <small aria-hidden="true">↗</small>
+                      </ExternalLink>
+                    ) : (
+                      line.text
+                    )}
+                  </dd>
+                ))}
               </div>
             ))}
-          </Highlights>
+          </Facts>
         </>
       )}
     </Section>

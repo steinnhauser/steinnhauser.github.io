@@ -11,7 +11,7 @@
 // 404.html for any unknown path. Each page also gets its title and link
 // preview tags, the critical styles inline (the site's small stylesheet
 // and the styles of the components on that page), and preloads for the
-// heading and body fonts and, on the home page, the portrait.
+// heading and body fonts and, on the About page, the portrait.
 import { readdir, readFile, rm, writeFile, mkdir } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -62,7 +62,7 @@ for (const url of routes) {
   const { html, head, title } = render(url);
   const file = url === "/" ? "index.html" : `${url.slice(1)}.html`;
   // Preloads first, so the fonts and portrait start downloading at once.
-  const preloads = url === "/" ? `${fonts}\n    ${portrait}` : fonts;
+  const preloads = url === "/about" ? `${fonts}\n    ${portrait}` : fonts;
   // Function replacers, so a "$" in the content is never read as a pattern.
   const page = shell
     .replace(

@@ -25,11 +25,10 @@ finished items move to "Done" with their date.
 6. **Search Console:** after the routing change is deployed, submit
    `https://steinnhm.com/sitemap.xml` and check that the old hash links
    (`/#/about`, `/#/senec`) land on the right pages.
-7. **Small phones:** at 360×740 the first hero button sits about 20 px
-   below the first screen (at 390×844 all three fit).
-8. **Key-figure band on tablets:** the 3 + 2 layout is written for exactly
-   five figures (`Highlights` in `src/pages/home/Hero.tsx`); make it follow
-   the number of figures.
+7. ~~Small phones~~: done 2026-11-28 with the minimal cover (all three
+   actions fit at 360×740).
+8. ~~Key-figure band on tablets~~: obsolete 2026-11-28; the tiles became
+   the cover's fact strip.
 9. **Second Minnumst screenshot:** the repo's
    `docs/assets/screenshot-admin.png` (the editorial desk with version
    history) is current again; add it to the project page if the image
@@ -50,6 +49,10 @@ finished items move to "Done" with their date.
 
 ## Done
 
+- 2026-11-28: minimal cover: the full name, a discipline line and one
+  sentence instead of the portrait, greeting and two-paragraph intro; a
+  four-column fact strip instead of the key-figure tiles; one button and
+  two quiet links; the lava backdrop removed; the portrait moved to About.
 - 2026-11-06: career timeline instead of logo tiles; real URLs with
   pre-rendered pages, per-page titles and link previews, a sitemap and a
   not-found page; inline critical CSS; phone hero with the actions on the

@@ -8,7 +8,7 @@ import {
   certifications,
   coreSkills,
   experiences,
-  highlights,
+  facts,
   languages,
   projects,
   volunteering,
@@ -97,15 +97,13 @@ describe("site content matches the CV", () => {
     }
   });
 
-  it("backs every key figure with the CV", () => {
-    for (const h of highlights) {
-      expect(h.evidence.length, h.value).toBeGreaterThan(0);
-      for (const phrase of h.evidence) {
-        expect(onCv(phrase), `${h.value}: ${phrase}`).toBe(true);
+  it("backs every fact on the cover with the CV", () => {
+    for (const f of facts) {
+      expect(f.evidence.length, f.label).toBeGreaterThan(0);
+      for (const phrase of f.evidence) {
+        expect(onCv(phrase), `${f.label}: ${phrase}`).toBe(true);
       }
     }
-    // "6+ years": the first professional role on the CV started in 2020.
-    expect(new Date().getFullYear() - 2020).toBeGreaterThanOrEqual(6);
   });
 
   it("keeps the timeline summaries to the CV's figures and terms", () => {
@@ -117,12 +115,14 @@ describe("site content matches the CV", () => {
     }
   });
 
-  it("links key figures only to the CV's own sources", () => {
-    for (const { value, link } of highlights) {
-      if (!link) continue;
-      const cited = onCv(link.href);
-      const verified = certifications.some((c) => c.verifyUrl === link.href);
-      expect(cited || verified, `${value}: ${link.href}`).toBe(true);
+  it("links the cover's facts only to the CV's own sources", () => {
+    for (const { label, lines } of facts) {
+      for (const { href } of lines) {
+        if (!href) continue;
+        const cited = onCv(href);
+        const verified = certifications.some((c) => c.verifyUrl === href);
+        expect(cited || verified, `${label}: ${href}`).toBe(true);
+      }
     }
   });
 });

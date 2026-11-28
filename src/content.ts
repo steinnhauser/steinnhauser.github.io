@@ -17,26 +17,14 @@ export const profile = {
   email: "hausersteinn@gmail.com",
   phone: "+49 179 6047 257",
   headline: "Cloud Operator @ SENEC · Berlin",
-  // Home page heading. The page adds a gold comma, and the first welcome
-  // paragraph continues the sentence ("I'm Steinn, a cloud operator...").
-  greeting: "I'm Steinn",
+  // The cover: a discipline line above the name, then one sentence.
+  discipline: "Cloud & platform engineering / Computational physics",
+  summary:
+    "Cloud operator and software engineer. Runs production Kubernetes " +
+    "platforms at SENEC in Berlin, with a background in computational " +
+    "physics and machine learning.",
   // The CV as a PDF, served from public/cv/.
   cvUrl: `${import.meta.env.BASE_URL}cv/Steinn-Hauser-Magnusson-CV.pdf`,
-  // Home page introduction. Written as a professional summary: role and
-  // scope first, then the background that sets it apart. `[text](/path)`
-  // becomes a link to a page of the site.
-  welcome: [
-    "a cloud operator and software engineer based in Berlin. At SENEC I " +
-      "run large-scale Kubernetes platforms and build the infrastructure " +
-      "as code, GitOps delivery and automation that keep them secure, " +
-      "observable and up to date.",
-    "My background is in computational physics and data science: an MSc " +
-      "from the University of Oslo, peer-reviewed research in computational " +
-      "neuroscience, and production machine-learning work. In my own time I " +
-      "build open-source projects end to end, like [Minnumst](/projects/minnumst) " +
-      "and [recipify](/projects/recipify). I " +
-      "work in four languages: English, Icelandic, Norwegian and German.",
-  ],
   // About page narrative: what I do, how I work, and how I lead.
   about: [
     "I'm a physicist turned platform engineer. My path started in " +
@@ -624,53 +612,62 @@ export const languages = [
   { language: "German", level: "Working proficiency" },
 ];
 
-// Key figures for the home page hero: only the strongest evidence for a
-// cloud or platform role, plus the research background that sets the owner
-// apart. Each lists the CV phrases that back it (`evidence`, checked by
-// cv.test.ts); `link` points at public proof.
-export type Highlight = {
-  value: string;
-  label: string;
-  evidence: string[];
-  link?: { href: string; label: string };
-};
+// The fact strip under the cover: four quiet columns, each backed by CV
+// phrases (`evidence`, checked by cv.test.ts). A line with `href` links to
+// public proof.
+export type FactLine = { text: string; href?: string; title?: string };
+export type Fact = { label: string; lines: FactLine[]; evidence: string[] };
 
-export const highlights: Highlight[] = [
+const languageNames = languages.map((l) => l.language);
+
+export const facts: Fact[] = [
   {
-    value: "6+",
-    label: "years in cloud, software and data roles",
-    evidence: ["February 2020 - July 2020"],
-  },
-  {
-    value: "50+",
-    label: "production servers operated with Ansible",
-    evidence: ["Operation of 50+ Ansible-managed servers"],
-  },
-  {
-    value: "10+",
-    label: "custom Helm charts on large-scale Kubernetes",
+    label: "Role",
+    lines: [
+      { text: "Cloud Operator, SENEC" },
+      { text: "Kubernetes platforms" },
+    ],
     evidence: [
+      "Cloud Operator, SENEC GmbH",
       "multiple large-scale Kubernetes clusters",
-      "Helm templating with 10+ custom charts",
     ],
   },
   {
-    value: "AZ-104",
-    label: "Microsoft Certified: Azure Administrator Associate",
-    evidence: ["Azure Administrator Associate", "AZ104"],
-    link: {
-      href: certifications.find((c) => c.code === "AZ-104")!.verifyUrl!,
-      label: "Verify the AZ-104 credential on Microsoft Learn",
-    },
+    label: "Certified",
+    lines: [
+      {
+        text: "Azure Administrator",
+        href: certifications.find((c) => c.code === "AZ-104")!.verifyUrl!,
+        title: "Verify the AZ-104 credential on Microsoft Learn",
+      },
+      { text: "ITIL 4 Foundation" },
+    ],
+    evidence: ["Azure Administrator Associate", "ITIL 4 Foundation"],
   },
   {
-    value: "MSc",
-    label: "computational physics, Grade A, peer-reviewed paper",
-    evidence: ["Computational Science: Physics", "Grade: A", "Magnusson SH"],
-    link: {
-      href: "https://doi.org/10.1371/journal.pcbi.1010353",
-      label: "Read the paper in PLOS Computational Biology",
-    },
+    label: "Education",
+    lines: [
+      { text: "MSc Physics, Oslo" },
+      {
+        text: "Grade A, published",
+        href: "https://doi.org/10.1371/journal.pcbi.1010353",
+        title: "Read the paper in PLOS Computational Biology",
+      },
+    ],
+    evidence: [
+      "Computational Science: Physics",
+      "University of Oslo",
+      "Grade: A",
+      "Magnusson SH",
+    ],
+  },
+  {
+    label: "Languages",
+    lines: [
+      { text: languageNames.slice(0, 2).join(", ") },
+      { text: languageNames.slice(2).join(", ") },
+    ],
+    evidence: languageNames,
   },
 ];
 

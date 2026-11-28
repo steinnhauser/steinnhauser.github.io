@@ -107,18 +107,13 @@ describe("content", () => {
   // Owner's decision: the site reflects his GitHub profile as well as the
   // CV, so its two featured open-source projects stay prominent.
   it("features the owner's open-source projects", () => {
-    const intro = profile.welcome.join(" ");
     for (const name of ["Minnumst", "recipify"]) {
       const p = projects.find((p) => p.title.startsWith(name));
       expect(p?.personal && p.featured && p.flow, name).toBeTruthy();
-      expect(intro).toContain(name);
     }
   });
 
-  it("names every language in the introduction", () => {
-    const intro = profile.welcome.join(" ");
-    expect(intro).toContain("four languages");
-    expect(languages).toHaveLength(4);
-    for (const l of languages) expect(intro).toContain(l.language);
+  it("keeps the cover to one sentence-sized summary", () => {
+    expect(profile.summary.length).toBeLessThan(200);
   });
 });
