@@ -108,7 +108,11 @@ const Content = styled.div`
 `;
 
 type Props = {
-  curves: CurveVariant;
+  // The swinging background lines; a section with its own `backdrop` may
+  // leave them out.
+  curves?: CurveVariant;
+  // A background drawn by the page (the cover's Lorenz attractor).
+  backdrop?: (visible: boolean) => ReactNode;
   tinted?: boolean;
   // Diagonal top edge that overlaps the section above.
   slant?: boolean;
@@ -129,6 +133,7 @@ function Section({
   compact = false,
   photo,
   aurora,
+  backdrop,
   id,
   children,
 }: Props) {
@@ -146,12 +151,19 @@ function Section({
           <Photo $photo={photo} $visible={visible} aria-hidden="true" />
         )}
         {aurora && <Aurora variant={aurora} visible={visible} />}
-        <CurveLayer
-          className="parallax"
-          style={{ "--parallax": "36px" } as CSSProperties}
-        >
-          <Curves variant={curves} visible={visible} color={colors.secondary} />
-        </CurveLayer>
+        {backdrop?.(visible)}
+        {curves !== undefined && (
+          <CurveLayer
+            className="parallax"
+            style={{ "--parallax": "36px" } as CSSProperties}
+          >
+            <Curves
+              variant={curves}
+              visible={visible}
+              color={colors.secondary}
+            />
+          </CurveLayer>
+        )}
         <Content>{children(visible)}</Content>
       </Inner>
     </Wrapper>

@@ -20,6 +20,10 @@ class MockIntersectionObserver {
 }
 vi.stubGlobal("IntersectionObserver", MockIntersectionObserver);
 
+// jsdom has no canvas; drawing code checks for a missing context.
+HTMLCanvasElement.prototype.getContext = (() =>
+  null) as unknown as typeof HTMLCanvasElement.prototype.getContext;
+
 // jsdom doesn't implement scrolling.
 window.scrollTo = vi.fn() as unknown as typeof window.scrollTo;
 Element.prototype.scrollIntoView = vi.fn();
